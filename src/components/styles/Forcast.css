@@ -1,0 +1,39 @@
+@font-face {
+  font-family: 'Jua';
+  src: url('./fonts/Jua-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+.forcast-button {
+  position: absolute;
+  bottom: 24px; 
+  left: 50%;
+  transform: translateX(-50%); 
+  width: 400px; 
+  height: 41px;
+  border-radius: 12px; 
+  opacity: 70%;
+  border: 0px solid rgba(255, 255, 255, 0);
+  background: linear-gradient(135deg, rgb(28, 102, 131) 0%, #73d3db 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); 
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: rgb(255, 255, 255); 
+  
+  font-family: 'Jua', sans-serif;
+  font-size: 24px;
+  font-weight: normal; 
+  letter-spacing: 0.5px; 
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out; 
+  z-index: 10;
+}
+.forcast-button:hover {
+  color: rgb(59, 59, 59);
+  background: rgb(255, 255, 255);}

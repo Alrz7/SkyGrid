@@ -1,0 +1,31 @@
+.options-button {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 35px;
+  height: 35px;
+  border-radius: 25%;
+  
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  z-index: 60;
+}
+
+.options-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.options-button svg {
+  fill: white;
+  width: 35px;
+  height: 35px;
+}
