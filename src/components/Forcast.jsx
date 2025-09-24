@@ -1,9 +1,9 @@
 import React from "react";
 import "./styles/Forcast.css"
-import { getDailyStat } from "../logic/OpenMeteo"
+import { getCurrentStat, getHourlyStat, getDailyStat } from "../logic/OpenMeteo"
 
 function sdcv(){
-  getDailyStat("Langarud")
+  getDailyStat("Langgharud")
 }
 
 export default function Forcast() {

@@ -4,6 +4,7 @@ import {
   writeTextFile,
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
+import { readData as readLocations } from "./GeoLocations";
 
 function toNameCase(str) {
   if (!str) return "";
@@ -12,7 +13,7 @@ function toNameCase(str) {
 }
 
 export async function getWeather(cityName) {
-  const locations = await readData();
+  const locations = await readLocations();
   let location = undefined;
 
   const capname = toNameCase(cityName);
@@ -64,12 +65,8 @@ export async function saveData(cityName, data, target = "weather") {
   }
 }
 
-export async function readData(target = "locations") {
-  let dir = "openWeather"
-  if(target == "locations" ){
-      dir = "GeoLocations"
-  }
-  const file = await readTextFile(`SkyGrid/Data/${dir}/${target}.json`, {
+export async function readData(target = "weather") {
+  const file = await readTextFile(`SkyGrid/Data/openWeather/${target}.json`, {
     baseDir: BaseDirectory.Document,
   });
   if (file) {

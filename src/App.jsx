@@ -14,7 +14,6 @@ import SwitchButtons from "./components/SwitchCity";
 import DataCard from "./components/DataCard";
 import GetOptions from "./components/Options";
 import AddCity from "./components/AddCity";
-import Forcast from "./components/Forcast";
 import Hud from "./components/Hud";
 
 // function requestWeather() {
@@ -75,7 +74,6 @@ export default function App() {
       <DataCard />
       <GetOptions />
       <AddCity />
-      <Forcast />
       <Hud />
     </div>
   );
