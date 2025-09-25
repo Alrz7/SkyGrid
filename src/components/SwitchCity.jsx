@@ -1,15 +1,14 @@
-import React from "react";
 import ArrowLeft from "../assets/arrow_left.svg?react";
 import ArrowRight from "../assets/arrow_right.svg?react";
 import "./styles/SwitchCity.css";
 
-export default function SwitchButtons() {
+export default function SwitchButtons(props) {
   return (
     <div>
-      <button className="switch-button left">
+      <button onClick={() => {props.onSwitchClick(false)}} className="switch-button left">
         <ArrowLeft />
       </button>
-      <button className="switch-button right">
+      <button onClick={() => {props.onSwitchClick(true)}} className="switch-button right">
         <ArrowRight />
       </button>
     </div>
