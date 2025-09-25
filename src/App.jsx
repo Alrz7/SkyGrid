@@ -45,11 +45,11 @@ export default function App() {
         cityB: [newCity, currentWeather[newCity] ?? false],
         cityC: [cityC, currentWeather[cityC] ?? false],
       });
-      console.log({
-        cityA: [cityA, currentWeather[cityA] ?? false],
-        cityB: [newCity, currentWeather[newCity] ?? false],
-        cityC: [cityC, currentWeather[cityC] ?? false],
-      });
+      // console.log({
+      //   cityA: [cityA, currentWeather[cityA] ?? false],
+      //   cityB: [newCity, currentWeather[newCity] ?? false],
+      //   cityC: [cityC, currentWeather[cityC] ?? false],
+      // });
     }
   }
 
@@ -147,7 +147,7 @@ export default function App() {
       <DataCard />
       <GetOptions />
       <AddCity />
-      <Hud huddata={{ city: city }} />
+      <Hud huddata={{ city: city, cityData: loadOrder.cityB }} />
     </div>
   );
 }
