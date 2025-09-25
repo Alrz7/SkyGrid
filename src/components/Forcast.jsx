@@ -3,7 +3,7 @@ import "./styles/Forcast.css"
 import {getWeatherStat } from "../logic/OpenMeteo"
 
 function sdcv(){
-  getWeatherStat("paris")
+  getWeatherStat("berlinn")
 }
 
 export default function Forcast() {

@@ -2,9 +2,6 @@
 import { useState } from "react"
 import "./styles/Hud.css"
 
-
-
-
 export default function Hud(props) {
   const [hoveredLayer, setHoveredLayer] = useState(null)
 
@@ -30,7 +27,7 @@ export default function Hud(props) {
 
   return (
     <div>
-      <h3 className="hud city-name">{props.huddata}</h3>
+      <h3 className="hud city-name">{props.huddata.city}</h3>
       <div className="central-elements-container">
         <h1 className="hud main-temp">19°</h1>
 
