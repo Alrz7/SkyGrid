@@ -1,0 +1,67 @@
+export function ftHourlyData(data) {
+  if (data) {
+    const now = getLocalTime().fullStr;
+    const timeIndex = [];
+    data.time.forEach((item, index) => {
+      if (item.slice(0, 10) == now) timeIndex.push(index);
+    });
+    const newlist = [];
+    if (newlist != []) {
+      timeIndex.forEach((indx) => {
+        const newItem = {
+          hour: data.time[indx].slice(11),
+          temperature: data.temperature_2m[indx],
+          humidity: data.relative_humidity_2m[indx],
+          apparent_temperature: data.apparent_temperature[indx],
+          precipitation_probability: data.precipitation_probability[indx],
+          rain: data.rain[indx],
+          showers: data.showers[indx],
+          snowfall: data.snowfall[indx],
+          snow_depth: data.snow_depth[indx],
+          weather_code: data.weather_code[indx],
+          cloud_cover: data.cloud_cover[indx],
+          pressure_msl: data.pressure_msl[indx],
+          visibility: data.visibility[indx],
+          wind_speed: data.wind_speed_10m[indx],
+          wind_direction: data.wind_speed_10m[indx],
+          wind_gusts: data.wind_speed_10m[indx],
+        };
+        newlist.push(newItem);
+      });
+      return newlist;
+    } else {
+      return false;
+    }
+  } else {
+    return false;
+  }
+}
+
+export function selectWatherItem(data) {
+  if (data) {
+    const now = getLocalTime();
+    for (let item of data) {
+      if (item.hour == `${now.hour}:00`) {
+        return item;
+      }
+    }
+    return false;
+  }else return false
+}
+
+function getLocalTime() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  const hour = String(now.getHours()).padStart(2, "0");
+  const minute = String(now.getMinutes()).padStart(2, "0");
+  return {
+    year: year,
+    month: month,
+    day: day,
+    hour: hour,
+    minute: minute,
+    fullStr: `${year}-${month}-${day}`,
+  };
+}

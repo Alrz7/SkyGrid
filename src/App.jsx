@@ -5,6 +5,7 @@ import CloseSvg from "./assets/close.svg?react";
 import MinimizeSvg from "./assets/minimize.svg?react";
 import MaximizeSvg from "./assets/maximize.svg?react";
 import { readData as readLocations } from "./logic/GeoLocations";
+import { ftHourlyData, selectWatherItem } from "./logic/formatData";
 // import {getWeather } from "./logic/openWeather";
 // import { getAstro } from "./logic/astronomy";
 // import { getGeoData } from "./logic/ipGeoLocation";
@@ -39,17 +40,42 @@ export default function App() {
       const cityC = newCityList.at(1);
       // console.log(cityA + " " + cityA)
       const currentWeather = await getWeatherData("current");
+      const hourlyWeather = await getWeatherData("hourly");
       // console.log(currentWeather)
       updateOrder({
-        cityA: [cityA, currentWeather[cityA] ?? false],
-        cityB: [newCity, currentWeather[newCity] ?? false],
-        cityC: [cityC, currentWeather[cityC] ?? false],
+        cityA: [
+          cityA,
+          currentWeather[cityA] ?? false,
+          ftHourlyData(hourlyWeather[cityA]) ?? false,
+        ],
+        cityB: [
+          newCity,
+          currentWeather[newCity] ?? false,
+          ftHourlyData(hourlyWeather[newCity]) ?? false,
+        ],
+        cityC: [
+          cityC,
+          currentWeather[cityC] ?? false,
+          ftHourlyData(hourlyWeather[cityC]) ?? false,
+        ],
       });
-      // console.log({
-      //   cityA: [cityA, currentWeather[cityA] ?? false],
-      //   cityB: [newCity, currentWeather[newCity] ?? false],
-      //   cityC: [cityC, currentWeather[cityC] ?? false],
-      // });
+      console.log({
+        cityA: [
+          cityA,
+          currentWeather[cityA] ?? false,
+          ftHourlyData(hourlyWeather[cityA]) ?? false,
+        ],
+        cityB: [
+          newCity,
+          currentWeather[newCity] ?? false,
+          ftHourlyData(hourlyWeather[newCity]) ?? false,
+        ],
+        cityC: [
+          cityC,
+          currentWeather[cityC] ?? false,
+          ftHourlyData(hourlyWeather[cityC]) ?? false,
+        ],
+      });
     }
   }
 
@@ -59,29 +85,60 @@ export default function App() {
       const cityList = Object.keys(locations);
       const cityIndex = cityList.indexOf(loadOrder.cityB[0]);
       const newCityA = changeCity(cityList, cityIndex - 1, forward);
-      const city = changeCity(cityList, cityIndex, forward);
+      const newCity = changeCity(cityList, cityIndex, forward);
       const newCityC = changeCity(cityList, cityIndex + 1, forward);
-      console.log(cityList)
-      console.log(newCityA + " "+ city + ' '+ newCityC)
+      console.log(cityList);
+      console.log(newCityA + " " + newCity + " " + newCityC);
       const currentWeather = await getWeatherData("current");
+      const hourlyWeather = await getWeatherData("hourly");
       const cityC = loadOrder.cityC;
       const cityB = loadOrder.cityB;
-      updateCity(city)
+      updateCity(newCity);
       updateOrder({
         cityA:
           newCityA == cityB[0]
             ? cityB
-            : [newCityA, currentWeather[newCityA] ?? false],
-        cityB: city == cityC[0] ? cityC : [city, currentWeather[city] ?? false],
-        cityC: [newCityC, currentWeather[newCityC] ?? false],
+            : [
+                newCityA,
+                currentWeather[newCityA] ?? false,
+                ftHourlyData(hourlyWeather[newCityA]) ?? false,
+              ],
+        cityB:
+          newCity == cityC[0]
+            ? cityC
+            : [
+                newCity,
+                currentWeather[newCity] ?? false,
+                ftHourlyData(hourlyWeather[newCity]) ?? false,
+              ],
+        cityC: [
+          newCityC,
+          currentWeather[newCityC] ?? false,
+          ftHourlyData(hourlyWeather[newCityC]) ?? false,
+        ],
       });
       console.log({
         cityA:
           newCityA == cityB[0]
             ? cityB
-            : [newCityA, currentWeather[newCityA] ?? false],
-        cityB: city == cityC[0] ? cityC : [city, currentWeather[city] ?? false],
-        cityC: [newCityC, currentWeather[newCityC] ?? false],
+            : [
+                newCityA,
+                currentWeather[newCityA] ?? false,
+                ftHourlyData(hourlyWeather[newCityA]) ?? false,
+              ],
+        cityB:
+          newCity == cityC[0]
+            ? cityC
+            : [
+                newCity,
+                currentWeather[newCity] ?? false,
+                ftHourlyData(hourlyWeather[newCity]) ?? false,
+              ],
+        cityC: [
+          newCityC,
+          currentWeather[newCityC] ?? false,
+          ftHourlyData(hourlyWeather[newCityC]) ?? false,
+        ],
       });
     }
     // console.log(cityIndex + "" + city);
@@ -144,10 +201,10 @@ export default function App() {
           changeOrders(forward);
         }}
       />
-      <DataCard />
+      <DataCard weatherData={ loadOrder.cityB[2] ?? false } />
       <GetOptions />
       <AddCity />
-      <Hud huddata={{ city: city, cityData: loadOrder.cityB }} />
+      <Hud hudData={{cityName: city, mainTemp: selectWatherItem(loadOrder.cityB[2])}} />
     </div>
   );
 }

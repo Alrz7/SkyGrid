@@ -35,7 +35,7 @@ export async function getWeatherStat(
       longitude: lon ?? location["lon"] ?? location["longitude"],
     };
 
-      const adrs = `${url}?latitude=${locData["latitude"]}&longitude=${locData["longitude"]}&daily=${lastConfig["Config"]["daily"]}&hourly=${lastConfig["Config"]["hourly"]}&current=${lastConfig["Config"]["current"]}`;
+      const adrs = `${url}?latitude=${locData["latitude"]}&longitude=${locData["longitude"]}&daily=${lastConfig["Config"]["daily"]}&hourly=${lastConfig["Config"]["hourly"]}&current=${lastConfig["Config"]["current"]}&timezone=auto`;
       const dt = await fetch(adrs, { method: "GET" });
       const data = await dt.json();
       for (let mode of ["daily", "hourly", "current"]) {
