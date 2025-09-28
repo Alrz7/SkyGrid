@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles/Forcast.css"
-import {getWeatherStat } from "../logic/OpenMeteo"
+import { getWeatherStat } from "../logic/OpenMeteo"
 
 function sdcv(){
   getWeatherStat("berlinn")

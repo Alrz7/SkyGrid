@@ -8,7 +8,7 @@ import {
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
 
-function toNameCase(str) {
+export function toNameCase(str) {
   if (!str) return "";
   str = str.toLowerCase();
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -41,6 +41,7 @@ export async function getWeatherStat(
       for (let mode of ["daily", "hourly", "current"]) {
       saveData(capname, data[mode], mode);
       }
+      return [data.current, data.hourly, ]
     
   } else {
     console.log(
@@ -90,6 +91,7 @@ export async function readData(target = "current") {
     return false;
   }
 }
+
 
 // const responses = await fetchWeatherApi(url, params);
 

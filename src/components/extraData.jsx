@@ -128,3 +128,92 @@ function DonatChart(props) {
     </div>
   );
 }
+
+
+
+
+
+// /* Radial chart styles */
+// .radial-chart-container {
+//   top:40%;
+//   left: 10%;
+//   position: relative;
+//   margin-left: 40px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+// }
+
+// .radial-chart {
+//   filter: drop-shadow(0 0 10px rgba(11, 130, 141, 0.3));
+// }
+
+// .data-circle {
+//   transition: all 0.3s ease;
+//   cursor: pointer;
+// }
+
+// .data-circle:hover {
+//   filter: brightness(1.2);
+//   stroke-width: 10;
+// }
+
+// .center-value {
+//   font-family: "Jua", sans-serif;
+//   font-size: 1.8rem;
+//   font-weight: 600;
+//   fill: rgb(11, 130, 141);
+//   transition: all 0.3s ease;
+// }
+
+// .center-label {
+//   font-family: "Jua", sans-serif;
+//   font-size: 0.9rem;
+//   font-weight: 400;
+//   fill: rgba(255, 255, 255, 0.8);
+//   transition: all 0.3s ease;
+// }
+
+// .chart-tooltip {
+//   position: absolute;
+//   top: -50px;
+//   left: 50%;
+//   transform: translateX(-50%);
+//   background: rgba(0, 0, 0, 0.8);
+//   border-radius: 8px;
+//   padding: 8px 12px;
+//   pointer-events: none;
+//   z-index: 10;
+//   animation: fadeIn 0.2s ease-out;
+// }
+
+// .tooltip-content {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   gap: 2px;
+// }
+
+// .tooltip-name {
+//   font-family: "Jua", sans-serif;
+//   font-size: 0.8rem;
+//   color: rgba(255, 255, 255, 0.8);
+// }
+
+// .tooltip-value {
+//   font-family: "Jua", sans-serif;
+//   font-size: 1.1rem;
+//   font-weight: 600;
+//   color: rgb(11, 130, 141);
+// }
+
+// @keyframes fadeIn {
+//   from {
+//     opacity: 0;
+//     transform: translateX(-50%) translateY(10px);
+//   }
+//   to {
+//     opacity: 1;
+//     transform: translateX(-50%) translateY(0);
+//   }
+// }

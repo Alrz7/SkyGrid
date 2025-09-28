@@ -9,7 +9,7 @@ import { ftHourlyData, selectWatherItem } from "./logic/formatData";
 // import {getWeather } from "./logic/openWeather";
 // import { getAstro } from "./logic/astronomy";
 // import { getGeoData } from "./logic/ipGeoLocation";
-import { readData as getWeatherData } from "./logic/OpenMeteo";
+import { readData, getWeatherStat } from "./logic/OpenMeteo";
 import CurvedLine from "./components/CurvedLine";
 import Ball from "./components/Sun";
 import SwitchButtons from "./components/SwitchCity";
@@ -17,6 +17,7 @@ import DataCard from "./components/DataCard";
 import GetOptions from "./components/Options";
 import AddCity from "./components/AddCity";
 import Hud from "./components/Hud";
+import { dataDir } from "@tauri-apps/api/path";
 
 export default function App() {
   const [loadOrder, updateOrder] = useState({
@@ -39,8 +40,8 @@ export default function App() {
       const cityA = newCityList.at(-1);
       const cityC = newCityList.at(1);
       // console.log(cityA + " " + cityA)
-      const currentWeather = await getWeatherData("current");
-      const hourlyWeather = await getWeatherData("hourly");
+      const currentWeather = await readData("current");
+      const hourlyWeather = await readData("hourly");
       // console.log(currentWeather)
       updateOrder({
         cityA: [
@@ -79,6 +80,19 @@ export default function App() {
     }
   }
 
+  async function updateMainCity(cityName,current, hourly) {
+    console.log("updating => ",cityName,current, hourly)
+    const newData = [
+      cityName,
+      current ?? false,
+      ftHourlyData(hourly) ?? false,
+    ];
+    updateOrder({
+      ...loadOrder,
+      cityB: newData
+    })
+  }
+
   async function changeOrders(forward = true) {
     const locations = await readLocations();
     if (locations) {
@@ -89,8 +103,8 @@ export default function App() {
       const newCityC = changeCity(cityList, cityIndex + 1, forward);
       console.log(cityList);
       console.log(newCityA + " " + newCity + " " + newCityC);
-      const currentWeather = await getWeatherData("current");
-      const hourlyWeather = await getWeatherData("hourly");
+      const currentWeather = await readData("current");
+      const hourlyWeather = await readData("hourly");
       const cityC = loadOrder.cityC;
       const cityB = loadOrder.cityB;
       updateCity(newCity);
@@ -201,10 +215,17 @@ export default function App() {
           changeOrders(forward);
         }}
       />
-      <DataCard weatherData={ loadOrder.cityB[2] ?? false } />
+      <DataCard weatherData={loadOrder.cityB[2] ?? false} />
       <GetOptions />
-      <AddCity />
-      <Hud hudData={{cityName: city, mainTemp: selectWatherItem(loadOrder.cityB[2])}} />
+      <AddCity updateCity={updateCity}/>
+      {/* <ReloadData /> */}
+      <Hud
+        hudData={{
+          cityName: city,
+          mainTemp: selectWatherItem(loadOrder.cityB[2]),
+          updateMainCity: updateMainCity,
+        }}
+      />
     </div>
   );
 }
