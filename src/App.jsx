@@ -80,17 +80,43 @@ export default function App() {
     }
   }
 
-  async function updateMainCity(cityName,current, hourly) {
-    console.log("updating => ",cityName,current, hourly)
-    const newData = [
-      cityName,
-      current ?? false,
-      ftHourlyData(hourly) ?? false,
-    ];
-    updateOrder({
-      ...loadOrder,
-      cityB: newData
-    })
+  async function updateMainCity(cityName, current, hourly) {
+    const locations = await readLocations();
+    if (locations) {
+      // console.log("updating => ", cityName, current, hourly);
+      const newCityList = Object.keys(locations);
+      const cityA = newCityList.at(-2);
+      const cityC = newCityList.at(0);
+      updateCity(cityName);
+      const currentWeather = await readData("current");
+      const hourlyWeather = await readData("hourly");
+      updateOrder({
+        cityA: [
+          cityA,
+          currentWeather[cityA] ?? false,
+          ftHourlyData(hourlyWeather[cityA]) ?? false,
+        ],
+        cityB: [cityName, current ?? false, ftHourlyData(hourly) ?? false],
+        cityC: [
+          cityC,
+          currentWeather[cityC] ?? false,
+          ftHourlyData(hourlyWeather[cityC]) ?? false,
+        ],
+      });
+      console.log(({
+        cityA: [
+          cityA,
+          currentWeather[cityA] ?? false,
+          ftHourlyData(hourlyWeather[cityA]) ?? false,
+        ],
+        cityB: [cityName, current ?? false, ftHourlyData(hourly) ?? false],
+        cityC: [
+          cityC,
+          currentWeather[cityC] ?? false,
+          ftHourlyData(hourlyWeather[cityC]) ?? false,
+        ],
+      }))
+    }
   }
 
   async function changeOrders(forward = true) {
@@ -217,7 +243,7 @@ export default function App() {
       />
       <DataCard weatherData={loadOrder.cityB[2] ?? false} />
       <GetOptions />
-      <AddCity updateCity={updateCity}/>
+      <AddCity updateCity={updateMainCity} />
       {/* <ReloadData /> */}
       <Hud
         hudData={{

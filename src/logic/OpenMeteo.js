@@ -19,6 +19,8 @@ const url = "https://api.open-meteo.com/v1/forecast";
 
 export async function getWeatherStat(
   cityName,
+  addingCity = false,
+  addingData = undefined,
   lat = undefined,
   lon = undefined
 ) {
@@ -29,29 +31,36 @@ export async function getWeatherStat(
   if (locations) {
     location = capname in locations ? locations[capname] : false;
   }
-  if (location) {
-    const locData = {
-      latitude: lat ?? location["lat"] ?? location["latitude"],
-      longitude: lon ?? location["lon"] ?? location["longitude"],
-    };
-
-      const adrs = `${url}?latitude=${locData["latitude"]}&longitude=${locData["longitude"]}&daily=${lastConfig["Config"]["daily"]}&hourly=${lastConfig["Config"]["hourly"]}&current=${lastConfig["Config"]["current"]}&timezone=auto`;
-      const dt = await fetch(adrs, { method: "GET" });
-      const data = await dt.json();
-      for (let mode of ["daily", "hourly", "current"]) {
+  if (location || addingCity) {
+    let locData = {};
+    if (addingCity) {
+      console.log(`adding weather data to new city "${cityName}"  `)
+      locData = {
+        latitude: addingData["lat"] ?? addingData["latitude"],
+        longitude: addingData["lon"] ?? addingData["longitude"],
+      };
+    } else {
+      locData = {
+        latitude: lat ?? location["lat"] ?? location["latitude"],
+        longitude: lon ?? location["lon"] ?? location["longitude"],
+      };
+    }
+    const adrs = `${url}?latitude=${locData["latitude"]}&longitude=${locData["longitude"]}&daily=${lastConfig["Config"]["daily"]}&hourly=${lastConfig["Config"]["hourly"]}&current=${lastConfig["Config"]["current"]}&timezone=auto`;
+    const dt = await fetch(adrs, { method: "GET" });
+    const data = await dt.json();
+    for (let mode of ["daily", "hourly", "current"]) {
       saveData(capname, data[mode], mode);
-      }
-      return [data.current, data.hourly, ]
-    
+    }
+    return [data.current, data.hourly];
   } else {
     console.log(
       `No such place with ${cityName ? `,name of ${cityName}` : ""} ${
         lat ? ` ,latitude of ${lat}` : ""
       } ${lon ? ` ,longitude of ${lon}` : ""} has been found`
     );
+    return false;
   }
 }
-
 
 export async function saveData(cityName, data, target = "current") {
   const lastFile = await readData(target);
@@ -91,7 +100,6 @@ export async function readData(target = "current") {
     return false;
   }
 }
-
 
 // const responses = await fetchWeatherApi(url, params);
 

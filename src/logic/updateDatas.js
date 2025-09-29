@@ -1,5 +1,4 @@
 import { readData, getWeatherStat, toNameCase } from "./OpenMeteo";
-
 function getLocalTime() {
   const now = new Date();
   const year = now.getFullYear();

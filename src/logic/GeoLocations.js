@@ -52,10 +52,11 @@ export async function addLocation(cityName) {
     //   const geoByOpenweather = getLocation(cityName, "opn");
     if (geoByMeteo) {
       console.log(geoByMeteo);
-      console.log("bingo!!! going for save!");
+      console.log("got the location!!! going for save!");
       saveData(capname, geoByMeteo["results"][0]);
-      return true //   <<IMP>>  the ["results"][0] represents the first result of the respond and this means the respond can have more than 1 item due to Api , open meteo's location coding Api supports up to 100 results in free licence...
+      return [capname, geoByMeteo["results"][0]] //   <<IMP>>  the ["results"][0] represents the first result of the respond and this means the respond can have more than 1 item due to Api , open meteo's location coding Api supports up to 100 results in free licence...
     } else {
+      return false
         // nothing yet
     }
   }
@@ -68,7 +69,6 @@ async function getApiKey() {
 }
 
 export async function saveData(cityName, data, target = "locations") {
-  console.log(data);
   const lastFile = await readData(target);
   if (lastFile === false) {
     const container = {};
