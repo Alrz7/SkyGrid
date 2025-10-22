@@ -31,7 +31,7 @@ export async function getAstro(cityname) {
     // console.log(data);
     return data;
   } else {
-    console.log("there was not any location with that name in datas");
+    console.log(`there is no location with name of ${capname} in datas`);
   }
 }
 

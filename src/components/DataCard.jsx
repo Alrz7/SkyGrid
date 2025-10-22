@@ -27,6 +27,7 @@ const DataCard = ({
   weatherData = hourlyData,
   activeParameters = ["temperature"],
 }) => {
+  if(!weatherData) weatherData = hourlyData
   const [activeData, setActiveData] = useState(null);
 
   const getParameterConfig = (param) => {
@@ -75,7 +76,7 @@ const DataCard = ({
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={weatherData || hourlyData}
-            margin={{ top: 14, right: 4, left: -36, bottom: 37 }}
+            margin={{ top: 0, right: 4, left: -36, bottom: 37 }}
           >
             <defs>
               {activeParameters.map((param) => {

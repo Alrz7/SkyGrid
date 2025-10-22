@@ -2,9 +2,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  -webkit-user-select: none; 
-  -moz-user-select: none;     
-  -ms-user-select: none;    
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
 }
 [data-tauri-drag-region] {
@@ -14,7 +14,6 @@
 
 .app-background {
   background: linear-gradient(
-    
     190deg,
     #0096d7 10%,
     #5bcae8 48%,
@@ -28,19 +27,17 @@
   border-radius: 10px;
 }
 
-
-
 .window-buttons {
   position: absolute;
   top: 6px;
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  
+
   background: rgba(255, 255, 255, 0);
-  backdrop-filter: blur(10px); 
+  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.081);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.046); 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.046);
   color: white;
   font-size: 24px;
   display: flex;
@@ -66,16 +63,28 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
+.more-button {
+  position: absolute;
+  bottom: 37%;
+  left: 80%;
+  width: 70px;
+  height: 30px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background: rgba(23, 181, 189, 0.804);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  z-index: 6;
+}
 
-
-
-
-
-
-
-
-
-
-
-
+.more-button:hover {
+  background: rgba(29, 190, 199, 0.568);
+}
