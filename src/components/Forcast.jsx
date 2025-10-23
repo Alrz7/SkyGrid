@@ -8,10 +8,9 @@ function sdcv(){
 
 export default function Forcast() {
   return (
-    <div>
-      <button onClick={sdcv}  className="forcast-button">
-        5-day forcast
-      </button>
+    <div className="button-container">
+      <button className="forcast-button main">5-day forecast</button>
+      <button className="forcast-button more">More</button>
     </div>
   );
 }

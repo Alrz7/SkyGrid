@@ -8,7 +8,7 @@ export async function setCurrentCity(updateOrder, updateCity) {
       // console.log(locations);
       const newCityList = Object.keys(locations);
       const newCity = newCityList[0];
-      updateCity(newCity);
+      updateCity({Name:newCity, reservedName:newCity});
       const cityA = newCityList.at(-1);
       const cityC = newCityList.at(1);
       // console.log(cityA + " " + cityA)
@@ -59,7 +59,7 @@ export async function setCurrentCity(updateOrder, updateCity) {
       const newCityList = Object.keys(locations);
       const cityA = newCityList.at(-2);
       const cityC = newCityList.at(0);
-      updateCity(cityName);
+      updateCity({Name:cityName, reservedName:cityName});
       const currentWeather = await readOpmData("current");
       const hourlyWeather = await readOpmData("hourly");
       updateOrder({
@@ -105,7 +105,7 @@ export async function setCurrentCity(updateOrder, updateCity) {
       const hourlyWeather = await readOpmData("hourly");
       const cityC = loadOrder.cityC;
       const cityB = loadOrder.cityB;
-      updateCity(newCity);
+      updateCity({Name:newCity, reservedName:newCity});
       updateOrder({
         cityA:
           newCityA == cityB[0]

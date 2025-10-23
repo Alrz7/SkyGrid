@@ -32,7 +32,7 @@ export default function App() {
     cityB: [],
     cityC: [],
   });
-  const [city, updateCity] = useState();
+  const [city, updateCity] = useState({Name:'', reservedName:''});
   useEffect(() => {
     setCurrentCity(updateOrder, updateCity);
     console.log(loadOrder);
@@ -69,19 +69,19 @@ export default function App() {
       >
         <MinimizeSvg />
       </button>
-      <CurvedLine />
-      <Ball />
+      <div className="floating-ball">
+        <CurvedLine />
+        <Ball />
+      </div>
       <SwitchButtons
         onSwitchClick={(forward) => {
           changeOrders(updateOrder, updateCity, loadOrder, forward);
         }}
       />
-      <button className="more-button">
-        <MoreArrow />
-      </button>
       <DataCard
         weatherData={loadOrder.cityB.length > 0 ? loadOrder.cityB[2] : null}
       />
+
       <GetOptions />
       <AddCity
         updateMainCity={updateMainCity}
@@ -90,7 +90,7 @@ export default function App() {
       {/* <ReloadData /> */}
       <Hud
         hudData={{
-          cityName: city,
+          city: city,
           mainTemp: selectWatherItem(
             loadOrder.cityB.length > 0 ? loadOrder.cityB[2] : false
           ),
