@@ -32,14 +32,29 @@ export default function App() {
     cityB: [],
     cityC: [],
   });
-  const [city, updateCity] = useState({Name:'', reservedName:''});
+  const [city, updateCity] = useState({ Name: "", reservedName: "" });
+  const [color, setColor] = useState({
+    background: "",
+    hud: "",
+    buttons: {},
+    chart: [],
+  });
   useEffect(() => {
     setCurrentCity(updateOrder, updateCity);
     console.log(loadOrder);
   }, []);
 
   return (
-    <div className="app-background">
+    <div
+      className="app-background"
+      style={{
+        background: `${
+          city.Name == "Tehran"
+            ? "linear-gradient(200deg, #0f6096 0%, #2f9fd1 35%, #ffd9a6 70%, #ffb88a 100%)"
+            : "linear-gradient(200deg, #071f44 0%, #1f5aa0 28%, #f25b6a 58%, #9b3f7a 100%)"
+        }`,
+      }}
+    >
       <div
         data-tauri-drag-region
         style={{

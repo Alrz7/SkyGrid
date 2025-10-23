@@ -13,14 +13,8 @@
 }
 
 .app-background {
-  background: linear-gradient(
-    190deg,
-    #0096d7 10%,
-    #5bcae8 48%,
-    #7dd1e8 52%,
-    #f2f2ff 100%
-  );
-  opacity: 98%;
+  background: linear-gradient(210deg, #051733 0%, #174a7c 30%, #c33f66 62%, #6f2a5a 100%);
+  opacity: 100%;
   backdrop-filter: blur(10px);
   width: 100vw;
   height: 100vh;

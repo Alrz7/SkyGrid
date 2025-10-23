@@ -51,11 +51,11 @@
   font-size: 12rem;
   font-weight: 600;
   line-height: 1;
-  color: rgb(11, 130, 141);
+  color: rgb(238, 238, 238);
   opacity: 90%;
 }
 
-
+/*rgb(11, 130, 141)*/
 
 .reload-button:hover {
   background: rgba(255, 255, 255, 0.2);
