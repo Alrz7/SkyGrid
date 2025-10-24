@@ -7,10 +7,27 @@ import {
 
 import { readData as readLocations } from "./GeoLocations";
 
-function toNameCase(str) {
+export function toNameCase(str) {
   if (!str) return "";
   str = str.toLowerCase();
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+
+function to24HourFormat(time12) {
+  let [time, modifier] = time12.split(' ');
+  let [hours, minutes, seconds] = time.split(':').map(Number);
+
+  if (modifier === 'AM') {
+    if (hours === 12) hours = 0;
+  } else {
+    if (hours !== 12) hours += 12;
+  }
+  const hh = String(hours).padStart(2, '0');
+  const mm = String(minutes).padStart(2, '0');
+  const ss = String(seconds).padStart(2, '0');
+
+  return `${hh}:${mm}:${ss}`;
 }
 
 export async function getAstro(cityname) {

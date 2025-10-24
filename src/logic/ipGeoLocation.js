@@ -14,13 +14,13 @@ async function getApiKey() {
   return JSON.parse(apiKey)["key"];
 }
 
-function toNameCase(str) {
+export function toNameCase(str) {
   if (!str) return "";
   str = str.toLowerCase();
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export async function getGeoData(cityname) {
+export async function getAstro(cityname) {
   const locations = await readLocations();
   let location = undefined;
 

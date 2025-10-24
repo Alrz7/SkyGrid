@@ -12,6 +12,7 @@ import MinimizeSvg from "./assets/minimize.svg?react";
 import MaximizeSvg from "./assets/maximize.svg?react";
 // import { readData as readLocations } from "./logic/GeoLocations";
 import { selectWatherItem } from "./logic/formatData";
+import { selectPattern } from './logic/skyPattern';
 // import {getWeather } from "./logic/openWeather";
 // import { getAstro } from "./logic/astronomy";
 // import { getGeoData } from "./logic/ipGeoLocation";
