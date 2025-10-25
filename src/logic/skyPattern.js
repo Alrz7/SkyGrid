@@ -1,4 +1,4 @@
-import { dataDir } from "@tauri-apps/api/path";
+import { dataDir, tempDir, templateDir } from "@tauri-apps/api/path";
 import { getAstro, readData as readAstro, toNameCase } from "./ipGeoLocation";
 import { skyCycle } from "./sources/skyCycle";
 
@@ -48,7 +48,8 @@ function difrentHour(t1, t2) {
 
 function selectTitle(item) {
   const now = getLocalTime().fullhr;
-  // const now = '15:00'
+  // const now = '17:21'
+  // console.log(now);
   const titlelist = [
     "mid_night",
     "night_end",
@@ -96,26 +97,52 @@ function selectTitle(item) {
     title: titlelist[indx],
   }));
   const sorted = sortHours(mergedList);
-  console.log(sorted);
-  for (let time of sorted) {
-    if (difrentHour(now, time["time"]) > 0) {
-      console.log(time["time"], " <-> ", time["title"]);
-      return time;
+  // console.log(sorted);
+  for (let [indx, val] of sorted.entries()) {
+    // console.log(indx, val)
+    if (
+      difrentHour(now, val.time) > 0 &&
+      (indx < sorted.length
+        ? difrentHour(now, sorted[indx + 1].time) < 0
+        : true)
+    ) {
+      console.log(val.time, " <-> ", val["title"]);
+      return val;
     }
   }
   console.log(sorted.at(-1)["time"], " <-> ", sorted.at(-1)["title"]);
   return sorted.at(-1);
 }
 
-export async function selectPattern(cityName) {
-  cityName = toNameCase(cityName);
-  const DataList = await readAstro();
-  if (cityName in DataList) {
-    const astData = DataList[cityName];
-    selectTitle(astData);
-  } else {
-    console.log(`city ${cityName} not found in astDataList `);
+export async function selectPattern(setColor, cityName) {
+  // console.log(cityName)
+  if (cityName) {
+    cityName = toNameCase(cityName);
+    const DataList = await readAstro();
+    if (cityName in DataList) {
+      const astData = DataList[cityName];
+      const selectedTitle = selectTitle(astData);
+      for (let pallet in skyCycle) {
+        // console.log(selectedTitle.title, " < _ _ >", pallet);
+        // console.log(pallet)
+        //  console.log(skyCycle[pallet][0].gradient)
+        if (selectedTitle.title == pallet) {
+          const backgroundColor = skyCycle[pallet][0].gradient;
+          const hudColor = skyCycle[pallet][0].tempColor;
+          // console.log("found it");
+          console.log(backgroundColor, " :: ", hudColor);
+          setColor({
+            background: backgroundColor,
+            hud: hudColor,
+            buttons: hudColor,
+            chart: hudColor,
+          });
+          return;
+        }
+      }
+      console.log(`${selectTitle.title} is not existing in source-List`);
+    } else {
+      console.log(`city ${cityName} not found in astDataList `);
+    }
   }
 }
-
-selectPattern("tehran");

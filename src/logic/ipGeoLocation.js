@@ -15,6 +15,7 @@ async function getApiKey() {
 }
 
 export function toNameCase(str) {
+  // console.log(str)
   if (!str) return "";
   str = str.toLowerCase();
   return str.charAt(0).toUpperCase() + str.slice(1);

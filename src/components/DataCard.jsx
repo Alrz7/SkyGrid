@@ -26,15 +26,16 @@ const hourlyData = [
 const DataCard = ({
   weatherData = hourlyData,
   activeParameters = ["temperature"],
+  color,
 }) => {
-  if(!weatherData) weatherData = hourlyData
+  if (!weatherData) weatherData = hourlyData;
   const [activeData, setActiveData] = useState(null);
 
   const getParameterConfig = (param) => {
     const configs = {
       temperature: {
         unit: "°C",
-        colors: { start: "#16a0a7ff", end: "#06d9ceff" },
+        colors: { start: color.chart, end: "#909090ff" },
         opacity: 0.8,
       },
       cloud_cover: {
@@ -138,7 +139,7 @@ const DataCard = ({
           </AreaChart>
         </ResponsiveContainer>
       </div>
-      <Forcast />
+      <Forcast color={color} />
     </div>
   );
 };

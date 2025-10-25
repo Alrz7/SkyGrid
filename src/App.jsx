@@ -37,23 +37,18 @@ export default function App() {
   const [color, setColor] = useState({
     background: "",
     hud: "",
-    buttons: {},
-    chart: [],
+    buttons: "",
+    chart: "",
   });
   useEffect(() => {
-    setCurrentCity(updateOrder, updateCity);
-    console.log(loadOrder);
+    setCurrentCity(updateOrder, updateCity, selectPattern, setColor);
   }, []);
 
   return (
     <div
       className="app-background"
       style={{
-        background: `${
-          city.Name == "Tehran"
-            ? "linear-gradient(200deg, #0f6096 0%, #2f9fd1 35%, #ffd9a6 70%, #ffb88a 100%)"
-            : "linear-gradient(200deg, #071f44 0%, #1f5aa0 28%, #f25b6a 58%, #9b3f7a 100%)"
-        }`,
+        background: `${color.background}`,
       }}
     >
       <div
@@ -96,6 +91,7 @@ export default function App() {
       />
       <DataCard
         weatherData={loadOrder.cityB.length > 0 ? loadOrder.cityB[2] : null}
+        color={color}
       />
 
       <GetOptions />
@@ -113,6 +109,7 @@ export default function App() {
           updateMainCity: updateMainCity,
         }}
         set={{ updateOrder, updateCity }}
+        color={color}
       />
     </div>
   );

@@ -2,13 +2,14 @@ import { readData as readOpmData } from "./OpenMeteo";
 import { ftHourlyData } from "./formatData";
 import { readData as readLocations } from "./GeoLocations";
 
-export async function setCurrentCity(updateOrder, updateCity) {
+export async function setCurrentCity(updateOrder, updateCity, selectPattern, setColor) {
     const locations = await readLocations();
     if (locations) {
       // console.log(locations);
       const newCityList = Object.keys(locations);
       const newCity = newCityList[0];
       updateCity({Name:newCity, reservedName:newCity});
+      selectPattern(setColor, newCity ? newCity : null)
       const cityA = newCityList.at(-1);
       const cityC = newCityList.at(1);
       // console.log(cityA + " " + cityA)
@@ -32,23 +33,23 @@ export async function setCurrentCity(updateOrder, updateCity) {
           ftHourlyData(hourlyWeather[cityC]) ?? false,
         ],
       });
-      console.log({
-        cityA: [
-          cityA,
-          currentWeather[cityA] ?? false,
-          ftHourlyData(hourlyWeather[cityA]) ?? false,
-        ],
-        cityB: [
-          newCity,
-          currentWeather[newCity] ?? false,
-          ftHourlyData(hourlyWeather[newCity]) ?? false,
-        ],
-        cityC: [
-          cityC,
-          currentWeather[cityC] ?? false,
-          ftHourlyData(hourlyWeather[cityC]) ?? false,
-        ],
-      });
+      // console.log({
+      //   cityA: [
+      //     cityA,
+      //     currentWeather[cityA] ?? false,
+      //     ftHourlyData(hourlyWeather[cityA]) ?? false,
+      //   ],
+      //   cityB: [
+      //     newCity,
+      //     currentWeather[newCity] ?? false,
+      //     ftHourlyData(hourlyWeather[newCity]) ?? false,
+      //   ],
+      //   cityC: [
+      //     cityC,
+      //     currentWeather[cityC] ?? false,
+      //     ftHourlyData(hourlyWeather[cityC]) ?? false,
+      //   ],
+      // });
     }
   }
 
