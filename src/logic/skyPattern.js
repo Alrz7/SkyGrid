@@ -1,8 +1,9 @@
 import { dataDir, tempDir, templateDir } from "@tauri-apps/api/path";
 import { getAstro, readData as readAstro, toNameCase } from "./ipGeoLocation";
 import { skyCycle } from "./sources/skyCycle";
+import { readData as readLocations } from "./GeoLocations";
 
-function getLocalTime() {
+function timeNow() {
   const now = new Date();
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, "0");
@@ -18,6 +19,72 @@ function getLocalTime() {
     fullhr: `${hour}:${minute}`,
     fullStr: `${year}-${month}-${day}T${hour}:${minute}`,
   };
+}
+
+async function getLocalTime(lat, lon) {
+  console.log(lat, lon);
+  const url = `https://timeapi.io/api/Time/current/coordinate?latitude=${lat}&longitude=${lon}`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      // اگر خطا بود، پیام خطا را از سرور می‌گیریم
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    // زمان محلی در قالب "HH:MM:SS"
+    const timeOnly = data.time;
+    console.log(data);
+
+    // اطلاعات کامل دریافتی:
+    // const localDateTime = data.dateTime; // e.g., "2025-10-28T01:30:15.3562412"
+    // const ianaTimezoneName = data.timeZone; // e.g., "Asia/Tehran"
+
+    console.log(`زمان محلی: ${timeOnly}`);
+
+    return timeOnly;
+  } catch (error) {
+    console.log(error);
+    console.error("خطا در TimeAPI.io:", error.message);
+    return null;
+  }
+}
+
+async function findlocalTime(cityName) {
+  const locations = await readLocations();
+  const capname = toNameCase(cityName);
+  console.log(capname);
+  if (capname in locations) {
+    const location = locations[capname];
+    console.log(location);
+    const timeZone = location["timezone"];
+    if (timeZone) {
+      const time = intlTimeFormat(timeZone);
+      console.log(`time of ${timeZone} is : ${time} right now`);
+      return time;
+    }else{
+      return null
+    }
+  }
+  console.log("no timezone has been found for this city");
+  return null
+}
+
+function intlTimeFormat(ianaTimezoneName) {
+  const now = new Date();
+  const options = {
+    timeZone: ianaTimezoneName,
+    hour: "2-digit",
+    minute: "2-digit",
+    // second: '2-digit',
+    hour12: false,
+  };
+
+  const formatter = new Intl.DateTimeFormat("en-US", options);
+  const localTime = formatter.format(now);
+  return localTime;
 }
 
 function sortHours(lst) {
@@ -46,9 +113,9 @@ function difrentHour(t1, t2) {
   return diff * 60;
 }
 
-function selectTitle(item) {
-  const now = getLocalTime().fullhr;
-  // const now = '17:21'
+function selectTitle(item, time) {
+  // const now = timeNow().fullhr; for local time test
+  const now = time;
   // console.log(now);
   const titlelist = [
     "mid_night",
@@ -115,32 +182,36 @@ function selectTitle(item) {
 }
 
 export async function selectPattern(setColor, cityName) {
+  console.log(cityName);
   // console.log(cityName)
   if (cityName) {
     cityName = toNameCase(cityName);
     const DataList = await readAstro();
     if (cityName in DataList) {
       const astData = DataList[cityName];
-      const selectedTitle = selectTitle(astData);
-      for (let pallet in skyCycle) {
-        // console.log(selectedTitle.title, " < _ _ >", pallet);
-        // console.log(pallet)
-        //  console.log(skyCycle[pallet][0].gradient)
-        if (selectedTitle.title == pallet) {
-          const backgroundColor = skyCycle[pallet][0].gradient;
-          const hudColor = skyCycle[pallet][0].tempColor;
-          // console.log("found it");
-          console.log(backgroundColor, " :: ", hudColor);
-          setColor({
-            background: backgroundColor,
-            hud: hudColor,
-            buttons: hudColor,
-            chart: hudColor,
-          });
-          return;
+      const time = await findlocalTime(cityName);
+      if (time) {
+        const selectedTitle = selectTitle(astData, time);
+        for (let pallet in skyCycle) {
+          // console.log(selectedTitle.title, " < _ _ >", pallet);
+          // console.log(pallet)
+          //  console.log(skyCycle[pallet][0].gradient)
+          if (selectedTitle.title == pallet) {
+            const backgroundColor = skyCycle[pallet][0].gradient;
+            const hudColor = skyCycle[pallet][0].tempColor;
+            // console.log("found it");
+            console.log(backgroundColor, " :: ", hudColor);
+            setColor({
+              background: backgroundColor,
+              hud: hudColor,
+              buttons: hudColor,
+              chart: hudColor,
+            });
+            return;
+          }
         }
       }
-      console.log(`${selectTitle.title} is not existing in source-List`);
+      // console.log(`${selectedTitle.title} is not existing in source-List`);
     } else {
       console.log(`city ${cityName} not found in astDataList `);
     }

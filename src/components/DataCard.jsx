@@ -114,12 +114,12 @@ const DataCard = ({
               // interval={0}
               axisLine={false}
               tickLine={false}
-              tick={{ fill: "rgba(13, 119, 102, 0.8)", fontSize: 12 }}
+              tick={{ fill: color.chart, fontSize: 12 }}
             />
             <YAxis
               axisLine={false}
               tickLine={false}
-              tick={{ fill: "rgba(13, 119, 102, 0.8)", fontSize: 12 }}
+              tick={{ fill: color.chart, fontSize: 12 }}
             />
             <Tooltip content={<CustomTooltip />} />
             {activeParameters.map((param) => {

@@ -92,7 +92,7 @@ export async function setCurrentCity(updateOrder, updateCity, selectPattern, set
     }
   }
 
-  export async function changeOrders(updateOrder, updateCity, loadOrder, forward = true) {
+  export async function changeOrders(updateOrder, updateCity, loadOrder, selectPattern, setColor, forward = true) {
     const locations = await readLocations();
     if (locations) {
       const cityList = Object.keys(locations);
@@ -107,6 +107,7 @@ export async function setCurrentCity(updateOrder, updateCity, selectPattern, set
       const cityC = loadOrder.cityC;
       const cityB = loadOrder.cityB;
       updateCity({Name:newCity, reservedName:newCity});
+      selectPattern(setColor, newCity ? newCity : null)
       updateOrder({
         cityA:
           newCityA == cityB[0]

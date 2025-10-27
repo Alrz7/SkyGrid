@@ -103,5 +103,3 @@ export async function readData(target = "locations") {
     return false;
   }
 }
-
-

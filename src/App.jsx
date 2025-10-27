@@ -86,7 +86,7 @@ export default function App() {
       </div>
       <SwitchButtons
         onSwitchClick={(forward) => {
-          changeOrders(updateOrder, updateCity, loadOrder, forward);
+          changeOrders(updateOrder, updateCity, loadOrder, selectPattern, setColor, forward);
         }}
       />
       <DataCard

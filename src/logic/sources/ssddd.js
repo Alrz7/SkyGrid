@@ -1,96 +1,78 @@
-/**
- * skyCycle
- * A 24-hour cyclical gradient object for a dynamic weather display.
- * Each top-level key represents a major solar event.
- * Each event contains an array of style objects.
- * The first object (index 0) is the "pure" style for that event.
- * Subsequent objects gradually interpolate towards the "pure" style of the *next* event in the cycle.
- *
- * Style Object Structure:
- * gradient: (string) A detailed linear-gradient with at least 6 colors.
- * tempColor: (string) A high-contrast hex color for primary tempColor (e.g., temperature).
- * buttons: (string) A harmonious hex color for UI buttonss.
- * chart: (string) A harmonious hex color for chart lines.
- */
-export const skyCycle = {
-  // 1. MIDNIGHT (Cycle Start)
-  // Transitions from: night_begin
-  // Transitions to: night_end
-  mid_night: [
+export const sdd = {
+  // 🌌 1. Astronomical Twilight (شروع پیش‌سپیده‌دم)  ljj,.\][[pcgy]]
+  astronomical_twilight_begin: [
     {
       gradient:
-        "linear-gradient(180deg, #02030a, #0b0e23, #16193c, #222557, #2e3172, #3b3d8e)",
-      tempColor: "#e1e5ff",
-      buttons: "#3c2f6b",
-      chart: "#8b7fdb",
+        "linear-gradient(180deg, #030314, #120a3b, #1b1258, #2a1a76, #36238c, #4331a3)",
+      tempColor: "#d8d6ff",
+      buttons: "#544aa0",
+      chart: "#a398e2",
     },
     {
       gradient:
-        "linear-gradient(180deg, #030411, #101233, #1b1f4e, #262c69, #323985, #3f46a1)",
-      tempColor: "#e3e7ff",
-      buttons: "#3c2f6b",
-      chart: "#8b7fdb",
+        "linear-gradient(180deg, #07071e, #1a1148, #291c63, #3a2681, #4b2f96, #5b3bb1)",
+      tempColor: "#e1ddff",
+      buttons: "#544aa0",
+      chart: "#a398e2",
     },
     {
       gradient:
-        "linear-gradient(180deg, #040518, #151842, #20255d, #2c3279, #384095, #455db1)",
-      tempColor: "#e6eaff",
-      buttons: "#3c2f6b",
-      chart: "#8b7fdb",
+        "linear-gradient(180deg, #0b0925, #1e1450, #311e6b, #452b89, #5637a0, #6746b8)",
+      tempColor: "#e6e2ff",
+      buttons: "#544aa0",
+      chart: "#a398e2",
     },
     {
       gradient:
-        "linear-gradient(180deg, #05061f, #1a1e50, #253b6b, #314986, #3d58a2, #4a67be)",
-      tempColor: "#e8ecff",
-      buttons: "#403573",
-      chart: "#9187de",
+        "linear-gradient(180deg, #100c2e, #24185b, #382279, #4c2f94, #5f3dab, #704bc3)",
+      tempColor: "#f0edff",
+      buttons: "#544aa0",
+      chart: "#a398e2",
     },
     {
       gradient:
-        "linear-gradient(180deg, #060726, #1f2460, #2a327b, #364096, #425eb2, #4f6cce)",
-      tempColor: "#ebeeff",
-      buttons: "#403573",
-      chart: "#9187de",
+        "linear-gradient(180deg, #140f38, #2a1d65, #3f2882, #5434a1, #6a43b9, #7b50d1)",
+      tempColor: "#faf9ff",
+      buttons: "#544aa0",
+      chart: "#a398e2",
     },
     {
       gradient:
-        "linear-gradient(180deg, #07082d, #242a70, #2f388b, #3b46a6, #4764c2, #5472de)",
-      tempColor: "#edf0ff",
-      buttons: "#403573",
-      chart: "#9187de",
+        "linear-gradient(180deg, #1b1543, #322070, #48308d, #5d3eaa, #724ec3, #865edc)",
+      tempColor: "#ffffff",
+      buttons: "#544aa0",
+      chart: "#a398e2",
     },
     {
       gradient:
-        "linear-gradient(180deg, #080934, #293080, #344e9c, #405cb7, #4c6ad3, #5978ef)",
-      tempColor: "#eff2ff",
-      buttons: "#403573",
-      chart: "#9187de",
+        "linear-gradient(180deg, #231b4f, #3b2780, #5233a1, #6940bd, #7e4ed6, #935df0)",
+      tempColor: "#fffefb",
+      buttons: "#544aa0",
+      chart: "#a398e2",
     },
     {
       gradient:
-        "linear-gradient(180deg, #090a3b, #2e3690, #3954ab, #4562c6, #5170e2, #5e7eff)",
-      tempColor: "#f1f4ff",
-      buttons: "#463d7e",
-      chart: "#9890e0",
+        "linear-gradient(180deg, #2b2160, #443092, #5b3db1, #724ccd, #875be6, #9c6aff)",
+      tempColor: "#fbf8ff",
+      buttons: "#544aa0",
+      chart: "#a398e2",
     },
     {
       gradient:
-        "linear-gradient(180deg, #0a0b42, #333ca0, #3e5abb, #4a68d6, #5676f2, #6384ff)",
-      tempColor: "#f3f6ff",
-      buttons: "#463d7e",
-      chart: "#9890e0",
+        "linear-gradient(180deg, #332871, #4d38a1, #6446c2, #7b55dc, #9163f6, #a773ff)",
+      tempColor: "#f8f5ff",
+      buttons: "#544aa0",
+      chart: "#a398e2",
     },
     {
       gradient:
-        "linear-gradient(180deg, #0b0c49, #3842b0, #435fd3, #4f6dee, #5b7cff, #688aff)",
-      tempColor: "#f5f8ff",
-      buttons: "#463d7e",
-      chart: "#9890e0",
+        "linear-gradient(180deg, #3c2e82, #5643b0, #6d51ce, #855fe7, #9c6eff, #b27eff)",
+      tempColor: "#f9f7ff",
+      buttons: "#544aa0",
+      chart: "#a398e2",
     },
   ],
-
-  // 2. NIGHT END
-  // Transitions to: astronomical_twilight_begin
+  // 2:  🌌 night_end — پایان شب، قبل از آغاز twilight
   night_end: [
     {
       gradient:
@@ -164,83 +146,7 @@ export const skyCycle = {
     },
   ],
 
-  // 3. ASTRONOMICAL TWILIGHT BEGIN
-  // Transitions to: nautical_twilight_begin
-  astronomical_twilight_begin: [
-    {
-      gradient:
-        "linear-gradient(180deg, #030314, #120a3b, #1b1258, #2a1a76, #36238c, #4331a3)",
-      tempColor: "#d8d6ff",
-      buttons: "#544aa0",
-      chart: "#a398e2",
-    },
-    {
-      gradient:
-        "linear-gradient(180deg, #07071e, #1a1148, #291c63, #3a2681, #4b2f96, #5b3bb1)",
-      tempColor: "#e1ddff",
-      buttons: "#544aa0",
-      chart: "#a398e2",
-    },
-    {
-      gradient:
-        "linear-gradient(180deg, #0b0925, #1e1450, #311e6b, #452b89, #5637a0, #6746b8)",
-      tempColor: "#e6e2ff",
-      buttons: "#544aa0",
-      chart: "#a398e2",
-    },
-    {
-      gradient:
-        "linear-gradient(180deg, #100c2e, #24185b, #382279, #4c2f94, #5f3dab, #704bc3)",
-      tempColor: "#f0edff",
-      buttons: "#544aa0",
-      chart: "#a398e2",
-    },
-    {
-      gradient:
-        "linear-gradient(180deg, #140f38, #2a1d65, #3f2882, #5434a1, #6a43b9, #7b50d1)",
-      tempColor: "#faf9ff",
-      buttons: "#544aa0",
-      chart: "#a398e2",
-    },
-    {
-      gradient:
-        "linear-gradient(180deg, #1b1543, #322070, #48308d, #5d3eaa, #724ec3, #865edc)",
-      tempColor: "#ffffff",
-      buttons: "#544aa0",
-      chart: "#a398e2",
-    },
-    {
-      gradient:
-        "linear-gradient(180deg, #231b4f, #3b2780, #5233a1, #6940bd, #7e4ed6, #935df0)",
-      tempColor: "#fffefb",
-      buttons: "#544aa0",
-      chart: "#a398e2",
-    },
-    {
-      gradient:
-        "linear-gradient(180deg, #2b2160, #443092, #5b3db1, #724ccd, #875be6, #9c6aff)",
-      tempColor: "#fbf8ff",
-      buttons: "#544aa0",
-      chart: "#a398e2",
-    },
-    {
-      gradient:
-        "linear-gradient(180deg, #332871, #4d38a1, #6446c2, #7b55dc, #9163f6, #a773ff)",
-      tempColor: "#f8f5ff",
-      buttons: "#544aa0",
-      chart: "#a398e2",
-    },
-    {
-      gradient:
-        "linear-gradient(180deg, #3c2e82, #5643b0, #6d51ce, #855fe7, #9c6eff, #b27eff)",
-      tempColor: "#f9f7ff",
-      buttons: "#544aa0",
-      chart: "#a398e2",
-    },
-  ],
-
-  // 4. NAUTICAL TWILIGHT BEGIN
-  // Transitions to: civil_twilight_begin
+  // 🌅 3. Nautical Twilight (طلوع در افق دریا)
   nautical_twilight_begin: [
     {
       gradient:
@@ -314,8 +220,7 @@ export const skyCycle = {
     },
   ],
 
-  // 5. CIVIL TWILIGHT BEGIN
-  // Transitions to: blue_hour_begin
+  // 🌇 3. Civil Twilight (گرگ‌ومیش قبل طلوع)
   civil_twilight_begin: [
     {
       gradient:
@@ -389,37 +294,7 @@ export const skyCycle = {
     },
   ],
 
-  // 6. BLUE HOUR BEGIN
-  // Transitions to: sunrise
-  blue_hour_begin: [
-    {
-      // 6.0: Pure Blue Hour
-      gradient:
-        "linear-gradient(180deg, #1e3a8a 0%, #2b52ac 25%, #3b6bcc 50%, #4b85eb 75%, #5ca0ff 90%, #7dc4ff 100%)",
-      tempColor: "#ffffff",
-      buttons: "#4b85eb",
-      chart: "#d4e5ff",
-    },
-    {
-      // 6.1: First hint of Sunrise
-      gradient:
-        "linear-gradient(180deg, #2c459c 0%, #4a4c9f 25%, #7054a3 50%, #9a5ea9 75%, #c6699e 90%, #f27c88 100%)",
-      tempColor: "#ffffff",
-      buttons: "#9a5ea9",
-      chart: "#f27c88",
-    },
-    {
-      // 6.2: Approaching Sunrise
-      gradient:
-        "linear-gradient(180deg, #354aa5 0%, #5e4e 25%, #8c52a0 50%, #ba5595 75%, #e6667d 90%, #ff8c6d 100%)",
-      tempColor: "#ffffff",
-      buttons: "#ba5595",
-      chart: "#ff8c6d",
-    },
-  ],
-
-  // 7. SUNRISE
-  // Transitions to: golden_hour_begin
+  // 🌤️ 4. Sunrise
   sunrise: [
     {
       gradient:
@@ -493,45 +368,7 @@ export const skyCycle = {
     },
   ],
 
-  // 8. GOLDEN HOUR BEGIN (Post-Sunrise)
-  // Transitions to: solar_noon
-  golden_hour_begin: [
-    {
-      // 8.0: Pure Golden Hour (Morning)
-      gradient:
-        "linear-gradient(180deg, #5eb8ff 0%, #82c5ff 25%, #a6d2ff 50%, #c9e0ff 75%, #e8edff 90%, #fff7e8 100%)",
-      tempColor: "#2c3e50",
-      buttons: "#a6d2ff",
-      chart: "#3498db",
-    },
-    {
-      // 8.1: Mid-Morning
-      gradient:
-        "linear-gradient(180deg, #4ba0ff 0%, #6fb0ff 25%, #93c0ff 50%, #b7d1ff 75%, #dae2ff 90%, #f5f8ff 100%)",
-      tempColor: "#22344e",
-      buttons: "#93c0ff",
-      chart: "#0077ff",
-    },
-    {
-      // 8.2: Late Morning
-      gradient:
-        "linear-gradient(180deg, #368dff 0%, #5ca1ff 25%, #80b5ff 50%, #a4c9ff 75%, #c8ddff 90%, #e8f3ff 100%)",
-      tempColor: "#1e2d44",
-      buttons: "#80b5ff",
-      chart: "#0068e0",
-    },
-    {
-      // 8.3: Approaching Solar Noon
-      gradient:
-        "linear-gradient(180deg, #1f7cff 0%, #4996ff 25%, #70afff 50%, #98c8ff 75%, #c0e1ff 90%, #e4f3ff 100%)",
-      tempColor: "#1a2b4a",
-      buttons: "#70afff",
-      chart: "#0056b3",
-    },
-  ],
-
-  // 9. SOLAR NOON (Peak Day)
-  // Transitions to: golden_hour_end
+  // ☀️ 5. Solar Noon (ظهر کامل)
   solar_noon: [
     {
       gradient:
@@ -605,37 +442,7 @@ export const skyCycle = {
     },
   ],
 
-  // 10. GOLDEN HOUR END (Pre-Sunset)
-  // Transitions to: sunset
-  golden_hour_end: [
-    {
-      // 10.0: Pure Golden Hour (Evening)
-      gradient:
-        "linear-gradient(180deg, #4da8ff 0%, #70b8ff 25%, #93c9ff 50%, #b6d9ff 75%, #d9eaff 90%, #fff5d4 100%)",
-      tempColor: "#2c3e50",
-      buttons: "#93c9ff",
-      chart: "#2980b9",
-    },
-    {
-      // 10.1: Sky warming for Sunset
-      gradient:
-        "linear-gradient(180deg, #4286cc 0%, #688ab8 25%, #9090a5 50%, #b99794 75%, #e2a084 90%, #ffad76 100%)",
-      tempColor: "#ffffff",
-      buttons: "#b99794",
-      chart: "#ffad76",
-    },
-    {
-      // 10.2: Approaching Sunset
-      gradient:
-        "linear-gradient(180deg, #376499 0%, #605c8f 25%, #8f5686 50%, #c0537f 75%, #ec5b6b 90%, #ffa366 100%)",
-      tempColor: "#ffffff",
-      buttons: "#c0537f",
-      chart: "#ffa366",
-    },
-  ],
-
-  // 11. SUNSET
-  // Transitions to: blue_hour_end
+  // 🌇 6. Sunset
   sunset: [
     {
       gradient:
@@ -709,29 +516,7 @@ export const skyCycle = {
     },
   ],
 
-  // 12. BLUE HOUR END (Post-Sunset)
-  // Transitions to: civil_twilight_end
-  blue_hour_end: [
-    {
-      // 12.0: Pure Blue Hour (Evening)
-      gradient:
-        "linear-gradient(180deg, #1a237e 0%, #283593 25%, #3949ab 50%, #4e62c0 75%, #647ed4 90%, #889ff0 100%)",
-      tempColor: "#f5f5f5",
-      buttons: "#4e62c0",
-      chart: "#c5cae9",
-    },
-    {
-      // 12.1: Approaching Civil Twilight End
-      gradient:
-        "linear-gradient(180deg, #1a237e 0%, #2a2a72 25%, #4a3a8f 50%, #6f4b9e 75%, #9b5ca8 90%, #b06cb2 100%)",
-      tempColor: "#f0e8ff",
-      buttons: "#6f4b9e",
-      chart: "#b06cb2",
-    },
-  ],
-
-  // 13. CIVIL TWILIGHT END
-  // Transitions to: nautical_twilight_end
+  // 🌃 7. Civil Twilight End (گرگ‌ومیش بعد غروب)
   civil_twilight_end: [
     {
       gradient:
@@ -804,8 +589,8 @@ export const skyCycle = {
       chart: "#9fa8da",
     },
   ],
-  // 14. NAUTICAL TWILIGHT END
-  // Transitions to: astronomical_twilight_end
+
+  // 🌌 8. Nautical Twilight End (شب در حال تاریک شدن کامل)
   nautical_twilight_end: [
     {
       gradient:
@@ -879,70 +664,81 @@ export const skyCycle = {
     },
   ],
 
-  // 15. ASTRONOMICAL TWILIGHT END
-  // Transitions to: night_begin
-  astronomical_twilight_end: [
+  // 🌑 9. Night (تاریکی کامل تا بازگشت چرخه)
+  night: [
     {
-      // 15.0: Pure Astronomical Twilight End
       gradient:
-        "linear-gradient(180deg, #0f0a2e 0%, #1a144a 25%, #251e66 50%, #302882 75%, #3c339e 100%)",
-      tempColor: "#e8eaf6",
-      buttons: "#302882",
-      chart: "#8c9eff",
+        "linear-gradient(180deg, #02030a, #0b0e23, #16193c, #222557, #2e3172, #3b3d8e)",
+      tempColor: "#e1e5ff",
+      buttons: "#3c2f6b",
+      chart: "#8b7fdb",
     },
     {
-      // 15.1: Approaching Night
       gradient:
-        "linear-gradient(180deg, #0c0829 0%, #161040 25%, #1d1754 50%, #251e68 75%, #2d267c 100%)",
-      tempColor: "#f0e8ff",
-      buttons: "#2d267c",
+        "linear-gradient(180deg, #030411, #101233, #1b1f4e, #262c69, #323985, #3f46a1)",
+      tempColor: "#e3e7ff",
+      buttons: "#3c2f6b",
       chart: "#8b7fdb",
+    },
+    {
+      gradient:
+        "linear-gradient(180deg, #040518, #151842, #20255d, #2c3279, #384095, #455db1)",
+      tempColor: "#e6eaff",
+      buttons: "#3c2f6b",
+      chart: "#8b7fdb",
+    },
+    {
+      gradient:
+        "linear-gradient(180deg, #05061f, #1a1e50, #253b6b, #314986, #3d58a2, #4a67be)",
+      tempColor: "#e8ecff",
+      buttons: "#403573",
+      chart: "#9187de",
+    },
+    {
+      gradient:
+        "linear-gradient(180deg, #060726, #1f2460, #2a327b, #364096, #425eb2, #4f6cce)",
+      tempColor: "#ebeeff",
+      buttons: "#403573",
+      chart: "#9187de",
+    },
+    {
+      gradient:
+        "linear-gradient(180deg, #07082d, #242a70, #2f388b, #3b46a6, #4764c2, #5472de)",
+      tempColor: "#edf0ff",
+      buttons: "#403573",
+      chart: "#9187de",
+    },
+    {
+      gradient:
+        "linear-gradient(180deg, #080934, #293080, #344e9c, #405cb7, #4c6ad3, #5978ef)",
+      tempColor: "#eff2ff",
+      buttons: "#403573",
+      chart: "#9187de",
+    },
+    {
+      gradient:
+        "linear-gradient(180deg, #090a3b, #2e3690, #3954ab, #4562c6, #5170e2, #5e7eff)",
+      tempColor: "#f1f4ff",
+      buttons: "#463d7e",
+      chart: "#9890e0",
+    },
+    {
+      gradient:
+        "linear-gradient(180deg, #0a0b42, #333ca0, #3e5abb, #4a68d6, #5676f2, #6384ff)",
+      tempColor: "#f3f6ff",
+      buttons: "#463d7e",
+      chart: "#9890e0",
+    },
+    {
+      gradient:
+        "linear-gradient(180deg, #0b0c49, #3842b0, #435fd3, #4f6dee, #5b7cff, #688aff)",
+      tempColor: "#f5f8ff",
+      buttons: "#463d7e",
+      chart: "#9890e0",
     },
   ],
-
-  // 16. NIGHT BEGIN (Cycle End)
-  // Transitions to: mid_night
-  night_begin: [
-    {
-      // 16.0: Pure Night Begin
-      gradient:
-        "linear-gradient(180deg, #0a0524 0%, #110c36 25%, #181348 50%, #1f1a5a 75%, #27216c 100%)",
-      tempColor: "#f0e8ff",
-      buttons: "#27216c",
-      chart: "#8b7fdb",
-    },
-    {
-      // 16.1: Deepening Night
-      gradient:
-        "linear-gradient(180deg, #08041e 0%, #0f0b2e 20%, #16113d 40%, #1d174d 60%, #251d5c 80%, #2e2469 100%)",
-      tempColor: "#f0e8ff",
-      buttons: "#312a6f",
-      chart: "#8b7fdb",
-    },
-    {
-      // 16.2: Approaching Midnight (Cycle Close)
-      gradient:
-        "linear-gradient(180deg, #050217 0%, #0c0925 20%, #151034 40%, #1f1644 60%, #281d52 80%, #312360 100%)",
-      tempColor: "#f0e8ff",
-      buttons: "#372c6e",
-      chart: "#8b7fdb",
-    },
-  ],
-
-  // --- NON-CYCLICAL EVENTS ---
-  // These events are not part of the 24h solar interpolation
-  // and represent a single, pure state.
-
-  moonrise: [
-    {
-      // Pure Moonrise
-      gradient:
-        "linear-gradient(180deg, #0b0f28 0%, #1a234b 25%, #2d3b70 50%, #4f6696 75%, #7b94c0 90%, #f0f4f8 100%)",
-      tempColor: "#ffffff",
-      buttons: "#4f6696",
-      chart: "#f0f4f8",
-    },
-  ],
+  // 🌙 MOONSET — بین "night_end" و "astronomical_twilight_begin"
+  // یعنی زمانی که ماه داره غروب می‌کنه و هنوز هوا تیره‌ست ولی آسمون کم‌کم روشن میشه
 
   moonset: [
     {

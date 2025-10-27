@@ -25,7 +25,7 @@ export default function Hud({ hudData, set, color }) {
             });
           }
         }}
-        className="reload-button"
+        className="reload-button" style={{color: `${color ? color.hud : "rgb(237, 254, 255);"}`}}
       >
         {hudData.city.reservedName}
       </button>

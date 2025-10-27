@@ -12,7 +12,8 @@
         { "url": "https://api.ipgeolocation.io/v2/astronomy" },
         { "url": "https://api.sunrise-sunset.org/json" },
         { "url": "https://geocoding-api.open-meteo.com/v1/search" },
-        { "url": "https://api.open-meteo.com/v1/forecast" }
+        { "url": "https://api.open-meteo.com/v1/forecast" },
+        { "url": "https://timeapi.io/api/Time/current/coordinate" }
       ],
       "deny": [{ "url": "https://private.tauri.app" }]
     },
