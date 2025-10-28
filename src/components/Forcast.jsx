@@ -32,7 +32,7 @@ export default function Forcast(color) {
           getAstro("Vajargah");
         }}
       >
-        vajargah
+        more
       </button>
     </div>
   );

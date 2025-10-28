@@ -6,7 +6,7 @@ import { readData, getWeatherStat, toNameCase } from "../logic/OpenMeteo";
 
 export default function AddCity({updateMainCity, set}) {
   async function addLoc() {
-    const newLocation = await addLocation("Lahijan");
+    const newLocation = await addLocation("Wellington");
     if (newLocation) {
       const newWeatherData = await getWeatherStat(
         newLocation[0],

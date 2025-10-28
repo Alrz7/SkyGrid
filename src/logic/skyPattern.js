@@ -1,5 +1,9 @@
 import { dataDir, tempDir, templateDir } from "@tauri-apps/api/path";
-import { getAstro, readData as readAstro, toNameCase } from "./ipGeoLocation";
+import {
+  updateData as updateAstro,
+  readData as readAstro,
+  toNameCase,
+} from "./ipGeoLocation";
 import { skyCycle } from "./sources/skyCycle";
 import { readData as readLocations } from "./GeoLocations";
 
@@ -55,38 +59,50 @@ async function getLocalTime(lat, lon) {
 async function findlocalTime(cityName) {
   const locations = await readLocations();
   const capname = toNameCase(cityName);
-  console.log(capname);
   if (capname in locations) {
     const location = locations[capname];
-    console.log(location);
     const timeZone = location["timezone"];
     if (timeZone) {
-      const time = intlTimeFormat(timeZone);
+      const time = intlTimeFormat(timeZone).time;
       console.log(`time of ${timeZone} is : ${time} right now`);
       return time;
-    }else{
-      return null
+    } else {
+      return null;
     }
   }
   console.log("no timezone has been found for this city");
-  return null
+  return null;
 }
 
-function intlTimeFormat(ianaTimezoneName) {
+export function intlTimeFormat(ianaTimezoneName) {
   const now = new Date();
   const options = {
     timeZone: ianaTimezoneName,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
-    // second: '2-digit',
+    second: "2-digit",
     hour12: false,
   };
 
   const formatter = new Intl.DateTimeFormat("en-US", options);
-  const localTime = formatter.format(now);
-  return localTime;
-}
+  const parts = formatter.formatToParts(now);
 
+  const year = parts.find((p) => p.type === "year")?.value;
+  const month = parts.find((p) => p.type === "month")?.value;
+  const day = parts.find((p) => p.type === "day")?.value;
+  const hour = parts.find((p) => p.type === "hour")?.value;
+  const minute = parts.find((p) => p.type === "minute")?.value;
+  const second = parts.find((p) => p.type === "second")?.value;
+
+  return {
+    date: `${year}-${month}-${day}`,
+    time: `${hour}:${minute}`,
+    fullStr: `${year}-${month}-${day}T${hour}:${minute}:${second}`,
+  };
+}
 function sortHours(lst) {
   const pivot = lst[0];
   const beef = [];
@@ -114,9 +130,8 @@ function difrentHour(t1, t2) {
 }
 
 function selectTitle(item, time) {
-  // const now = timeNow().fullhr; for local time test
-  const now = time;
-  // console.log(now);
+  // const time = timeNow().fullhr; for local time test
+  // const time = '17:55';
   const titlelist = [
     "mid_night",
     "night_end",
@@ -164,31 +179,29 @@ function selectTitle(item, time) {
     title: titlelist[indx],
   }));
   const sorted = sortHours(mergedList);
-  // console.log(sorted);
+  
   for (let [indx, val] of sorted.entries()) {
     // console.log(indx, val)
     if (
-      difrentHour(now, val.time) > 0 &&
+      difrentHour(time, val.time) > 0 &&
       (indx < sorted.length
-        ? difrentHour(now, sorted[indx + 1].time) < 0
+        ? difrentHour(time, sorted[indx + 1].time) < 0
         : true)
     ) {
       console.log(val.time, " <-> ", val["title"]);
       return val;
     }
   }
-  console.log(sorted.at(-1)["time"], " <-> ", sorted.at(-1)["title"]);
+  console.log(sorted.at(-1)["time"], " <not found> ", sorted.at(-1)["title"]);
   return sorted.at(-1);
 }
 
 export async function selectPattern(setColor, cityName) {
-  console.log(cityName);
   // console.log(cityName)
   if (cityName) {
     cityName = toNameCase(cityName);
-    const DataList = await readAstro();
-    if (cityName in DataList) {
-      const astData = DataList[cityName];
+    const astData = await updateAstro(cityName, intlTimeFormat);
+    if (astData) {
       const time = await findlocalTime(cityName);
       if (time) {
         const selectedTitle = selectTitle(astData, time);
@@ -200,7 +213,7 @@ export async function selectPattern(setColor, cityName) {
             const backgroundColor = skyCycle[pallet][0].gradient;
             const hudColor = skyCycle[pallet][0].tempColor;
             // console.log("found it");
-            console.log(backgroundColor, " :: ", hudColor);
+            // console.log(backgroundColor, " :: ", hudColor);
             setColor({
               background: backgroundColor,
               hud: hudColor,

@@ -1,4 +1,6 @@
 import { readData, getWeatherStat, toNameCase } from "./OpenMeteo";
+import { updateData } from "./ipGeoLocation";
+
 function getLocalTime() {
   const now = new Date();
   const year = now.getFullYear();
@@ -23,7 +25,6 @@ function difrentHour(timeString1, timeString2) {
   return differenceInMilliseconds / (1000 * 3600);
 }
 
-
 /**
  *  this should  manage the time of updating the current datas
  */
@@ -42,15 +43,16 @@ export async function checkHourly(cityName) {
   const locations = await readData("hourly");
   const capname = toNameCase(cityName);
   if (toNameCase(capname) in locations) {
+    updateData(capname);
     const lastDate = locations[capname]["time"];
     const time_difference = difrentHour(now, lastDate.at(-1));
     if (time_difference >= 0) {
       const newWeatherData = await getWeatherStat(capname);
-      return newWeatherData
+      return newWeatherData;
     } else {
     }
-  }else{
+  } else {
     const newWeatherData = await getWeatherStat(capname);
-    return newWeatherData
+    return newWeatherData;
   }
 }
