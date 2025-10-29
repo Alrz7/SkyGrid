@@ -19,7 +19,7 @@ import { selectPattern } from './logic/skyPattern';
 // import { readData as readOpmData } from "./logic/OpenMeteo";
 // import { ftHourlyData } from "./logic/formatData";
 import CurvedLine from "./components/CurvedLine";
-import Ball from "./components/Sun";
+import Soluna from "./components/Soluna";
 import SwitchButtons from "./components/SwitchCity";
 import DataCard from "./components/DataCard";
 import GetOptions from "./components/Options";
@@ -34,21 +34,34 @@ export default function App() {
     cityC: [],
   });
   const [city, updateCity] = useState({ Name: "", reservedName: "" });
-  const [color, setColor] = useState({
+  const [Pattern, setPattern] = useState({
     background: "",
     hud: "",
     buttons: "",
     chart: "",
+    solarData:{}
   });
+  const [hudData, setHudData] = useState({})
   useEffect(() => {
-    setCurrentCity(updateOrder, updateCity, selectPattern, setColor);
+    setCurrentCity(updateOrder, updateCity, selectPattern, setPattern);
   }, []);
+  
+  useEffect(() => {
+  async function loadTemp() {
+    const temp = await selectWatherItem(
+      loadOrder.cityB.length > 0 ? loadOrder.cityB[2] : false, city.Name != '' ? city.Name : false
+    );
+    setHudData(temp);
+    // console.log(temp)
+  }
+  loadTemp();
+}, [loadOrder]);
 
   return (
     <div
       className="app-background"
       style={{
-        background: `${color.background}`,
+        background: `${Pattern.background}`,
       }}
     >
       <div
@@ -82,16 +95,17 @@ export default function App() {
       </button>
       <div className="floating-ball">
         <CurvedLine />
-        <Ball />
+        <Soluna 
+        solarData={Pattern.solarData} />
       </div>
       <SwitchButtons
         onSwitchClick={(forward) => {
-          changeOrders(updateOrder, updateCity, loadOrder, selectPattern, setColor, forward);
+          changeOrders(updateOrder, updateCity, loadOrder, selectPattern, setPattern, forward);
         }}
       />
       <DataCard
         weatherData={loadOrder.cityB.length > 0 ? loadOrder.cityB[2] : null}
-        color={color}
+        color={Pattern}
       />
 
       <GetOptions />
@@ -101,15 +115,11 @@ export default function App() {
       />
       {/* <ReloadData /> */}
       <Hud
-        hudData={{
-          city: city,
-          mainTemp: selectWatherItem(
-            loadOrder.cityB.length > 0 ? loadOrder.cityB[2] : false
-          ),
-          updateMainCity: updateMainCity,
-        }}
+        hudData={hudData}
+        city={city}
+        updateMainCity={updateMainCity}
         set={{ updateOrder, updateCity }}
-        color={color}
+        color={Pattern}
       />
     </div>
   );

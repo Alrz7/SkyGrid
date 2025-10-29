@@ -1,20 +1,22 @@
 import React, { useState } from "react";
 import "./styles/Hud.css";
 import { checkHourly } from "../logic/updateDatas";
-export default function Hud({ hudData, set, color }) {
+export default function Hud({ hudData, updateMainCity, city, set, color }) {
+  // console.log(hudData)
+  // console.log(city)
   return (
     <div>
       <button
       onMouseEnter={() => {
-        set.updateCity({Name:hudData.city.Name, reservedName:"Reload"})}}
+        set.updateCity({Name:city.Name, reservedName:"Reload"})}}
       onMouseLeave={() => {
-        set.updateCity({Name:hudData.city.Name, reservedName:hudData.city.Name})}}
+        set.updateCity({Name:city.Name, reservedName:city.Name})}}
         onClick={() => {
-          const cityName = hudData.city.Name ?? false;
+          const cityName = city.Name ?? false;
           if (cityName) {
             const result = checkHourly(cityName).then((r) => {
               if (r) {
-                hudData.updateMainCity(
+                updateMainCity(
                   set.updateOrder,
                   set.updateCity,
                   cityName,
@@ -27,11 +29,11 @@ export default function Hud({ hudData, set, color }) {
         }}
         className="reload-button" style={{color: `${color ? color.hud : "rgb(237, 254, 255);"}`}}
       >
-        {hudData.city.reservedName}
+        {city.reservedName}
       </button>
       <div className="central-elements-container">
         <h1 className="hud main-temp" style={{color: `${color ? color.hud : "rgb(237, 254, 255);"}`}}>
-          {hudData.mainTemp ? `${hudData.mainTemp.temperature}°` : ""}
+          {hudData != {} && hudData.temperature ? `${hudData.temperature}°` : ""}
         </h1>
       </div>
     </div>

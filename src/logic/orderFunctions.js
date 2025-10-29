@@ -2,14 +2,14 @@ import { readData as readOpmData } from "./OpenMeteo";
 import { ftHourlyData } from "./formatData";
 import { readData as readLocations } from "./GeoLocations";
 
-export async function setCurrentCity(updateOrder, updateCity, selectPattern, setColor) {
+export async function setCurrentCity(updateOrder, updateCity, selectPattern, setPattern) {
     const locations = await readLocations();
     if (locations) {
       // console.log(locations);
       const newCityList = Object.keys(locations);
       const newCity = newCityList[0];
       updateCity({Name:newCity, reservedName:newCity});
-      selectPattern(setColor, newCity ? newCity : null)
+      selectPattern(setPattern, newCity ? newCity : null)
       const cityA = newCityList.at(-1);
       const cityC = newCityList.at(1);
       // console.log(cityA + " " + cityA)
@@ -92,7 +92,7 @@ export async function setCurrentCity(updateOrder, updateCity, selectPattern, set
     }
   }
 
-  export async function changeOrders(updateOrder, updateCity, loadOrder, selectPattern, setColor, forward = true) {
+  export async function changeOrders(updateOrder, updateCity, loadOrder, selectPattern, setPattern, forward = true) {
     const locations = await readLocations();
     if (locations) {
       const cityList = Object.keys(locations);
@@ -107,7 +107,7 @@ export async function setCurrentCity(updateOrder, updateCity, selectPattern, set
       const cityC = loadOrder.cityC;
       const cityB = loadOrder.cityB;
       updateCity({Name:newCity, reservedName:newCity});
-      selectPattern(setColor, newCity ? newCity : null)
+      selectPattern(setPattern, newCity ? newCity : null)
       updateOrder({
         cityA:
           newCityA == cityB[0]

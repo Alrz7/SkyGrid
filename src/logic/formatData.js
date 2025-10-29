@@ -1,3 +1,4 @@
+import { findlocalTime } from "./skyPattern";
 export function ftHourlyData(data) {
   if (data) {
     const now = getLocalTime().fullStr;
@@ -37,16 +38,18 @@ export function ftHourlyData(data) {
   }
 }
 
-export function selectWatherItem(data) {
-  if (data) {
-    const now = getLocalTime();
+export async function selectWatherItem(data, city) {
+  // console.log(data, city)
+  if (data && city) {
+    const localTime = await findlocalTime(city);
+    // console.log(localTime, `${localTime.slice(0,2)}:00`)
     for (let item of data) {
-      if (item.hour == `${now.hour}:00`) {
+      if (item.hour == `${localTime.slice(0,2)}:00`) {
         return item;
       }
     }
     return false;
-  }else return false
+  } else return false;
 }
 
 function getLocalTime() {

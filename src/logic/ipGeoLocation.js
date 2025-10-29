@@ -116,7 +116,7 @@ export async function updateData(cityName, intlTimeFormat) {
     if (lastUpdateTime) {
       const timeDiff = difrentHour(intlTimeFormat().fullStr, lastUpdateTime);
       // console.log(intlTimeFormat().fullStr, lastUpdateTime);
-      console.log(timeDiff);
+      // console.log(timeDiff);
       if (timeDiff >= 24) {
         console.log("updating astronomic data : IPGEO");
         const newData = await getAstro(cityName);

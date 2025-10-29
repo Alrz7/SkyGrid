@@ -6,12 +6,12 @@
 
   width: 100%;
   height: auto;
-  opacity: 85%;
+  opacity: 65%;
   z-index: 15;
   transition: transform 1.5s ease-in-out;
 
 }
 
-.curved-line:hover {
+/* .curved-line:hover {
   opacity: 100%;
-}
+} */

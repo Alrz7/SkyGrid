@@ -7,61 +7,12 @@ import {
 import { skyCycle } from "./sources/skyCycle";
 import { readData as readLocations } from "./GeoLocations";
 
-function timeNow() {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const day = String(now.getDate()).padStart(2, "0");
-  const hour = String(now.getHours()).padStart(2, "0");
-  const minute = String(now.getMinutes()).padStart(2, "0");
-  return {
-    year: year,
-    month: month,
-    day: day,
-    hour: hour,
-    minute: minute,
-    fullhr: `${hour}:${minute}`,
-    fullStr: `${year}-${month}-${day}T${hour}:${minute}`,
-  };
-}
-
-async function getLocalTime(lat, lon) {
-  console.log(lat, lon);
-  const url = `https://timeapi.io/api/Time/current/coordinate?latitude=${lat}&longitude=${lon}`;
-
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      // اگر خطا بود، پیام خطا را از سرور می‌گیریم
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    // زمان محلی در قالب "HH:MM:SS"
-    const timeOnly = data.time;
-    console.log(data);
-
-    // اطلاعات کامل دریافتی:
-    // const localDateTime = data.dateTime; // e.g., "2025-10-28T01:30:15.3562412"
-    // const ianaTimezoneName = data.timeZone; // e.g., "Asia/Tehran"
-
-    console.log(`زمان محلی: ${timeOnly}`);
-
-    return timeOnly;
-  } catch (error) {
-    console.log(error);
-    console.error("خطا در TimeAPI.io:", error.message);
-    return null;
-  }
-}
-
-async function findlocalTime(cityName) {
+export async function findlocalTime(cityName) {
   const locations = await readLocations();
-  const capname = toNameCase(cityName);
-  if (capname in locations) {
-    const location = locations[capname];
+  if (cityName in locations) {
+    const location = locations[cityName];
     const timeZone = location["timezone"];
+    console.log(timeZone);
     if (timeZone) {
       const time = intlTimeFormat(timeZone).time;
       console.log(`time of ${timeZone} is : ${time} right now`);
@@ -159,8 +110,8 @@ function selectTitle(item, time) {
     "astronomical_twilight_end",
     "night_begin",
     "solar_noon",
-    "moonrise",
-    "moonset",
+    // "moonrise",
+    // "moonset",
   ];
   const timelist = [
     item.astronomy.mid_night,
@@ -171,24 +122,23 @@ function selectTitle(item, time) {
     ...Object.values(item.astronomy.evening),
     item.astronomy.night_begin,
     item.astronomy.solar_noon,
-    item.astronomy.moonrise,
-    item.astronomy.moonset,
+    // item.astronomy.moonrise,
+    // item.astronomy.moonset,
   ];
   const mergedList = timelist.map((val, indx) => ({
     time: val,
     title: titlelist[indx],
   }));
   const sorted = sortHours(mergedList);
-  
   for (let [indx, val] of sorted.entries()) {
-    // console.log(indx, val)
+    // console.log(indx, sorted.length)
     if (
       difrentHour(time, val.time) > 0 &&
-      (indx < sorted.length
+      (indx < sorted.length - 1
         ? difrentHour(time, sorted[indx + 1].time) < 0
         : true)
     ) {
-      console.log(val.time, " <-> ", val["title"]);
+      console.log(val.time, " < found > ", val["title"]);
       return val;
     }
   }
@@ -196,13 +146,26 @@ function selectTitle(item, time) {
   return sorted.at(-1);
 }
 
-export async function selectPattern(setColor, cityName) {
+function SolarCondition(time, data) {
+  const rs = {
+    isMoonTime:
+      difrentHour(time, data.moonrise) >= 0 &&
+      difrentHour(time, data.moonset) < 0,
+    isSunTime:
+      difrentHour(time, data.sunrise) >= 0 &&
+      difrentHour(time, data.sunset) < 0,
+  };
+  return rs;
+}
+
+export async function selectPattern(setPattern, cityName) {
   // console.log(cityName)
   if (cityName) {
     cityName = toNameCase(cityName);
     const astData = await updateAstro(cityName, intlTimeFormat);
     if (astData) {
       const time = await findlocalTime(cityName);
+      const solarData = SolarCondition(time, astData.astronomy);
       if (time) {
         const selectedTitle = selectTitle(astData, time);
         for (let pallet in skyCycle) {
@@ -214,11 +177,13 @@ export async function selectPattern(setColor, cityName) {
             const hudColor = skyCycle[pallet][0].tempColor;
             // console.log("found it");
             // console.log(backgroundColor, " :: ", hudColor);
-            setColor({
+            console.log({ ...astData.astronomy, ...solarData });
+            setPattern({
               background: backgroundColor,
               hud: hudColor,
               buttons: hudColor,
               chart: hudColor,
+              solarData: { ...astData.astronomy, ...solarData },
             });
             return;
           }
