@@ -1,6 +1,6 @@
-import { readData, getWeatherStat, toNameCase } from "./OpenMeteo";
-import { updateData } from "./ipGeoLocation";
-
+import { readData, getWeatherStat, toNameCase } from "./OpenMeteo.js";
+import { updateData } from "./ipGeoLocation.js";
+import { findlocalTime } from './skyPattern.js';
 function getLocalTime() {
   const now = new Date();
   const year = now.getFullYear();
@@ -18,7 +18,7 @@ function getLocalTime() {
   };
 }
 
-function difrentHour(timeString1, timeString2) {
+function difrentHour(timeString1: string, timeString2: string) {
   const date1 = new Date(timeString1 + "Z");
   const date2 = new Date(timeString2 + "Z");
   const differenceInMilliseconds = date1.getTime() - date2.getTime();
@@ -28,7 +28,7 @@ function difrentHour(timeString1, timeString2) {
 /**
  *  this should  manage the time of updating the current datas
  */
-export async function checkCurrent(cityName) {
+export async function checkCurrent(cityName: string, data: {time:string}) {
   const now = getLocalTime().fullStr;
   const locations = await readData("current");
   if (toNameCase(cityName) in locations) {
@@ -38,12 +38,12 @@ export async function checkCurrent(cityName) {
   }
 }
 
-export async function checkHourly(cityName) {
+export async function checkHourly(cityName: string) {
   const now = getLocalTime().fullStr;
   const locations = await readData("hourly");
   const capname = toNameCase(cityName);
   if (toNameCase(capname) in locations) {
-    updateData(capname);
+    updateData(capname, findlocalTime);
     const lastDate = locations[capname]["time"];
     const time_difference = difrentHour(now, lastDate.at(-1));
     if (time_difference >= 0) {

@@ -3,11 +3,12 @@ import {
   updateData as updateAstro,
   readData as readAstro,
   toNameCase,
-} from "./ipGeoLocation";
-import { skyCycle } from "./sources/skyCycle";
-import { readData as readLocations } from "./GeoLocations";
+} from "./ipGeoLocation.js";
+import { skyCycle } from "./sources/skyCycle.js";
+import { readData as readLocations } from "./GeoLocations.js";
+import { readConfig } from "./gridconfig.js";
 
-export async function findlocalTime(cityName) {
+export async function findlocalTime(cityName: string): Promise<string> {
   const locations = await readLocations();
   if (cityName in locations) {
     const location = locations[cityName];
@@ -18,16 +19,17 @@ export async function findlocalTime(cityName) {
       console.log(`time of ${timeZone} is : ${time} right now`);
       return time;
     } else {
-      return null;
+      console.log("no timezone has been found for this city");
+      return '';
     }
   }
   console.log("no timezone has been found for this city");
-  return null;
+  return '';
 }
 
-export function intlTimeFormat(ianaTimezoneName) {
+export function intlTimeFormat(ianaTimezoneName: string) {
   const now = new Date();
-  const options = {
+  const formatter = new Intl.DateTimeFormat("en-US", {
     timeZone: ianaTimezoneName,
     year: "numeric",
     month: "2-digit",
@@ -36,9 +38,7 @@ export function intlTimeFormat(ianaTimezoneName) {
     minute: "2-digit",
     second: "2-digit",
     hour12: false,
-  };
-
-  const formatter = new Intl.DateTimeFormat("en-US", options);
+  });
   const parts = formatter.formatToParts(now);
 
   const year = parts.find((p) => p.type === "year")?.value;
@@ -54,7 +54,7 @@ export function intlTimeFormat(ianaTimezoneName) {
     fullStr: `${year}-${month}-${day}T${hour}:${minute}:${second}`,
   };
 }
-function sortHours(lst) {
+function sortHours(lst: Array<any>): any {
   const pivot = lst[0];
   const beef = [];
   const aft = [];
@@ -72,15 +72,15 @@ function sortHours(lst) {
   ];
 }
 
-function difrentHour(t1, t2) {
-  const [h1, m1] = t1.split(":").map(Number);
-  const [h2, m2] = t2.split(":").map(Number);
+function difrentHour(t1: string, t2: string) {
+  const [h1= 0, m1 = 0] = t1.split(":").map(Number);
+  const [h2=0, m2=0] = t2.split(":").map(Number);
   let diff = h1 * 60 + m1 - (h2 * 60 + m2);
   // if (diff < -720) diff += 1440;
   return diff * 60;
 }
 
-function selectTitle(item, time) {
+function selectTitle(item: any , time: string) {
   // const time = timeNow().fullhr; for local time test
   // const time = '17:55';
   const titlelist = [
@@ -146,7 +146,7 @@ function selectTitle(item, time) {
   return sorted.at(-1);
 }
 
-function SolarCondition(time, data) {
+function SolarCondition(time: string, data: Record<string, any>) {
   const rs = {
     isMoonTime:
       difrentHour(time, data.moonrise) >= 0 &&
@@ -158,13 +158,13 @@ function SolarCondition(time, data) {
   return rs;
 }
 
-export async function selectPattern(setPattern, cityName) {
+export async function selectPattern(setPattern: any, cityName: any) {
   // console.log(cityName)
   if (cityName) {
     cityName = toNameCase(cityName);
-    const astData = await updateAstro(cityName, intlTimeFormat);
+    const astData = await updateAstro(cityName, findlocalTime);
     if (astData) {
-      const time = await findlocalTime(cityName);
+      const time: string = await findlocalTime(cityName);
       const solarData = SolarCondition(time, astData.astronomy);
       if (time) {
         const selectedTitle = selectTitle(astData, time);

@@ -5,13 +5,13 @@ import {
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
 
-function toNameCase(str) {
+function toNameCase(str:string) {
   if (!str) return "";
   str = str.toLowerCase();
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-async function getLocation(cityname, prtcl = "opn") {
+async function getLocation(cityname: string, prtcl = "opn") {
   let dt;
   if (prtcl == "met") {
     dt = await fetch(   // << IMP >>  to filter Countrys in this search we can build a static country code search like  Iran => "IR" and filter use it as ...&countryCode=${countryCode}
@@ -41,7 +41,7 @@ async function getLocation(cityname, prtcl = "opn") {
   }
 }
 
-export async function addLocation(cityName) {
+export async function addLocation(cityName: string) {
   const lastFile = await readData();
   const capname = toNameCase(cityName);
 
@@ -68,11 +68,10 @@ async function getApiKey() {
   return JSON.parse(apiKey)["key"];
 }
 
-export async function saveData(cityName, data, target = "locations") {
+export async function saveData(cityName: string, data: Record<string, any>, target = "locations") {
   const lastFile = await readData(target);
   if (lastFile === false) {
-    const container = {};
-    container[cityName] = data;
+    const container = {cityName: data};
     await writeTextFile(
       `SkyGrid/Data/GeoLocations/${target}.json`,
       JSON.stringify(container),

@@ -4,12 +4,11 @@ import {
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
 
-export async function saveConfig(data, target = "GridConfig") {
+export async function saveConfig(data: any, target = "GridConfig") {
   console.log(data);
   const lastFile = await readConfig(target);
   if (lastFile === false) {
-    const container = {};
-    container["Config"] = data;
+    const container = {"Config": data};
     await writeTextFile(`SkyGrid/${target}.json`, JSON.stringify(container), {
       baseDir: BaseDirectory.Document,
     });

@@ -4,28 +4,10 @@ import {
   writeTextFile,
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
-import { readData as readLocations } from "./GeoLocations";
-import { clearMocks } from "@tauri-apps/api/mocks";
+import { readData as readLocations } from "./GeoLocations.js";
 
-function getLocalTime() {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const day = String(now.getDate()).padStart(2, "0");
-  const hour = String(now.getHours()).padStart(2, "0");
-  const minute = String(now.getMinutes()).padStart(2, "0");
-  return {
-    year: year,
-    month: month,
-    day: day,
-    hour: hour,
-    minute: minute,
-    date: `${year}-${month}-${day}`,
-    fullStr: `${year}-${month}-${day}T${hour}:${minute}`,
-  };
-}
 
-function difrentHour(timeString1, timeString2) {
+function difrentHour(timeString1:string, timeString2: string) {
   const date1 = new Date(timeString1 + "Z");
   const date2 = new Date(timeString2 + "Z");
   const differenceInMilliseconds = date1.getTime() - date2.getTime();
@@ -39,14 +21,14 @@ async function getApiKey() {
   return JSON.parse(apiKey)["key"];
 }
 
-export function toNameCase(str) {
+export function toNameCase(str: string) {
   // console.log(str)
   if (!str) return "";
   str = str.toLowerCase();
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export async function getAstro(cityname) {
+export async function getAstro(cityname: string) {
   const locations = await readLocations();
   let location = undefined;
 
@@ -72,11 +54,10 @@ export async function getAstro(cityname) {
   }
 }
 
-export async function saveData(cityName, data, target = "locationData") {
+export async function saveData(cityName:string, data: Record<string, any>, target = "locationData") {
   const lastFile = await readData();
   if (lastFile === false) {
-    const container = {};
-    container[cityName] = data;
+    const container = {cityName: data};
     await writeTextFile(
       `SkyGrid/Data/ipGeo/${target}.json`,
       JSON.stringify(container),
@@ -108,13 +89,13 @@ export async function readData(target = "locationData") {
   }
 }
 
-export async function updateData(cityName, intlTimeFormat) {
+export async function updateData(cityName:string, findlocalTime: any) {
   const DataList = await readData();
   if (cityName in DataList) {
     const lastData = DataList[cityName];
     const lastUpdateTime = `${lastData.astronomy.date}T${lastData.astronomy.current_time}`;
     if (lastUpdateTime) {
-      const timeDiff = difrentHour(intlTimeFormat().fullStr, lastUpdateTime);
+      const timeDiff = difrentHour(findlocalTime(cityName).fullStr, lastUpdateTime);
       // console.log(intlTimeFormat().fullStr, lastUpdateTime);
       // console.log(timeDiff);
       if (timeDiff >= 24) {

@@ -1,14 +1,14 @@
 import { fetchWeatherApi } from "openmeteo";
 import { fetch } from "@tauri-apps/plugin-http";
-import { readConfig } from "./gridconfig";
-import { readData as readLocations } from "./GeoLocations";
+import { readConfig } from "./gridconfig.js";
+import { readData as readLocations } from "./GeoLocations.js";
 import {
   readTextFile,
   writeTextFile,
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
 
-export function toNameCase(str) {
+export function toNameCase(str: string) {
   if (!str) return "";
   str = str.toLowerCase();
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -18,28 +18,31 @@ const lastConfig = await readConfig();
 const url = "https://api.open-meteo.com/v1/forecast";
 
 export async function getWeatherStat(
-  cityName,
-  addingCity = false,
-  addingData = undefined,
-  lat = undefined,
-  lon = undefined
+  cityName: string,
+  addingCity: boolean = false,
+  addingData: Record<string, any> | null = null,
+  lat: number | string | null = null,
+  lon: number | string | null = null
 ) {
   const locations = await readLocations();
-  let location = undefined;
+  let location: Record<string, any> | null = null;
 
   const capname = toNameCase(cityName);
   if (locations) {
-    location = capname in locations ? locations[capname] : false;
+    location = capname in locations ? locations[capname] : null;
   }
   if (location || addingCity) {
-    let locData = {};
-    if (addingCity) {
-      console.log(`adding weather data to new city "${cityName}"  `)
+    let locData: { latitude: number; longitude: number } = {
+      latitude: 0,
+      longitude: 0,
+    };
+    if (addingCity && addingData) {
+      console.log(`adding weather data to new city "${cityName}"  `);
       locData = {
         latitude: addingData["lat"] ?? addingData["latitude"],
         longitude: addingData["lon"] ?? addingData["longitude"],
       };
-    } else {
+    } else if (location) {
       locData = {
         latitude: lat ?? location["lat"] ?? location["latitude"],
         longitude: lon ?? location["lon"] ?? location["longitude"],
@@ -62,11 +65,14 @@ export async function getWeatherStat(
   }
 }
 
-export async function saveData(cityName, data, target = "current") {
+export async function saveData(
+  cityName: string,
+  data: Record<string, any>,
+  target = "current"
+) {
   const lastFile = await readData(target);
   if (lastFile === false) {
-    const container = {};
-    container[cityName] = data;
+    const container = { cityName: data };
     await writeTextFile(
       `SkyGrid/Data/openMeteo/${target}Weather.json`,
       JSON.stringify(container),

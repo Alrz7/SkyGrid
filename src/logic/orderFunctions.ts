@@ -1,6 +1,6 @@
-import { readData as readOpmData } from "./OpenMeteo";
-import { ftHourlyData } from "./formatData";
-import { readData as readLocations } from "./GeoLocations";
+import { readData as readOpmData } from "./OpenMeteo.js";
+import { ftHourlyData } from "./formatData.js";
+import { readData as readLocations } from "./GeoLocations.js";
 
 export async function setCurrentCity(updateOrder, updateCity, selectPattern, setPattern) {
     const locations = await readLocations();

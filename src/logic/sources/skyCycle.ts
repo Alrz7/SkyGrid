@@ -12,7 +12,7 @@
  * buttons: (string) A harmonious hex color for UI buttonss.
  * chart: (string) A harmonious hex color for chart lines.
  */
-export const skyCycle = {
+export const skyCycle:(Record<string, any>)= {
   // 1. MIDNIGHT (Cycle Start)
   // Transitions from: night_begin
   // Transitions to: night_end

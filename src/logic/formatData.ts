@@ -1,14 +1,14 @@
-import { findlocalTime } from "./skyPattern";
-export function ftHourlyData(data) {
+import { findlocalTime } from "./skyPattern.js";
+export function ftHourlyData(data: any) {
   if (data) {
     const now = getLocalTime().fullStr;
-    const timeIndex = [];
-    data.time.forEach((item, index) => {
+    const timeIndex: any = [];
+    data.time.forEach((item: any, index: number) => {
       if (item.slice(0, 10) == now) timeIndex.push(index);
     });
-    const newlist = [];
-    if (newlist != []) {
-      timeIndex.forEach((indx) => {
+    const newlist: any = [];
+    if (newlist.length > 0) {
+      timeIndex.forEach((indx: any) => {
         const newItem = {
           hour: data.time[indx].slice(11),
           temperature: data.temperature_2m[indx],
@@ -38,7 +38,7 @@ export function ftHourlyData(data) {
   }
 }
 
-export async function selectWatherItem(data, city) {
+export async function selectWatherItem(data: any, city: string) {
   // console.log(data, city)
   if (data && city) {
     const localTime = await findlocalTime(city);
