@@ -2,12 +2,12 @@ import { readData as readOpmData } from "./OpenMeteo.js";
 import { ftHourlyData } from "./formatData.js";
 import { readData as readLocations } from "./GeoLocations.js";
 
-export async function setCurrentCity(updateOrder, updateCity, selectPattern, setPattern) {
+export async function setCurrentCity(updateOrder: any, updateCity: any, selectPattern: any, setPattern: any) {
     const locations = await readLocations();
     if (locations) {
       // console.log(locations);
-      const newCityList = Object.keys(locations);
-      const newCity = newCityList[0];
+      const newCityList: any = Object.keys(locations);
+      const newCity: string = newCityList[0];
       updateCity({Name:newCity, reservedName:newCity});
       selectPattern(setPattern, newCity ? newCity : null)
       const cityA = newCityList.at(-1);
@@ -15,6 +15,7 @@ export async function setCurrentCity(updateOrder, updateCity, selectPattern, set
       // console.log(cityA + " " + cityA)
       const currentWeather = await readOpmData("current");
       const hourlyWeather = await readOpmData("hourly");
+      console.log(hourlyWeather[cityA])
       // console.log(currentWeather)
       updateOrder({
         cityA: [
@@ -53,11 +54,11 @@ export async function setCurrentCity(updateOrder, updateCity, selectPattern, set
     }
   }
 
-  export async function updateMainCity(updateOrder, updateCity, cityName, current, hourly) {
+  export async function updateMainCity(updateOrder: any, updateCity: any, cityName: string, current: any, hourly: any) {
     const locations = await readLocations();
     if (locations) {
       // console.log("updating => ", cityName, current, hourly);
-      const newCityList = Object.keys(locations);
+      const newCityList: any = Object.keys(locations);
       const cityA = newCityList.at(-2);
       const cityC = newCityList.at(0);
       updateCity({Name:cityName, reservedName:cityName});
@@ -92,7 +93,7 @@ export async function setCurrentCity(updateOrder, updateCity, selectPattern, set
     }
   }
 
-  export async function changeOrders(updateOrder, updateCity, loadOrder, selectPattern, setPattern, forward = true) {
+  export async function changeOrders(updateOrder:any, updateCity: any, loadOrder: any, selectPattern: any, setPattern: any, forward: boolean = true) {
     const locations = await readLocations();
     if (locations) {
       const cityList = Object.keys(locations);
@@ -158,7 +159,7 @@ export async function setCurrentCity(updateOrder, updateCity, selectPattern, set
     // console.log(cityIndex + "" + city);
   }
 
-  export function changeCity(cityList, cityIndex, forward) {
+  export function changeCity(cityList: any, cityIndex: number, forward: boolean) {
     if (forward) {
       if (cityIndex < cityList.length - 1) {
         const newindex = cityIndex + 1;
