@@ -1,3 +1,17 @@
+@font-face {
+  font-family: "Crf-bold";
+  src: url("./fonts/DeliusUnicase-Bold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  letter-spacing: 0;
+}
+@font-face {
+  font-family: "Crf-reg";
+  src: url("./fonts/DeliusUnicase-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 .button-container {
   display: flex;
   position: absolute;
@@ -14,11 +28,12 @@
 .forcast-button {
   flex: 1;
   border: none;
-  color: white;
-  font-family: 'Jua', sans-serif;
+  color: rgba(0, 0, 0, 0.767);
+  font-family: 'Crf-bold', sans-serif;
   font-size: 20px;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.2px;
   opacity: 0.8;
+  font-weight: 400;
   
   backdrop-filter: blur(10px);
   cursor: pointer;

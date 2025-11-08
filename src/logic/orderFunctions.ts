@@ -8,7 +8,7 @@ export async function setCurrentCity(updateOrder: any, updateCity: any, selectPa
       // console.log(locations);
       const newCityList: any = Object.keys(locations);
       const newCity: string = newCityList[0];
-      updateCity({Name:newCity, reservedName:newCity});
+      updateCity(newCity);
       selectPattern(setPattern, newCity ? newCity : null)
       const cityA = newCityList.at(-1);
       const cityC = newCityList.at(1);
@@ -61,7 +61,7 @@ export async function setCurrentCity(updateOrder: any, updateCity: any, selectPa
       const newCityList: any = Object.keys(locations);
       const cityA = newCityList.at(-2);
       const cityC = newCityList.at(0);
-      updateCity({Name:cityName, reservedName:cityName});
+      updateCity(cityName);
       const currentWeather = await readOpmData("current");
       const hourlyWeather = await readOpmData("hourly");
       updateOrder({
@@ -107,7 +107,7 @@ export async function setCurrentCity(updateOrder: any, updateCity: any, selectPa
       const hourlyWeather = await readOpmData("hourly");
       const cityC = loadOrder.cityC;
       const cityB = loadOrder.cityB;
-      updateCity({Name:newCity, reservedName:newCity});
+      updateCity(newCity);
       selectPattern(setPattern, newCity ? newCity : null)
       updateOrder({
         cityA:

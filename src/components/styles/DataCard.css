@@ -1,3 +1,23 @@
+@font-face {
+  font-family: "Crf-bold";
+  src: url("./fonts/DeliusUnicase-Bold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  letter-spacing: 0;
+}
+@font-face {
+  font-family: "Crf-reg";
+  src: url("./fonts/DeliusUnicase-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+*{
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .data-card {
   position: absolute;
   bottom: 2%;
@@ -19,9 +39,7 @@
   justify-content: center;
   z-index: 6;
   padding: 0;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: "Crf-reg";
 }
 
 .chart-container {
@@ -43,7 +61,8 @@
 
 .tooltip-label {
   color: rgba(255, 255, 255, 0.8);
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: 100;
   margin: 0 0 4px 0;
   font-weight: 500;
 }
@@ -52,7 +71,7 @@
   color: #ffffff;
   font-size: 14px;
   margin: 0;
-  font-weight: 600;
+  font-weight: 200;
 }
 
 @media (max-width: 768px) {

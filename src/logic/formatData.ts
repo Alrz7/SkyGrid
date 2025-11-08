@@ -1,6 +1,5 @@
 import { findlocalTime } from "./skyPattern.js";
 export function ftHourlyData(data: any) {
-  console.log(data);
   if (data) {
     const now = getLocalTime().fullStr;
     const timeIndex: any = [];

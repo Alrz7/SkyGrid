@@ -8,22 +8,28 @@ import { skyCycle } from "./sources/skyCycle.js";
 import { readData as readLocations } from "./GeoLocations.js";
 import { readConfig } from "./gridconfig.js";
 
-export async function findlocalTime(cityName: string): Promise<string> {
+export async function findlocalTime(cityName: string, timeFormat: string = "reg"): Promise<string | Record<string, any> > {
+  console.log(cityName)
   const locations = await readLocations();
   if (cityName in locations) {
     const location = locations[cityName];
     const timeZone = location["timezone"];
     console.log(timeZone);
     if (timeZone) {
-      const time = intlTimeFormat(timeZone).time;
+      const time = timeFormat == "reg" ? intlTimeFormat(timeZone).time : intlTimeFormat(timeZone).fullTime;
       console.log(`time of ${timeZone} is : ${time} right now`);
-      return time;
+      if (timeFormat == "reg"){
+        return time;
+      }else{
+        return {time: time, zone: timeZone}
+      }
+      
     } else {
-      console.log("no timezone has been found for this city");
+      console.log("no timezone has been found for this city1111");
       return '';
     }
   }
-  console.log("no timezone has been found for this city");
+  console.log(`city ${cityName} doesn't exist in location list`);
   return '';
 }
 
@@ -51,6 +57,7 @@ export function intlTimeFormat(ianaTimezoneName: string) {
   return {
     date: `${year}-${month}-${day}`,
     time: `${hour}:${minute}`,
+    fullTime: `${hour}:${minute}:${second}`,
     fullStr: `${year}-${month}-${day}T${hour}:${minute}:${second}`,
   };
 }
@@ -164,7 +171,7 @@ export async function selectPattern(setPattern: any, cityName: any) {
     cityName = toNameCase(cityName);
     const astData = await updateAstro(cityName, findlocalTime);
     if (astData) {
-      const time: string = await findlocalTime(cityName);
+      const time: any = await findlocalTime(cityName);
       const solarData = SolarCondition(time, astData.astronomy);
       if (time) {
         const selectedTitle = selectTitle(astData, time);

@@ -7,25 +7,19 @@ import {
   changeOrders,
 } from "./logic/orderFunctions";
 import CloseSvg from "./assets/close.svg?react";
-import MoreArrow from "./assets/arrow-right-up.svg?react";
 import MinimizeSvg from "./assets/minimize.svg?react";
 import MaximizeSvg from "./assets/maximize.svg?react";
-// import { readData as readLocations } from "./logic/GeoLocations";
 import { selectWatherItem } from "./logic/formatData";
-import { selectPattern } from './logic/skyPattern';
-// import {getWeather } from "./logic/openWeather";
-// import { getAstro } from "./logic/astronomy";
-// import { getGeoData } from "./logic/ipGeoLocation";
-// import { readData as readOpmData } from "./logic/OpenMeteo";
-// import { ftHourlyData } from "./logic/formatData";
+import { selectPattern } from "./logic/skyPattern";
 import CurvedLine from "./components/CurvedLine";
 import Soluna from "./components/Soluna";
 import SwitchButtons from "./components/SwitchCity";
 import DataCard from "./components/DataCard";
+import GetUpdate from "./components/Update";
 import GetOptions from "./components/Options";
 import AddCity from "./components/AddCity";
 import Hud from "./components/Hud";
-// import { dataDir } from "@tauri-apps/api/path";
+import Clock from "./components/Clock";
 
 export default function App() {
   const [loadOrder, updateOrder] = useState({
@@ -33,29 +27,30 @@ export default function App() {
     cityB: [],
     cityC: [],
   });
-  const [city, updateCity] = useState({ Name: "", reservedName: "" });
+  const [city, updateCity] = useState("");
   const [Pattern, setPattern] = useState({
     background: "",
     hud: "",
     buttons: "",
     chart: "",
-    solarData:{}
+    solarData: {},
   });
-  const [hudData, setHudData] = useState({})
+  const [hudData, setHudData] = useState({});
   useEffect(() => {
     setCurrentCity(updateOrder, updateCity, selectPattern, setPattern);
   }, []);
-  
+
   useEffect(() => {
-  async function loadTemp() {
-    const temp = await selectWatherItem(
-      loadOrder.cityB.length > 0 ? loadOrder.cityB[2] : false, city.Name != '' ? city.Name : false
-    );
-    setHudData(temp);
-    // console.log(temp)
-  }
-  loadTemp();
-}, [loadOrder]);
+    async function loadTemp() {
+      const temp = await selectWatherItem(
+        loadOrder.cityB.length > 0 ? loadOrder.cityB[2] : false,
+        city != "" ? city : false
+      );
+      setHudData(temp);
+      // console.log(temp)
+    }
+    loadTemp();
+  }, [loadOrder]);
 
   return (
     <div
@@ -95,12 +90,18 @@ export default function App() {
       </button>
       <div className="floating-ball">
         <CurvedLine />
-        <Soluna 
-        solarData={Pattern.solarData} />
+        <Soluna solarData={Pattern.solarData} />
       </div>
       <SwitchButtons
         onSwitchClick={(forward) => {
-          changeOrders(updateOrder, updateCity, loadOrder, selectPattern, setPattern, forward);
+          changeOrders(
+            updateOrder,
+            updateCity,
+            loadOrder,
+            selectPattern,
+            setPattern,
+            forward
+          );
         }}
       />
       <DataCard
@@ -108,12 +109,15 @@ export default function App() {
         color={Pattern}
       />
 
-      <GetOptions />
+      <GetOptions color={Pattern} />
       <AddCity
         updateMainCity={updateMainCity}
         set={{ updateOrder, updateCity }}
+        color={Pattern}
       />
       {/* <ReloadData /> */}
+      <Clock color={Pattern} city={city} />
+      <GetUpdate color={Pattern} />
       <Hud
         hudData={hudData}
         city={city}

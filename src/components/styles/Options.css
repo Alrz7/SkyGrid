@@ -9,7 +9,7 @@
   background: rgba(255, 255, 255, 0);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   
   display: flex;
@@ -25,7 +25,6 @@
 }
 
 .options-button svg {
-  fill: white;
   width: 35px;
   height: 35px;
 }

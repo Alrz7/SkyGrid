@@ -1,4 +1,18 @@
 @font-face {
+  font-family: "Crf-bold";
+  src: url("../fonts/DeliusUnicase-Bold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Crf-reg";
+  src: url("../fonts/DeliusUnicase-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
   font-family: "Jua";
   src: url("./fonts/Jua-Regular.ttf") format("truetype");
   font-weight: normal;
@@ -11,58 +25,107 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.reload-button {
+.city {
   position: absolute;
-  top: 14px;
-  left: 120px;
+  top: 21px;
+  left: 154px;
   width: 170px;
   height: auto;
-  font-family: "Jua", sans-serif;
-  font-size: 2rem;
-  font-weight: 500;
-  border-radius:12px;
-  color: rgb(237, 254, 255);
-  background: rgba(155, 149, 149, 0);
+  font-family: "Crf-bold", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  opacity: 100%;
+  z-index: 60;
+  gap: 0 rem;
+}
+
+.hud-container {
+  position: absolute;
+  top: 47%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 0.8rem;
+  align-items: stretch;
+  justify-content: center;
+  width: 80%;
+  height: 30%;
+  max-width: 900px;
+  z-index: 10;
+}
+
+.hud-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 18px;
+  padding: 0.3rem;
+  background: rgba(255, 255, 255, 0.033);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
-  z-index: 60;
+  border: 1px solid rgba(184, 184, 184, 0);
+  box-shadow: 0 4px 6px rgba(112, 112, 112, 0.091);
 }
 
-.central-elements-container {
-  width: 500px;
-  display: flex;
-  align-items: center;
-  gap: 0;
-  position: absolute;
-  top: 55%;
-  left: 42%;
-  transform: translate(-50%, -50%);
-  z-index: 6;
-}
-
-.main-temp {
-  font-family: "Jua", sans-serif;
-  font-size: 12rem;
-  font-weight: 600;
+.hud-temp-value {
+  font-family: "Crf-bold", sans-serif;
+  font-size: 7rem;
+  font-weight: 650;
   line-height: 1;
-  color: rgb(238, 238, 238);
+  opacity: 95%;
+}
+
+.hud-temp-feelslike {
+  font-family: "Crf-bold", sans-serif;
+  font-size: 1.5rem;
+  margin-top: 0.4rem;
+  font-weight: 550;
+}
+
+.hud-weather-status {
+  font-family: "Crf-reg", sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+}
+.info-card {
+  flex: 1.2;
+  color: #ffffff;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.hud-info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  font-family: "Crf-bold", sans-serif;
+  font-size: 1.1rem;
+  margin: 2px 0;
+}
+
+.hud-info-item svg {
+  width: 35px;
+  height: 35px;
+  border-radius: 25%;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  flex-shrink: 0;
+  opacity: 70%;
+}
+
+.hud-label {
+  font-weight: 400;
+  margin-right: 0.9rem;
   opacity: 90%;
 }
 
-/*rgb(11, 130, 141)*/
-
-.reload-button:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.reload-button svg {
-  fill: white;
-  width: 25px;
-  height: 25px;
+.hud-value {
+  font-weight: 400;
+  opacity: 90%;
 }

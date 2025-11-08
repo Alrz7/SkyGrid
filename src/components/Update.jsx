@@ -1,17 +1,16 @@
 import React from "react";
-import Options from "../assets/options.svg?react";
-import "./styles/Options.css"
+import Update from "../assets/update.svg?react";
+import "./styles/Update.css";
 
-export default function GetOptions({color}) {
+export default function GetUpdate({color}) {
   return (
     <div>
-      
-      <button className="options-button">
-        <Options />
+      <button className="update-button">
+        <Update />
       </button>
       {/* <style>
         {`
-      .options-button {
+      .update-button {
         border: 2px solid ${color.chart};
         background: ${color.chart};
       }

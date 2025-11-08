@@ -1,10 +1,11 @@
-.addCity-button {
+.update-button {
   position: absolute;
   top: 15px;
-  left: 60px;
-  width: 35px;
+  left: 105px;
+  width: 38px;
   height: 35px;
-  border-radius: 50%;
+  border-radius: 25%;
+  
   background: rgba(255, 255, 255, 0);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -19,11 +20,11 @@
   z-index: 60;
 }
 
-.addCity-button:hover {
+.update-button:hover {
   background: rgba(255, 255, 255, 0.2);
 }
 
-.addCity-button svg {
-  width: 48px;
-  height: 48px;
+.update-button svg {
+  width: 35px;
+  height: 35px;
 }
