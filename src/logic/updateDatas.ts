@@ -1,6 +1,6 @@
 import { readData, getWeatherStat, toNameCase } from "./OpenMeteo.js";
-import { updateData } from "./ipGeoLocation.js";
-import { findlocalTime } from './skyPattern.js';
+import { updateData as updateAstro } from "./ipGeoLocation.js";
+import { findlocalTime } from "./skyPattern.js";
 function getLocalTime() {
   const now = new Date();
   const year = now.getFullYear();
@@ -28,7 +28,7 @@ function difrentHour(timeString1: string, timeString2: string) {
 /**
  *  this should  manage the time of updating the current datas
  */
-export async function checkCurrent(cityName: string, data: {time:string}) {
+export async function checkCurrent(cityName: string, data: { time: string }) {
   const now = getLocalTime().fullStr;
   const locations = await readData("current");
   if (toNameCase(cityName) in locations) {
@@ -38,21 +38,31 @@ export async function checkCurrent(cityName: string, data: {time:string}) {
   }
 }
 
-export async function checkHourly(cityName: string) {
+export async function checkUpdate(cityName: string, engage: boolean) {
   const now = getLocalTime().fullStr;
   const locations = await readData("hourly");
   const capname = toNameCase(cityName);
-  if (toNameCase(capname) in locations) {
-    updateData(capname, findlocalTime);
-    const lastDate = locations[capname]["time"];
+  if (capname in locations) {
+    const lastDate = locations[capname].time;
     const time_difference = difrentHour(now, lastDate.at(-1));
-    if (time_difference >= 0) {
-      const newWeatherData = await getWeatherStat(capname);
-      return newWeatherData;
+    if (engage) {
+      // console.log("engaging in weather update");
+      updateAstro(capname, findlocalTime, true);
+      if (time_difference >= 0) {
+        const newWeatherData = await getWeatherStat(capname);
+        return { ok: true, val: newWeatherData };
+      } else {
+        return { ok: false, val: null };
+      }
     } else {
+      // console.log("no engage in weather update");
+      const astroUpdResponse = await updateAstro(capname, findlocalTime, false);
+      console.log(
+        `need to update?  => ${time_difference >= 0 || astroUpdResponse.val}`
+      );
+      return time_difference >= 0 || astroUpdResponse.val;
     }
   } else {
-    const newWeatherData = await getWeatherStat(capname);
-    return newWeatherData;
+    return { ok: false, val: null };
   }
 }

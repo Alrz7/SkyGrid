@@ -5,7 +5,7 @@ import {
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
 
-function toNameCase(str:string) {
+function toNameCase(str: string) {
   if (!str) return "";
   str = str.toLowerCase();
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -14,7 +14,8 @@ function toNameCase(str:string) {
 async function getLocation(cityname: string, prtcl = "opn") {
   let dt;
   if (prtcl == "met") {
-    dt = await fetch(   // << IMP >>  to filter Countrys in this search we can build a static country code search like  Iran => "IR" and filter use it as ...&countryCode=${countryCode}
+    dt = await fetch(
+      // << IMP >>  to filter Countrys in this search we can build a static country code search like  Iran => "IR" and filter use it as ...&countryCode=${countryCode}
       `https://geocoding-api.open-meteo.com/v1/search?name=${cityname}&count=1&language=en`,
       { method: "GET" }
     );
@@ -25,19 +26,19 @@ async function getLocation(cityname: string, prtcl = "opn") {
       { method: "GET" }
     );
   }
-//   console.log(dt);
+  //   console.log(dt);
   if (dt.ok) {
     const data = await dt.json();
     // return data;
     if ("results" in data) {
       return data;
     } else {
-        console.log(`no results found: ${JSON.stringify(data)}`)
-      return false;
+      console.log(`no results found: ${JSON.stringify(data)}`);
+      return null;
     }
   } else {
-    console.log(`there was an error in request ${dt.status}`)
-    return false;
+    console.log(`there was an error in request ${dt.status}`);
+    return null;
   }
 }
 
@@ -54,10 +55,10 @@ export async function addLocation(cityName: string) {
       console.log(geoByMeteo);
       console.log("got the location!!! going for save!");
       saveData(capname, geoByMeteo["results"][0]);
-      return [capname, geoByMeteo["results"][0]] //   <<IMP>>  the ["results"][0] represents the first result of the respond and this means the respond can have more than 1 item due to Api , open meteo's location coding Api supports up to 100 results in free licence...
+      return [capname, geoByMeteo["results"][0]]; //   <<IMP>>  the ["results"][0] represents the first result of the respond and this means the respond can have more than 1 item due to Api , open meteo's location coding Api supports up to 100 results in free licence...
     } else {
-      return false
-        // nothing yet
+      return null;
+      // nothing yet
     }
   }
 }
@@ -68,10 +69,14 @@ async function getApiKey() {
   return JSON.parse(apiKey)["key"];
 }
 
-export async function saveData(cityName: string, data: Record<string, any>, target = "locations") {
+export async function saveData(
+  cityName: string,
+  data: Record<string, any>,
+  target = "locations"
+) {
   const lastFile = await readData(target);
   if (lastFile === false) {
-    const container = {cityName: data};
+    const container = { cityName: data };
     await writeTextFile(
       `SkyGrid/Data/GeoLocations/${target}.json`,
       JSON.stringify(container),
@@ -99,6 +104,6 @@ export async function readData(target = "locations") {
     const data = JSON.parse(file);
     return data;
   } else {
-    return false;
+    return null;
   }
 }

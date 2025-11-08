@@ -9,15 +9,13 @@ export default function Clock({ color, city }) {
     let mounted = true;
 
     async function runClock() {
-      while (mounted) {
-        console.log(city);
+      while (mounted && city) {
         const localtime = await findlocalTime(city, "fullTime");
-        console.log(localtime);
+        if(localtime){
         const secondsLeft = 60 - Number(localtime.time.slice(6));
-        console.log(secondsLeft);
-        console.log({ time: localtime.time.slice(0, 5), zone: localtime.zone });
         setTime({ time: localtime.time.slice(0, 5), zone: localtime.zone });
         await new Promise((r) => setTimeout(r, secondsLeft * 1000));
+        }
       }
     }
 

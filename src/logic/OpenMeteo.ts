@@ -61,7 +61,7 @@ export async function getWeatherStat(
         lat ? ` ,latitude of ${lat}` : ""
       } ${lon ? ` ,longitude of ${lon}` : ""} has been found`
     );
-    return false;
+    return null;
   }
 }
 
@@ -103,7 +103,7 @@ export async function readData(target = "current") {
     const data = JSON.parse(file);
     return data;
   } else {
-    return false;
+    return null;
   }
 }
 

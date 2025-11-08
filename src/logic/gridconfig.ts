@@ -8,7 +8,7 @@ export async function saveConfig(data: any, target = "GridConfig") {
   console.log(data);
   const lastFile = await readConfig(target);
   if (lastFile === false) {
-    const container = {"Config": data};
+    const container = { Config: data };
     await writeTextFile(`SkyGrid/${target}.json`, JSON.stringify(container), {
       baseDir: BaseDirectory.Document,
     });
@@ -28,7 +28,7 @@ export async function readConfig(target = "GridConfig") {
     const data = JSON.parse(file);
     return data;
   } else {
-    return false;
+    return null;
   }
 }
 
@@ -84,4 +84,3 @@ export let meteoParamsBackUp = {
     "wind_gusts_10m",
   ],
 };
-

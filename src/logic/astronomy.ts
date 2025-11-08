@@ -7,12 +7,11 @@ import {
 
 import { readData as readLocations } from "./GeoLocations.js";
 
-export function toNameCase(str:string) {
+export function toNameCase(str: string) {
   if (!str) return "";
   str = str.toLowerCase();
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
-
 
 export async function getAstro(cityname: string) {
   const locations = await readLocations();
@@ -36,10 +35,14 @@ export async function getAstro(cityname: string) {
   }
 }
 
-export async function saveData(cityName: string, data: Record<string, any>, target = "astronomyData") {
+export async function saveData(
+  cityName: string,
+  data: Record<string, any>,
+  target = "astronomyData"
+) {
   const lastFile = await readData();
   if (lastFile === false) {
-    const container = {cityName: data};
+    const container = { cityName: data };
     await writeTextFile(
       `SkyGrid/Data/sunrise&set/${target}.json`,
       JSON.stringify(container),
@@ -67,6 +70,6 @@ export async function readData(target = "astronomyData") {
     const data = JSON.parse(file);
     return data;
   } else {
-    return false;
+    return null;
   }
 }

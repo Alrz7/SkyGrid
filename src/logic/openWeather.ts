@@ -41,10 +41,14 @@ async function getApiKey() {
   return JSON.parse(apiKey)["key"];
 }
 
-export async function saveData(cityName:string, data: Record<string, any>, target = "weather") {
+export async function saveData(
+  cityName: string,
+  data: Record<string, any>,
+  target = "weather"
+) {
   const lastFile = await readData(target);
   if (lastFile === false) {
-    const container = {cityName: data};
+    const container = { cityName: data };
     await writeTextFile(
       `SkyGrid/Data/openWeather/${target}.json`,
       JSON.stringify(container),
@@ -72,6 +76,6 @@ export async function readData(target = "weather") {
     const data = JSON.parse(file);
     return data;
   } else {
-    return false;
+    return null;
   }
 }

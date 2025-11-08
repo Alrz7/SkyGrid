@@ -117,12 +117,15 @@ export default function App() {
       />
       {/* <ReloadData /> */}
       <Clock color={Pattern} city={city} />
-      <GetUpdate color={Pattern} />
-      <Hud
-        hudData={hudData}
+      <GetUpdate
+        color={Pattern}
         city={city}
         updateMainCity={updateMainCity}
         set={{ updateOrder, updateCity }}
+      />
+      <Hud
+        hudData={hudData}
+        city={city}
         color={Pattern}
       />
     </div>

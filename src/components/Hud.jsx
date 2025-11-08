@@ -1,20 +1,15 @@
 import React, { useState } from "react";
 import "./styles/Hud.css";
-import { checkHourly } from "../logic/updateDatas";
 import Humidity from "../assets/humidity.svg?react";
 import Pressure from "../assets/pressure.svg?react";
 import Visibility from "../assets/visibility.svg?react";
 import Wind from "../assets/wind.svg?react";
 
 export default function Hud({
-  hudTime,
   hudData,
-  updateMainCity,
   city,
-  set,
   color,
 }) {
-  console.log(hudData);
   // console.log(city)
   // console.log(hudTime)
   return (

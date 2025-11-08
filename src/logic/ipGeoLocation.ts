@@ -6,8 +6,7 @@ import {
 } from "@tauri-apps/plugin-fs";
 import { readData as readLocations } from "./GeoLocations.js";
 
-
-function difrentHour(timeString1:string, timeString2: string) {
+function difrentHour(timeString1: string, timeString2: string) {
   const date1 = new Date(timeString1 + "Z");
   const date2 = new Date(timeString2 + "Z");
   const differenceInMilliseconds = date1.getTime() - date2.getTime();
@@ -54,10 +53,14 @@ export async function getAstro(cityname: string) {
   }
 }
 
-export async function saveData(cityName:string, data: Record<string, any>, target = "locationData") {
+export async function saveData(
+  cityName: string,
+  data: Record<string, any>,
+  target = "locationData"
+) {
   const lastFile = await readData();
   if (lastFile === false) {
-    const container = {cityName: data};
+    const container = { cityName: data };
     await writeTextFile(
       `SkyGrid/Data/ipGeo/${target}.json`,
       JSON.stringify(container),
@@ -85,36 +88,38 @@ export async function readData(target = "locationData") {
     const data = JSON.parse(file);
     return data;
   } else {
-    return false;
+    return null;
   }
 }
 
-export async function updateData(cityName:string, findlocalTime: any) {
+export async function updateData(
+  cityName: string,
+  findlocalTime: any,
+  engage: boolean
+) {
   const DataList = await readData();
   if (cityName in DataList) {
     const lastData = DataList[cityName];
     const lastUpdateTime = `${lastData.astronomy.date}T${lastData.astronomy.current_time}`;
-    if (lastUpdateTime) {
-      const timeDiff = difrentHour(findlocalTime(cityName).fullStr, lastUpdateTime);
-      // console.log(intlTimeFormat().fullStr, lastUpdateTime);
-      // console.log(timeDiff);
+    const timeDiff = difrentHour(
+      findlocalTime(cityName).fullStr,
+      lastUpdateTime
+    );
+    if (engage) {
+      // console.log("engaging in astro update")
       if (timeDiff >= 24) {
-        console.log("updating astronomic data : IPGEO");
         const newData = await getAstro(cityName);
-        return newData;
+        return { ok: true, val: newData };
       } else {
-        console.log("no update in astro data is needed");
-        return lastData;
+        // console.log("no update in astro data is needed: IPGEO");
+        return { ok: true, val: lastData };
       }
     } else {
-      console.log("updating astronomic data : IPGEO");
-
-      const newData = await getAstro(cityName);
-      return newData;
+      // console.log("no engage in astro update")
+      return { ok: true, val: timeDiff >= 24 };
     }
   } else {
     console.log("city didn't exist in astData files, geting data... : IPGEO");
-    const newData = await getAstro(cityName);
-    return newData;
+    return { ok: false, val: null };
   }
 }

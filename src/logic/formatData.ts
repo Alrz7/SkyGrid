@@ -31,10 +31,10 @@ export function ftHourlyData(data: any) {
     if (newlist.length > 0) {
       return newlist;
     } else {
-      return false;
+      return null;
     }
   } else {
-    return false;
+    return null;
   }
 }
 
@@ -43,13 +43,15 @@ export async function selectWatherItem(data: any, city: string) {
   if (data && city) {
     const localTime = await findlocalTime(city);
     // console.log(localTime, `${localTime.slice(0,2)}:00`)
-    for (let item of data) {
-      if (item.hour == `${localTime.slice(0, 2)}:00`) {
-        return item;
+    if (localTime) {
+      for (let item of data) {
+        if (item.hour == `${localTime?.slice(0, 2)}:00`) {
+          return item;
+        }
       }
-    }
-    return false;
-  } else return false;
+      return null;
+    } else return null;
+  }
 }
 
 function getLocalTime() {
