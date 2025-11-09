@@ -6,26 +6,26 @@ import "./styles/Update.css";
 import { checkUpdate } from "../logic/updateDatas";
 
 export default function GetUpdate({ updateMainCity, city, set, color }) {
-  const [logo, setLogo] = useState("Default");
+  const [logo, setLogo] = useState("Update");
   return (
     <div>
       <button
         className="update-button"
-        onMouseEnter={() => {
-          if (city) {
-            const result = checkUpdate(city, false).then((res) => {
-              if (res) {
-                setLogo("Update");
-              } else {
-                setLogo("UpToDate");
-              }
-            });
-          }
-        }}
-        onMouseLeave={() => {
-          console.log("leaaavveeeee")
-            setLogo("Default");
-        }}
+        // onMouseEnter={() => {
+        //   setLogo("Update")
+        //   if (city) {
+        //     const result = checkUpdate(city, false).then((res) => {
+        //       if (res) {
+        //         setLogo("Update");
+        //       } else {
+        //         setLogo("UpToDate");
+        //       }
+        //     });
+        //   }
+        // }}
+        // onMouseLeave={() => {
+        //     setLogo("Default");
+        // }}
         onClick={() => {
           if (city) {
             const result = checkUpdate(city, true).then((res) => {

@@ -84,10 +84,14 @@
   font-weight: 550;
 }
 
-.hud-weather-status {
-  font-family: "Crf-reg", sans-serif;
-  font-size: 1rem;
-  letter-spacing: 0.5px;
+.hud-weather-status svg {
+  width: 35px;
+  height: 35px;
+  border-radius: 25%;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  flex-shrink: 0;
+  opacity: 100%;
 }
 .info-card {
   flex: 1.2;
@@ -116,7 +120,7 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   flex-shrink: 0;
-  opacity: 70%;
+  opacity: 100%;
 }
 
 .hud-label {

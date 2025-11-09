@@ -196,3 +196,45 @@ export async function selectPattern(setPattern: any, cityName: any) {
     }
   }
 }
+
+export function selectWeatherIcon(code: number) {
+  const dataArray = [
+    "c0-d",
+    "c0-n",
+    "c1-d",
+    "c1-n",
+    "c2-d",
+    "c2-n",
+    "c3",
+    "c4",
+    "c5",
+    "c5-d",
+    "c5-n",
+    "c6",
+    "c6-d",
+    "c6-n",
+    "c7",
+    "c7-d",
+    "c7-n",
+    "c8",
+    "c9",
+    "c10",
+    "c11",
+    "c12",
+    "c13",
+    "c14",
+  ];
+  const temps = [`c${code}`, `c${code}-n`, `c${code}-d`];
+  let result = null
+  console.log(temps)
+  for (let item of dataArray) {
+    temps.forEach((i) => {
+      if (i == item) {
+        result = item
+      }
+    });
+  }
+    console.log(`code: ${code} res : ${result}`)
+
+  return result;
+}
