@@ -4,7 +4,6 @@ import UpToDate from "../assets/isUpdate.svg?react";
 import Update from "../assets/update.svg?react";
 import "./styles/Update.css";
 import { checkUpdate } from "../logic/updateDatas";
-
 export default function GetUpdate({ updateMainCity, city, set, color }) {
   const [logo, setLogo] = useState("Update");
   return (

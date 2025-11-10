@@ -28,7 +28,7 @@
 .forcast-button {
   flex: 1;
   border: none;
-  color: rgba(0, 0, 0, 0.767);
+  color: rgb(255, 255, 255);
   font-family: 'Crf-bold', sans-serif;
   font-size: 20px;
   letter-spacing: 0.2px;

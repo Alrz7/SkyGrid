@@ -15,7 +15,7 @@ export default function Forcast(color) {
         className="forcast-button main"
         style={{
           background: `linear-gradient(135deg, ${
-            color ? color.color.buttons : "rgb(28, 102, 131)"
+            color ? color.color.buttons : "rgba(255, 255, 255, 1)"
           } 0%, #e9e9e9ff 90%)`,
         }}
       >
@@ -25,7 +25,7 @@ export default function Forcast(color) {
         className="forcast-button more"
         style={{
           background: `linear-gradient(135deg,  #e9e9e9ff 15%, ${
-            color ? color.color.buttons : "rgb(28, 102, 131)"
+            color ? color.color.buttons : "rgba(255, 255, 255, 1)"
           } 68%`,
         }}
         onClick={() => {
