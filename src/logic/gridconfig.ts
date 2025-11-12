@@ -89,3 +89,5 @@ export let meteoParamsBackUp = {
     "wind_gusts_10m",
   ],
 };
+
+// saveConfig({meteoParams: meteoParamsBackUp})

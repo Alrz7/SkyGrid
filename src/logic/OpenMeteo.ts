@@ -1,4 +1,3 @@
-import { fetchWeatherApi } from "openmeteo";
 import { fetch } from "@tauri-apps/plugin-http";
 import { readConfig } from "./gridconfig.js";
 import { readData as readLocations } from "./GeoLocations.js";
@@ -48,7 +47,7 @@ export async function getWeatherStat(
         longitude: lon ?? location["lon"] ?? location["longitude"],
       };
     }
-    const adrs = `${url}?latitude=${locData["latitude"]}&longitude=${locData["longitude"]}&daily=${lastConfig["Config"]["daily"]}&hourly=${lastConfig["Config"]["hourly"]}&current=${lastConfig["Config"]["current"]}&timezone=auto`;
+    const adrs = `${url}?latitude=${locData["latitude"]}&longitude=${locData["longitude"]}&daily=${lastConfig["meteoParams"]["daily"]}&hourly=${lastConfig["meteoParams"]["hourly"]}&current=${lastConfig["meteoParams"]["current"]}&timezone=auto`;
     const dt = await fetch(adrs, { method: "GET" });
     const data = await dt.json();
     for (let mode of ["daily", "hourly", "current"]) {
