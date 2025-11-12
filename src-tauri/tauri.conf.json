@@ -14,7 +14,7 @@
       {
         "decorations": true,
         "fullscreen": false,
-        "transparent": true,
+        "transparent": false,
         "resizable": true,
         "title": "skygrid",
         "width": 800,
