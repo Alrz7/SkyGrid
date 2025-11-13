@@ -15,12 +15,12 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.1s ease-in-out;
   z-index: 60;
 }
 
 .update-button:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.100);
 }
 
 .update-button svg {

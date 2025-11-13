@@ -6,12 +6,12 @@ import {
   writeTextFile,
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
+import { caption } from "framer-motion/client";
 
 export function toNameCase(str: string) {
-  if (!str) return "";
-  str = str.toLowerCase();
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+    str = str.toLowerCase();
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 
 const lastConfig = await readConfig();
 const url = "https://api.open-meteo.com/v1/forecast";
@@ -27,7 +27,7 @@ export async function getWeatherStat(
   let location: Record<string, any> | null = null;
 
   const capname = toNameCase(cityName);
-  if (locations) {
+  if (locations && capname) {
     location = capname in locations ? locations[capname] : null;
   }
   if (location || addingCity) {
@@ -47,6 +47,7 @@ export async function getWeatherStat(
         longitude: lon ?? location["lon"] ?? location["longitude"],
       };
     }
+    console.log("sending request to api...");
     const adrs = `${url}?latitude=${locData["latitude"]}&longitude=${locData["longitude"]}&daily=${lastConfig["meteoParams"]["daily"]}&hourly=${lastConfig["meteoParams"]["hourly"]}&current=${lastConfig["meteoParams"]["current"]}&timezone=auto`;
     const dt = await fetch(adrs, { method: "GET" });
     const data = await dt.json();
@@ -65,29 +66,31 @@ export async function getWeatherStat(
 }
 
 export async function saveData(
-  cityName: string,
+  cityName: string | null,
   data: Record<string, any>,
   target = "current"
 ) {
-  const lastFile = await readData(target);
-  if (lastFile === false) {
-    const container = { cityName: data };
-    await writeTextFile(
-      `SkyGrid/Data/openMeteo/${target}Weather.json`,
-      JSON.stringify(container),
-      {
-        baseDir: BaseDirectory.Document,
-      }
-    );
-  } else {
-    lastFile[cityName] = data;
-    await writeTextFile(
-      `SkyGrid/Data/openMeteo/${target}Weather.json`,
-      JSON.stringify(lastFile),
-      {
-        baseDir: BaseDirectory.Document,
-      }
-    );
+  if (cityName) {
+    const lastFile = await readData(target);
+    if (lastFile === false) {
+      const container = { cityName: data };
+      await writeTextFile(
+        `SkyGrid/Data/openMeteo/${target}Weather.json`,
+        JSON.stringify(container),
+        {
+          baseDir: BaseDirectory.Document,
+        }
+      );
+    } else {
+      lastFile[cityName] = data;
+      await writeTextFile(
+        `SkyGrid/Data/openMeteo/${target}Weather.json`,
+        JSON.stringify(lastFile),
+        {
+          baseDir: BaseDirectory.Document,
+        }
+      );
+    }
   }
 }
 

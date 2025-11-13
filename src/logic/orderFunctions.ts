@@ -2,18 +2,18 @@ import { readData as readOpmData } from "./OpenMeteo.js";
 import { ftHourlyData } from "./formatData.js";
 import { readData as readLocations } from "./GeoLocations.js";
 import { saveConfig, readConfig } from "./gridconfig.js";
+import { selectPattern } from "./skyPattern.js";
+
 
 export async function setCurrentCity(
   updateOrder: any,
   updateCity: any,
-  selectPattern: any,
   setPattern: any
 ) {
   const locations = await readLocations();
   if (locations) {
     const newCityList: any = Object.keys(locations);
     const configData = await readConfig();
-
     let newCity: string = newCityList.at(0);
     let cityA: string = newCityList.at(-1);
     let cityC: string = newCityList.at(1);
@@ -29,7 +29,7 @@ export async function setCurrentCity(
       saveConfig({ city: newCity, cityList: [cityA, newCity, cityC] });
     }
     updateCity(newCity);
-    selectPattern(setPattern, newCity ? newCity : null);
+    selectPattern(setPattern, newCity);
     const currentWeather = await readOpmData("current");
     const hourlyWeather = await readOpmData("hourly");
     console.log(hourlyWeather[cityA]);
@@ -74,6 +74,7 @@ export async function setCurrentCity(
 export async function updateMainCity(
   updateOrder: any,
   updateCity: any,
+  setPattern: any,
   cityName: string,
   current: any,
   hourly: any
@@ -85,6 +86,7 @@ export async function updateMainCity(
     const cityA = newCityList.at(-2);
     const cityC = newCityList.at(0);
     updateCity(cityName);
+    selectPattern(setPattern, cityName);
     const currentWeather = await readOpmData("current");
     const hourlyWeather = await readOpmData("hourly");
     updateOrder({
@@ -120,7 +122,6 @@ export async function changeOrders(
   updateOrder: any,
   updateCity: any,
   loadOrder: any,
-  selectPattern: any,
   setPattern: any,
   forward: boolean = true
 ) {

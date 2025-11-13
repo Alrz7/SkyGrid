@@ -13,7 +13,7 @@ export async function findlocalTime(
   timeFormat: string = "reg"
 ): Promise<string | Record<string, any> | null> {
   const locations = await readLocations();
-  if (cityName in locations) {
+  if (cityName && cityName in locations) {
     const location = locations[cityName];
     const timeZone = location["timezone"];
     if (timeZone) {
@@ -165,19 +165,18 @@ function SolarCondition(time: string, data: Record<string, any>) {
   return rs;
 }
 
-export async function selectPattern(setPattern: any, cityName: any) {
-  if (cityName) {
-    cityName = toNameCase(cityName);
-    const astData = await updateAstro(cityName, findlocalTime, true);
+export async function selectPattern(setPattern: any, cityName: string) {
+  const capname = toNameCase(cityName);
+  if (capname) {
+    const astData = await updateAstro(capname, findlocalTime, true);
     if (astData.ok) {
-      const time: any = await findlocalTime(cityName);
+      const time: any = await findlocalTime(capname);
       const solarData = SolarCondition(time, astData.val.astronomy);
       if (time) {
         const selectedTitle = selectTitle(astData.val, time);
         for (let pallet in skyCycle) {
           if (selectedTitle.title == pallet) {
             const backgroundColor = skyCycle[pallet][0].gradient;
-            // console.log(pallet)
             const hudColor = skyCycle[pallet][0].tempColor;
             // console.log({ ...astData.val.astronomy, ...solarData });
             setPattern({
@@ -193,7 +192,7 @@ export async function selectPattern(setPattern: any, cityName: any) {
       }
       // console.log(`${selectedTitle.title} is not existing in source-List`);
     } else {
-      console.log(`city ${cityName} not found in astDataList `);
+      console.log(`city ${capname} not found in astDataList `);
     }
   }
 }

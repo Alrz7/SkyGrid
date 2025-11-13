@@ -6,19 +6,18 @@ import {
 } from "@tauri-apps/plugin-fs";
 
 import { readData as readLocations } from "./GeoLocations.js";
+import { build } from "vite";
 
 export function toNameCase(str: string) {
-  if (!str) return "";
   str = str.toLowerCase();
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
-
 export async function getAstro(cityname: string) {
   const locations = await readLocations();
   let location = undefined;
 
   const capname = toNameCase(cityname);
-  if (locations) {
+  if (locations && capname) {
     location = capname in locations ? locations[capname] : false;
   }
   if (location) {
@@ -36,29 +35,31 @@ export async function getAstro(cityname: string) {
 }
 
 export async function saveData(
-  cityName: string,
+  cityName: string | null,
   data: Record<string, any>,
   target = "astronomyData"
 ) {
-  const lastFile = await readData();
-  if (lastFile === false) {
-    const container = { cityName: data };
-    await writeTextFile(
-      `SkyGrid/Data/sunrise&set/${target}.json`,
-      JSON.stringify(container),
-      {
-        baseDir: BaseDirectory.Document,
-      }
-    );
-  } else {
-    lastFile[cityName] = data;
-    await writeTextFile(
-      `SkyGrid/Data/sunrise&set/${target}.json`,
-      JSON.stringify(lastFile),
-      {
-        baseDir: BaseDirectory.Document,
-      }
-    );
+  if (cityName) {
+    const lastFile = await readData();
+    if (lastFile === false) {
+      const container = { cityName: data };
+      await writeTextFile(
+        `SkyGrid/Data/sunrise&set/${target}.json`,
+        JSON.stringify(container),
+        {
+          baseDir: BaseDirectory.Document,
+        }
+      );
+    } else {
+      lastFile[cityName] = data;
+      await writeTextFile(
+        `SkyGrid/Data/sunrise&set/${target}.json`,
+        JSON.stringify(lastFile),
+        {
+          baseDir: BaseDirectory.Document,
+        }
+      );
+    }
   }
 }
 

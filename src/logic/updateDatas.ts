@@ -31,7 +31,8 @@ function difrentHour(timeString1: string, timeString2: string) {
 export async function checkCurrent(cityName: string, data: { time: string }) {
   const now = getLocalTime().fullStr;
   const locations = await readData("current");
-  if (toNameCase(cityName) in locations) {
+  const capname = toNameCase(cityName)
+  if (capname && capname in locations) {
     const time_difference = difrentHour(now, data.time);
     if (time_difference >= 2) {
     }
@@ -42,7 +43,7 @@ export async function checkUpdate(cityName: string, engage: boolean) {
   const now = getLocalTime().fullStr;
   const locations = await readData("hourly");
   const capname = toNameCase(cityName);
-  if (capname in locations) {
+  if (capname && capname in locations) {
     const lastDate = locations[capname].time;
     const time_difference = difrentHour(now, lastDate.at(-1));
     if (engage) {
@@ -52,6 +53,7 @@ export async function checkUpdate(cityName: string, engage: boolean) {
         const newWeatherData = await getWeatherStat(capname);
         return { ok: true, val: newWeatherData };
       } else {
+        console.log("no need to Update the data...")
         return { ok: false, val: null };
       }
     } else {

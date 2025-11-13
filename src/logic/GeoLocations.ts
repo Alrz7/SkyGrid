@@ -5,8 +5,7 @@ import {
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
 
-function toNameCase(str: string) {
-  if (!str) return "";
+export function toNameCase(str: string) {
   str = str.toLowerCase();
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -46,7 +45,7 @@ export async function addLocation(cityName: string) {
   const lastFile = await readData();
   const capname = toNameCase(cityName);
 
-  if (capname in lastFile) {
+  if (capname&& lastFile && capname in lastFile) {
     console.log("city already exists in file");
   } else {
     const geoByMeteo = await getLocation(cityName, "met");
@@ -70,29 +69,31 @@ async function getApiKey() {
 }
 
 export async function saveData(
-  cityName: string,
+  cityName: string | null,
   data: Record<string, any>,
   target = "locations"
 ) {
-  const lastFile = await readData(target);
-  if (lastFile === false) {
-    const container = { cityName: data };
-    await writeTextFile(
-      `SkyGrid/Data/GeoLocations/${target}.json`,
-      JSON.stringify(container),
-      {
-        baseDir: BaseDirectory.Document,
-      }
-    );
-  } else {
-    lastFile[cityName] = data;
-    await writeTextFile(
-      `SkyGrid/Data/GeoLocations/${target}.json`,
-      JSON.stringify(lastFile),
-      {
-        baseDir: BaseDirectory.Document,
-      }
-    );
+  if (cityName) {
+    const lastFile = await readData(target);
+    if (lastFile === false) {
+      const container = { cityName: data };
+      await writeTextFile(
+        `SkyGrid/Data/GeoLocations/${target}.json`,
+        JSON.stringify(container),
+        {
+          baseDir: BaseDirectory.Document,
+        }
+      );
+    } else {
+      lastFile[cityName] = data;
+      await writeTextFile(
+        `SkyGrid/Data/GeoLocations/${target}.json`,
+        JSON.stringify(lastFile),
+        {
+          baseDir: BaseDirectory.Document,
+        }
+      );
+    }
   }
 }
 

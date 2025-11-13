@@ -10,7 +10,6 @@ import CloseSvg from "./assets/close.svg?react";
 import MinimizeSvg from "./assets/minimize.svg?react";
 import MaximizeSvg from "./assets/maximize.svg?react";
 import { selectWatherItem } from "./logic/formatData";
-import { selectPattern } from "./logic/skyPattern";
 import CurvedLine from "./components/CurvedLine";
 import Soluna from "./components/Soluna";
 import SwitchButtons from "./components/SwitchCity";
@@ -38,7 +37,7 @@ export default function App() {
   const [hudData, setHudData] = useState({});
   const [isSearching, Searching] = useState(false);
   useEffect(() => {
-    setCurrentCity(updateOrder, updateCity, selectPattern, setPattern);
+    setCurrentCity(updateOrder, updateCity, setPattern);
   }, []);
 
   useEffect(() => {
@@ -98,7 +97,6 @@ export default function App() {
             updateOrder,
             updateCity,
             loadOrder,
-            selectPattern,
             setPattern,
             forward
           );
@@ -112,7 +110,7 @@ export default function App() {
       <GetOptions color={Pattern} isSearching={isSearching} />
       <AddCity
         updateMainCity={updateMainCity}
-        set={{ updateOrder, updateCity }}
+        set={{ updateOrder, updateCity, setPattern }}
         color={Pattern}
         isSearching={isSearching}
         Searching={Searching}
@@ -123,7 +121,7 @@ export default function App() {
         color={Pattern}
         city={city}
         updateMainCity={updateMainCity}
-        set={{ updateOrder, updateCity }}
+        set={{ updateOrder, updateCity, setPattern }}
         isSearching={isSearching}
 
       />

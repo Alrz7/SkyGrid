@@ -5,9 +5,9 @@ import {
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
 import { readData as readLocations } from "./GeoLocations.js";
+import { caption } from "framer-motion/client";
 
-function toNameCase(str: string) {
-  if (!str) return "";
+export function toNameCase(str: string) {
   str = str.toLowerCase();
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -17,7 +17,7 @@ export async function getWeather(cityName: string) {
   let location = undefined;
 
   const capname = toNameCase(cityName);
-  if (locations) {
+  if (locations && capname) {
     location = capname in locations ? locations[capname] : false;
   }
   if (location) {
@@ -42,29 +42,31 @@ async function getApiKey() {
 }
 
 export async function saveData(
-  cityName: string,
+  cityName: string | null,
   data: Record<string, any>,
   target = "weather"
 ) {
-  const lastFile = await readData(target);
-  if (lastFile === false) {
-    const container = { cityName: data };
-    await writeTextFile(
-      `SkyGrid/Data/openWeather/${target}.json`,
-      JSON.stringify(container),
-      {
-        baseDir: BaseDirectory.Document,
-      }
-    );
-  } else {
-    lastFile[cityName] = data;
-    await writeTextFile(
-      `SkyGrid/Data/openWeather/${target}.json`,
-      JSON.stringify(lastFile),
-      {
-        baseDir: BaseDirectory.Document,
-      }
-    );
+  if (cityName) {
+    const lastFile = await readData(target);
+    if (lastFile === false) {
+      const container = { cityName: data };
+      await writeTextFile(
+        `SkyGrid/Data/openWeather/${target}.json`,
+        JSON.stringify(container),
+        {
+          baseDir: BaseDirectory.Document,
+        }
+      );
+    } else {
+      lastFile[cityName] = data;
+      await writeTextFile(
+        `SkyGrid/Data/openWeather/${target}.json`,
+        JSON.stringify(lastFile),
+        {
+          baseDir: BaseDirectory.Document,
+        }
+      );
+    }
   }
 }
 

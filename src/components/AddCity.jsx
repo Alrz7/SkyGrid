@@ -6,34 +6,39 @@ import "./styles/AddCity.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { addLocation } from "../logic/GeoLocations";
 import { readData, getWeatherStat, toNameCase } from "../logic/OpenMeteo";
-import { getAstro } from "../logic/astronomy"; // not gonna use it now
 
 export default function AddCity({
   updateMainCity,
   set,
   color,
   isSearching,
-  Searching,
+  Searching
 }) {
-  async function addLoc() {
-    const newLocation = await addLocation("rasht");
-    if (newLocation) {
-      const newWeatherData = await getWeatherStat(
-        newLocation[0],
-        true,
-        newLocation[1]
-      );
-      if (newWeatherData) {
-        updateMainCity(
-          set.updateOrder,
-          set.updateCity,
+  const [input, setInput] = useState("");
+  async function processNewLocation(cityName) {
+    if (cityName != "") {
+      const newLocation = await addLocation(cityName);
+      if (newLocation) {
+        
+        const newWeatherData = await getWeatherStat(
           newLocation[0],
-          newWeatherData[0],
-          newWeatherData[1]
+          true,
+          newLocation[1]
         );
+        if (newWeatherData) {
+          updateMainCity(
+            set.updateOrder,
+            set.updateCity,
+            set.setPattern,
+            newLocation[0],
+            newWeatherData[0],
+            newWeatherData[1],
+          );
+        }
       }
+    }else{
+      console.log("'nothing' can not get searched!!!")
     }
-    console.log(`${newLocation[0]} has been added`);
   }
   return (
     <div className="search-container">
@@ -50,7 +55,13 @@ export default function AddCity({
         {
           <motion.button
             className="icon-btn"
-            onClick={(isSearching) => Searching(true)}
+            onClick={() => {
+              if (isSearching === false) {
+                Searching(true);
+              } else {
+                processNewLocation(input);
+              }
+            }}
             layout
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
@@ -69,6 +80,7 @@ export default function AddCity({
               animate={{ opacity: 1, width: "100%" }}
               exit={{ opacity: 0, width: 0 }}
               transition={{ duration: 0.3 }}
+              onChange={(e) => setInput(e.target.value)}
             />
           )}
         </AnimatePresence>
