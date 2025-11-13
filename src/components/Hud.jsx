@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import "./styles/Hud.css";
 import Humidity from "../assets/humidity.svg?react";
 import Pressure from "../assets/pressure.svg?react";
@@ -6,7 +7,7 @@ import Visibility from "../assets/visibility.svg?react";
 import Wind from "../assets/wind.svg?react";
 import { selectWeatherIcon } from "../logic/skyPattern";
 
-export default function Hud({ hudData, city, color }) {
+export default function Hud({ hudData, city, color, isSearching }) {
   const [Icon, setIcon] = useState(null);
 
   useEffect(() => {
@@ -27,19 +28,27 @@ export default function Hud({ hudData, city, color }) {
 
   return (
     <div>
-      <h2
-        className="city"
-        style={{ color: `${color ? color.hud : "rgb(237, 254, 255);"}` }}
+      <motion.div
+        className="city-container"
+        animate={{
+          left: isSearching ? "210px" : "0px",
+        }}
+        transition={{ duration: 0.2, ease: "easeInOut" }}
       >
-        {city}
-      </h2>
+        <h2
+          className="city"
+          style={{ color: `${color ? color.hud : "rgb(237, 254, 255);"}` }}
+        >
+          {city}
+        </h2>
+      </motion.div>
       <div className="hud-container">
         <div
           className="hud-card main-temp-card"
           style={{ color: color.buttons }}
         >
           <div className="hud-temp-value">
-            {hudData?.temperature ? `${hudData.temperature}°` : "--"}
+            {hudData?.temperature ? `${hudData.temperature}°` : ""}
           </div>
           <div
             className="hud-temp-feelslike"
@@ -48,7 +57,7 @@ export default function Hud({ hudData, city, color }) {
             {hudData?.apparent_temperature
               ? `Feels like ${hudData.apparent_temperature}°`
               : ""}
-              <span className="hud-weather-status">{Icon ? <Icon /> : null}</span>
+            <span className="hud-weather-status">{Icon ? <Icon /> : null}</span>
           </div>
         </div>
 
@@ -59,7 +68,7 @@ export default function Hud({ hudData, city, color }) {
               Humidity:
             </span>
             <span className="hud-value" style={{ color: color.buttons }}>
-              {hudData?.humidity ?? "--"}%
+              {hudData?.humidity ?? ""}%
             </span>
           </div>
           <div className="hud-info-item">
@@ -68,8 +77,7 @@ export default function Hud({ hudData, city, color }) {
               Wind:
             </span>
             <span className="hud-value" style={{ color: color.buttons }}>
-              {hudData?.wind_speed ?? "--"} m/s (
-              {hudData?.wind_direction ?? "--"}
+              {hudData?.wind_speed ?? ""} m/s ({hudData?.wind_direction ?? ""}
               °)
             </span>
           </div>
@@ -79,7 +87,7 @@ export default function Hud({ hudData, city, color }) {
               Visibility:
             </span>
             <span className="hud-value" style={{ color: color.buttons }}>
-              {hudData?.visibility ?? "--"} m
+              {hudData?.visibility ?? ""} m
             </span>
           </div>
           <div className="hud-info-item">
@@ -88,7 +96,7 @@ export default function Hud({ hudData, city, color }) {
               Pressure:
             </span>
             <span className="hud-value" style={{ color: color.buttons }}>
-              {hudData?.pressure_msl ?? "--"} hPa
+              {hudData?.pressure_msl ?? ""} hPa
             </span>
           </div>
         </div>

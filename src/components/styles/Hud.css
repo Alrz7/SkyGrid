@@ -25,6 +25,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.city-container {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
 .city {
   position: absolute;
   top: 21px;
@@ -33,7 +39,7 @@
   height: auto;
   font-family: "Crf-bold", sans-serif;
   font-size: 1.2rem;
-  font-weight: 600;
+  font-weight: 400;
   opacity: 100%;
   z-index: 60;
   gap: 0 rem;

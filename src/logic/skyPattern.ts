@@ -177,6 +177,7 @@ export async function selectPattern(setPattern: any, cityName: any) {
         for (let pallet in skyCycle) {
           if (selectedTitle.title == pallet) {
             const backgroundColor = skyCycle[pallet][0].gradient;
+            // console.log(pallet)
             const hudColor = skyCycle[pallet][0].tempColor;
             // console.log({ ...astData.val.astronomy, ...solarData });
             setPattern({

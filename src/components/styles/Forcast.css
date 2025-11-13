@@ -18,8 +18,8 @@
   bottom: 5px;
   left: 50%;
   transform: translateX(-50%);
-  width: 80%;
-  height: 41px;
+  width: 70%;
+  height: 40px;
   border-radius: 12px;
   overflow: hidden;
   z-index: 10;
@@ -29,12 +29,12 @@
   flex: 1;
   border: none;
   color: rgb(255, 255, 255);
-  font-family: 'Crf-bold', sans-serif;
-  font-size: 20px;
+  font-family: "Crf-bold", sans-serif;
+  font-size: 0.9rem;
   letter-spacing: 0.2px;
-  opacity: 0.8;
-  font-weight: 400;
-  
+  opacity: 1;
+  font-weight: 300;
+
   backdrop-filter: blur(10px);
   cursor: pointer;
   transition: all 0.4s ease-in-out;
@@ -42,11 +42,19 @@
 
 .main {
   flex: 7;
-  background: linear-gradient(135deg, rgb(28, 102, 131) 0%, #73d3db 90%);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.1) 90%
+  );
 }
 .more {
   flex: 3;
-  background: linear-gradient(135deg, #73d3db 24%, rgb(28, 102, 131) 90%);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.1) 24%,
+    rgba(0, 0, 0, 0.1) 90%
+  );
 }
 
 .main:hover {

@@ -119,7 +119,13 @@ export async function updateData(
       return { ok: true, val: timeDiff >= 24 };
     }
   } else {
-    console.log("city didn't exist in astData files, geting data... : IPGEO");
-    return { ok: false, val: null };
+    if (engage) {
+      console.log("city didn't exist in astronomic files")
+      const newData = await getAstro(cityName);
+      return { ok: true, val: newData };
+    } else {
+      console.log("city didn't exist in astData files, geting data... : IPGEO");
+      return { ok: false, val: null };
+    }
   }
 }

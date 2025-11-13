@@ -36,6 +36,7 @@ export default function App() {
     solarData: {},
   });
   const [hudData, setHudData] = useState({});
+  const [isSearching, Searching] = useState(false);
   useEffect(() => {
     setCurrentCity(updateOrder, updateCity, selectPattern, setPattern);
   }, []);
@@ -51,7 +52,6 @@ export default function App() {
     }
     loadTemp();
   }, [loadOrder]);
-
   return (
     <div
       className="app-background"
@@ -109,11 +109,13 @@ export default function App() {
         color={Pattern}
       />
 
-      <GetOptions color={Pattern} />
+      <GetOptions color={Pattern} isSearching={isSearching} />
       <AddCity
         updateMainCity={updateMainCity}
         set={{ updateOrder, updateCity }}
         color={Pattern}
+        isSearching={isSearching}
+        Searching={Searching}
       />
       {/* <ReloadData /> */}
       <Clock color={Pattern} city={city} />
@@ -122,11 +124,14 @@ export default function App() {
         city={city}
         updateMainCity={updateMainCity}
         set={{ updateOrder, updateCity }}
+        isSearching={isSearching}
+
       />
       <Hud
         hudData={hudData}
         city={city}
         color={Pattern}
+        isSearching={isSearching}
       />
     </div>
   );

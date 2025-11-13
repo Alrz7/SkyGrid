@@ -1,6 +1,6 @@
 .curved-line {
   position: absolute;
-  top: 15%; 
+  top: 15%;
   left: 0;
   right: 0;
 
@@ -9,7 +9,6 @@
   opacity: 65%;
   z-index: 15;
   transition: transform 1.5s ease-in-out;
-
 }
 
 /* .curved-line:hover {

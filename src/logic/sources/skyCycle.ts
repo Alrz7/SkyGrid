@@ -12,7 +12,7 @@
  * buttons: (string) A harmonious hex color for UI buttonss.
  * chart: (string) A harmonious hex color for chart lines.
  */
-export const skyCycle:(Record<string, any>)= {
+export const skyCycle: Record<string, any> = {
   // 1. MIDNIGHT (Cycle Start)
   // Transitions from: night_begin
   // Transitions to: night_end
@@ -533,6 +533,13 @@ export const skyCycle:(Record<string, any>)= {
   // 9. SOLAR NOON (Peak Day)
   // Transitions to: golden_hour_end
   solar_noon: [
+    {
+      gradient:
+        "linear-gradient(190deg,#0096d7 10%,#5bcae8 48%,#7dd1e8 52%,#f2f2ff 100%)",// this one is the prime gradient made by me - Not AI
+      tempColor: "#004466",
+      buttons: "#5ba1ff",
+      chart: "#0056b3",
+    },
     {
       gradient:
         "linear-gradient(180deg, #73d3db, #91e0ed, #aef0f5, #d4faff, #f0feff, #ffffff)",
