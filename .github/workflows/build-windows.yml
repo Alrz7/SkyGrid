@@ -6,7 +6,7 @@ on:
 
 jobs:
   build-windows:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Checkout repo
@@ -22,16 +22,6 @@ jobs:
         with:
           targets: x86_64-pc-windows-msvc
 
-      - name: Install dependencies
-        run: |
-          sudo apt update
-          sudo apt install -y \
-            build-essential \
-            pkg-config \
-            llvm \
-            lld \
-            clang
-
       - name: Install Tauri CLI
         run: cargo install tauri-cli
 
@@ -41,11 +31,11 @@ jobs:
       - name: Build frontend
         run: npm run build
 
-      - name: Build Tauri Windows EXE
-        run: cargo tauri build --target x86_64-pc-windows-msvc
+      - name: Build Tauri EXE
+        run: cargo tauri build
 
-      - name: Upload EXE
+      - name: Upload Windows EXE
         uses: actions/upload-artifact@v4
         with:
           name: windows-exe
-          path: src-tauri/target/x86_64-pc-windows-msvc/release/*.exe
+          path: src-tauri/target/release/*.exe
