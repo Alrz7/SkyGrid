@@ -1,46 +1,44 @@
-name: Build Windows EXE
+name: Build Tauri App
 
 on:
-  workflow_dispatch:
+  push:
+    branches: ["main"]
+  pull_request:
 
 jobs:
-  build-windows-exe:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+      # --- دانلود webdl ---
+      - name: Download webdl
+        run: |
+          mkdir -p src-tauri/webdl
+          wget -O src-tauri/webdl/data.zip "https://your-url.com/webdl.zip"
+          unzip src-tauri/webdl/data.zip -d src-tauri/webdl
+          rm src-tauri/webdl/data.zip
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Install system dependencies
-        run: |
-          sudo apt update
-          sudo apt install -y mingw-w64 wine
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-      - name: Install frontend dependencies
+      - name: Install frontend deps
         run: npm install
+        working-directory: frontend
 
       - name: Build frontend
         run: npm run build
+        working-directory: frontend
 
-      - name: Install Tauri CLI
-        run: cargo install tauri-cli
-
-      - name: Add Windows target
-        run: rustup target add x86_64-pc-windows-gnu
-
-      - name: Build Tauri EXE
-        run: cargo tauri build --target x86_64-pc-windows-gnu
-
-      - name: Upload Windows EXE
-        uses: actions/upload-artifact@v4
-        with:
-          name: skygrid-windows-exe
-          path: src-tauri/target/x86_64-pc-windows-gnu/release/*.exe
+      - name: Build Tauri App
+        run: |
+          npm install
+          npm run tauri build
+        working-directory: src-tauri
