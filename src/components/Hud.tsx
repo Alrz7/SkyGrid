@@ -5,10 +5,23 @@ import Humidity from "../assets/humidity.svg?react";
 import Pressure from "../assets/pressure.svg?react";
 import Visibility from "../assets/visibility.svg?react";
 import Wind from "../assets/wind.svg?react";
-import { selectWeatherIcon } from "../logic/skyPattern";
+import { selectWeatherIcon } from "../logic/skyPattern.js";
 
-export default function Hud({ hudData, city, color, isSearching }) {
-  const [Icon, setIcon] = useState(null);
+interface HudPops {
+  hudData: Record<string, any>;
+  city: string;
+  color: {
+    background: string;
+    hud: string;
+    buttons: string;
+    chart: string;
+    solarData: {};
+  };
+  isSearching: boolean;
+}
+
+export default function Hud({ hudData, city, color, isSearching }: HudPops) {
+  const [Icon, setIcon] = useState<React.FC | null>(null);
 
   useEffect(() => {
     getIcon();
@@ -50,10 +63,7 @@ export default function Hud({ hudData, city, color, isSearching }) {
           <div className="hud-temp-value">
             {hudData?.temperature ? `${hudData.temperature}°` : ""}
           </div>
-          <div
-            className="hud-temp-feelslike"
-            style={{ color: color.temperature }}
-          >
+          <div className="hud-temp-feelslike" style={{ color: color.buttons }}>
             {hudData?.apparent_temperature
               ? `Feels like ${hudData.apparent_temperature}°`
               : ""}

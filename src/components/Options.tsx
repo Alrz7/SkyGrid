@@ -2,7 +2,15 @@ import React from "react";
 import Options from "../assets/options.svg?react";
 import "./styles/Options.css"
 
-export default function GetOptions({color}) {
+export default function GetOptions(
+//   {color}: {
+//     background: string;
+//     hud: string;
+//     buttons: string;
+//     chart: string;
+//     solarData: {};
+// }
+) {
   return (
     <div>
       

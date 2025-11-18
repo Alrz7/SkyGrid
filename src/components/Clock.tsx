@@ -1,8 +1,20 @@
 import { use, useEffect, useState } from "react";
 import "./styles/clock.css";
-import { findlocalTime } from "../logic/skyPattern";
+import { findlocalTime } from "../logic/skyPattern.js";
 
-export default function Clock({ color, city }) {
+export default function Clock({
+  color,
+  city,
+}: {
+  color: {
+    background: string;
+    hud: string;
+    buttons: string;
+    chart: string;
+    solarData: {};
+  };
+  city: string;
+}) {
   const [time, setTime] = useState({ time: "", zone: "" });
 
   useEffect(() => {
@@ -11,10 +23,13 @@ export default function Clock({ color, city }) {
     async function runClock() {
       while (mounted && city) {
         const localtime = await findlocalTime(city);
-        if(localtime){
-        const secondsLeft = 60 - Number(localtime.time.fullTime.slice(6));
-        setTime({ time: localtime.time.fullTime.slice(0, 5), zone: localtime.zone });
-        await new Promise((r) => setTimeout(r, secondsLeft * 1000));
+        if (localtime) {
+          const secondsLeft = 60 - Number(localtime.time.fullTime.slice(6));
+          setTime({
+            time: localtime.time.fullTime.slice(0, 5),
+            zone: localtime.zone,
+          });
+          await new Promise((r) => setTimeout(r, secondsLeft * 1000));
         }
       }
     }

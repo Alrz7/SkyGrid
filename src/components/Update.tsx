@@ -4,14 +4,32 @@ import UpToDate from "../assets/isUpdate.svg?react";
 import Update from "../assets/update.svg?react";
 import { motion, AnimatePresence } from "framer-motion";
 import "./styles/Update.css";
-import { checkUpdate } from "../logic/updateDatas";
+import { checkUpdate } from "../logic/updateDatas.js";
+import { updateMainCity } from "../logic/orderFunctions.js";
+
+interface GetUpdateProps {
+  city: string;
+  set: {
+    updateOrder: React.Dispatch<React.SetStateAction<any>>;
+    updateCity: React.Dispatch<React.SetStateAction<string>>;
+    setPattern: React.Dispatch<React.SetStateAction<any>>;
+  };
+  color: {
+    background: string;
+    hud: string;
+    buttons: string;
+    chart: string;
+    solarData: {};
+  };
+  isSearching: boolean;
+}
+
 export default function GetUpdate({
-  updateMainCity,
   city,
   set,
   color,
   isSearching,
-}) {
+}: GetUpdateProps) {
   const [logo, setLogo] = useState("Update");
   return (
     <div>

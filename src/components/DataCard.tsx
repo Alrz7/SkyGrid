@@ -1,5 +1,5 @@
 "use client";
-import Forcast from "./Forcast";
+import Forcast from "./Forcast.js";
 import { useState } from "react";
 import {
   AreaChart,
@@ -23,41 +23,78 @@ const hourlyData = [
   { hour: "21:00", temperature: 0, humidity: 0, windSpeed: 0 },
 ];
 
+interface DataCardProps {
+  weatherData:
+    | never[]
+    | null
+    | undefined
+    | {
+        hour: string;
+        temperature: number;
+        humidity: number;
+        windSpeed: number;
+      }[];
+  activeParameters: [string];
+  color: {
+    background: string;
+    hud: string;
+    buttons: string;
+    chart: string;
+    solarData: {};
+  };
+}
+
 const DataCard = ({
   weatherData = hourlyData,
   activeParameters = ["temperature"],
   color,
-}) => {
+}: DataCardProps) => {
   if (!weatherData) weatherData = hourlyData;
   const [activeData, setActiveData] = useState(null);
 
-  const getParameterConfig = (param) => {
-    const configs = {
-      temperature: {
-        unit: "°C",
-        colors: { start: color.chart, end: "#909090ff" },
-        opacity: 0.8,
-      },
-      cloud_cover: {
-        unit: "%",
-        colors: { start: "#0c73a3ff", end: "#3f5ec3ff" },
-        opacity: 0.6,
-      },
-      wind_speed: {
-        unit: "km/h",
-        colors: { start: "#10b981", end: "#047857" },
-        opacity: 0.4,
-      },
-    };
+  const configs = {
+    temperature: {
+      unit: "°C",
+      colors: { start: color.chart, end: "#909090ff" },
+      opacity: 0.8,
+    },
+    cloud_cover: {
+      unit: "%",
+      colors: { start: "#0c73a3ff", end: "#3f5ec3ff" },
+      opacity: 0.6,
+    },
+    wind_speed: {
+      unit: "km/h",
+      colors: { start: "#10b981", end: "#047857" },
+      opacity: 0.4,
+    },
+  } as const;
+  type ConfigKey = keyof typeof configs;
+
+  const getParameterConfig = (param: ConfigKey) => {
     return configs[param] || configs.temperature;
   };
 
-  const CustomTooltip = ({ active, payload, label }) => {
+  type CustomTooltipProps = {
+    active?: boolean;
+    payload?: any[];
+    label?: any;
+  };
+
+  const CustomTooltip = ({
+    active,
+    payload,
+    label,
+  }: {
+    active?: boolean;
+    payload?: any[];
+    label?: any;
+  }) => {
     if (active && payload && payload.length) {
       return (
         <div className="custom-tooltip">
           <p className="tooltip-label">{label}</p>
-          {payload.map((entry, index) => {
+          {payload.map((entry: any, index: any) => {
             const config = getParameterConfig(entry.dataKey);
             return (
               <p key={index} className="tooltip-value">
@@ -68,7 +105,6 @@ const DataCard = ({
         </div>
       );
     }
-    return null;
   };
 
   return (
@@ -80,7 +116,7 @@ const DataCard = ({
             margin={{ top: 0, right: 4, left: -36, bottom: 37 }}
           >
             <defs>
-              {activeParameters.map((param) => {
+              {activeParameters.map((param: any) => {
                 const config = getParameterConfig(param);
                 return (
                   <linearGradient
@@ -122,7 +158,7 @@ const DataCard = ({
               tick={{ fill: color.chart, fontSize: 12 }}
             />
             <Tooltip content={<CustomTooltip />} />
-            {activeParameters.map((param) => {
+            {activeParameters.map((param: any) => {
               const config = getParameterConfig(param);
               return (
                 <Area
@@ -139,7 +175,9 @@ const DataCard = ({
           </AreaChart>
         </ResponsiveContainer>
       </div>
-      <Forcast color={color} />
+      <Forcast
+      // color={color}
+      />
     </div>
   );
 };

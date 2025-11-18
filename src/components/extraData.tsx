@@ -1,8 +1,8 @@
 import { useState } from "react";
 // import "./styles/Hud.css";
 
-function DonatChart(props) {
-  const [hoveredLayer, setHoveredLayer] = useState(null);
+function DonatChart(props: any) {
+  const [hoveredLayer, setHoveredLayer] = useState<number | null>(null);
 
   const weatherData = [
     { name: "Humidity", value: 65, color: "#0B828D", maxValue: 100 },
@@ -17,7 +17,7 @@ function DonatChart(props) {
   const strokeWidth = 15;
   const gap = 3;
 
-  const createCirclePath = (radius, percentage) => {
+  const createCirclePath = (radius: number, percentage: number) => {
     const circumference = 2 * Math.PI * radius;
     const strokeDasharray = circumference;
     const strokeDashoffset = circumference - (circumference * percentage) / 100;
@@ -94,7 +94,7 @@ function DonatChart(props) {
           textAnchor="middle"
           className="center-value"
         >
-          {hoveredLayer !== null ? weatherData[hoveredLayer].value : "65"}
+          {hoveredLayer !== null ? weatherData[hoveredLayer]?.value : "65"}
         </text>
         <text
           x={centerX}
@@ -102,7 +102,7 @@ function DonatChart(props) {
           textAnchor="middle"
           className="center-label"
         >
-          {hoveredLayer !== null ? weatherData[hoveredLayer].name : "Humidity"}
+          {hoveredLayer !== null ? weatherData[hoveredLayer]?.name : "Humidity"}
         </text>
       </svg>
 
@@ -110,15 +110,15 @@ function DonatChart(props) {
         <div className="chart-tooltip">
           <div className="tooltip-content">
             <span className="tooltip-name">
-              {weatherData[hoveredLayer].name}
+              {weatherData[hoveredLayer]?.name}
             </span>
             <span className="tooltip-value">
-              {weatherData[hoveredLayer].value}
-              {weatherData[hoveredLayer].name === "Humidity"
+              {weatherData[hoveredLayer]?.value}
+              {weatherData[hoveredLayer]?.name === "Humidity"
                 ? "%"
-                : weatherData[hoveredLayer].name === "Wind Speed"
+                : weatherData[hoveredLayer]?.name === "Wind Speed"
                 ? " km/h"
-                : weatherData[hoveredLayer].name === "Pressure"
+                : weatherData[hoveredLayer]?.name === "Pressure"
                 ? " hPa"
                 : ""}
             </span>

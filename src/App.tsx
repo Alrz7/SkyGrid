@@ -5,20 +5,20 @@ import {
   setCurrentCity,
   updateMainCity,
   changeOrders,
-} from "./logic/orderFunctions";
+} from "./logic/orderFunctions.js";
 import CloseSvg from "./assets/close.svg?react";
 import MinimizeSvg from "./assets/minimize.svg?react";
 import MaximizeSvg from "./assets/maximize.svg?react";
-import { selectWatherItem } from "./logic/formatData";
-import CurvedLine from "./components/CurvedLine";
-import Soluna from "./components/Soluna";
-import SwitchButtons from "./components/SwitchCity";
-import DataCard from "./components/DataCard";
-import GetUpdate from "./components/Update";
-import GetOptions from "./components/Options";
-import AddCity from "./components/AddCity";
-import Hud from "./components/Hud";
-import Clock from "./components/Clock";
+import { selectWatherItem } from "./logic/formatData.js";
+import CurvedLine from "./components/CurvedLine.js";
+import Soluna from "./components/Soluna.js";
+import SwitchButtons from "./components/SwitchCity.js";
+import DataCard from "./components/DataCard.js";
+import GetUpdate from "./components/Update.js";
+import GetOptions from "./components/Options.js";
+import AddCity from "./components/AddCity.js";
+import Hud from "./components/Hud.js";
+import Clock from "./components/Clock.js";
 
 export default function App() {
   const [loadOrder, updateOrder] = useState({
@@ -44,12 +44,14 @@ export default function App() {
     async function loadTemp() {
       const temp = await selectWatherItem(
         loadOrder.cityB.length > 0 ? loadOrder.cityB[2] : false,
-        city != "" ? city : false
+        city
       );
       setHudData(temp);
       // console.log(temp)
     }
-    loadTemp();
+    if (city != "") {
+      loadTemp();
+    }
   }, [loadOrder]);
   return (
     <div
@@ -92,24 +94,20 @@ export default function App() {
         <Soluna solarData={Pattern.solarData} />
       </div>
       <SwitchButtons
-        onSwitchClick={(forward) => {
-          changeOrders(
-            updateOrder,
-            updateCity,
-            loadOrder,
-            setPattern,
-            forward
-          );
+        onSwitchClick={(forward: boolean) => {
+          changeOrders(updateOrder, updateCity, loadOrder, setPattern, forward);
         }}
       />
       <DataCard
+      activeParameters={["temperature"]}
         weatherData={loadOrder.cityB.length > 0 ? loadOrder.cityB[2] : null}
         color={Pattern}
       />
 
-      <GetOptions color={Pattern} isSearching={isSearching} />
+      <GetOptions
+      //  color={Pattern}
+      />
       <AddCity
-        updateMainCity={updateMainCity}
         set={{ updateOrder, updateCity, setPattern }}
         color={Pattern}
         isSearching={isSearching}
@@ -120,10 +118,8 @@ export default function App() {
       <GetUpdate
         color={Pattern}
         city={city}
-        updateMainCity={updateMainCity}
         set={{ updateOrder, updateCity, setPattern }}
         isSearching={isSearching}
-
       />
       <Hud
         hudData={hudData}

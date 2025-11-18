@@ -1,13 +1,21 @@
 import React from "react";
 import "./styles/Forcast.css";
-import { getWeatherStat } from "../logic/OpenMeteo";
-import { getAstro } from "../logic/ipGeoLocation";
+import { getWeatherStat } from "../logic/OpenMeteo.js";
+import { getAstro } from "../logic/ipGeoLocation.js";
 
 function sdcv() {
   getWeatherStat("berlinn");
 }
 
-export default function Forcast(color) {
+export default function Forcast(
+//   color: {
+//     background: string;
+//     hud: string;
+//     buttons: string;
+//     chart: string;
+//     solarData: {};
+// }
+) {
   // console.log(color.color.buttons)
   return (
     <div className="button-container">
