@@ -5,20 +5,14 @@ import {
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
 import { readData as readLocations } from "./GeoLocations.js";
-import { caption } from "framer-motion/client";
 
-export function toNameCase(str: string) {
-  str = str.toLowerCase();
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
 
 export async function getWeather(cityName: string) {
   const locations = await readLocations();
   let location = undefined;
 
-  const capname = toNameCase(cityName);
-  if (locations && capname) {
-    location = capname in locations ? locations[capname] : false;
+  if (locations && cityName) {
+    location = cityName in locations ? locations[cityName] : false;
   }
   if (location) {
     const apiKey = await getApiKey();
@@ -27,7 +21,7 @@ export async function getWeather(cityName: string) {
       { method: "GET" }
     );
     const data = await dt.json();
-    saveData(capname, data);
+    saveData(cityName, data);
     return data;
   } else {
     console.log("there was not any location with that name in datas");

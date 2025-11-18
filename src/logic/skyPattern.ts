@@ -1,31 +1,18 @@
-import { dataDir, tempDir, templateDir } from "@tauri-apps/api/path";
-import {
-  updateData as updateAstro,
-  readData as readAstro,
-  toNameCase,
-} from "./ipGeoLocation.js";
+import { updateData as updateAstro } from "./ipGeoLocation.js";
+
 import { skyCycle } from "./sources/skyCycle.js";
 import { readData as readLocations } from "./GeoLocations.js";
-import { readConfig } from "./gridconfig.js";
 
 export async function findlocalTime(
-  cityName: string,
-  timeFormat: string = "reg"
-): Promise<string | Record<string, any> | null> {
+  cityName: string
+){
   const locations = await readLocations();
   if (cityName && cityName in locations) {
     const location = locations[cityName];
     const timeZone = location["timezone"];
     if (timeZone) {
-      const time =
-        timeFormat == "reg"
-          ? intlTimeFormat(timeZone).time
-          : intlTimeFormat(timeZone).fullTime;
-      if (timeFormat == "reg") {
-        return time;
-      } else {
-        return { time: time, zone: timeZone };
-      }
+      const time = intlTimeFormat(timeZone);
+      return { time: time, zone: timeZone };
     } else {
       return null;
     }
@@ -81,7 +68,7 @@ function sortHours(lst: Array<any>): any {
   ];
 }
 
-function difrentHour(t1: string, t2: string) {
+export function difrentHour(t1: string, t2: string) {
   const [h1 = 0, m1 = 0] = t1.split(":").map(Number);
   const [h2 = 0, m2 = 0] = t2.split(":").map(Number);
   let diff = h1 * 60 + m1 - (h2 * 60 + m2);
@@ -166,14 +153,15 @@ function SolarCondition(time: string, data: Record<string, any>) {
 }
 
 export async function selectPattern(setPattern: any, cityName: string) {
-  const capname = toNameCase(cityName);
-  if (capname) {
-    const astData = await updateAstro(capname, findlocalTime, true);
+  console.log(cityName);
+  if (cityName) {
+    const astData = await updateAstro(cityName, findlocalTime, true);
+    console.log(astData);
     if (astData.ok) {
-      const time: any = await findlocalTime(capname);
-      const solarData = SolarCondition(time, astData.val.astronomy);
+      const time: any = await findlocalTime(cityName);
+      const solarData = SolarCondition(time.time.fullTime, astData.val.astronomy);
       if (time) {
-        const selectedTitle = selectTitle(astData.val, time);
+        const selectedTitle = selectTitle(astData.val, time.time.fullTime);
         for (let pallet in skyCycle) {
           if (selectedTitle.title == pallet) {
             const backgroundColor = skyCycle[pallet][0].gradient;
@@ -192,7 +180,7 @@ export async function selectPattern(setPattern: any, cityName: string) {
       }
       // console.log(`${selectedTitle.title} is not existing in source-List`);
     } else {
-      console.log(`city ${capname} not found in astDataList `);
+      console.log(`city ${cityName} not found in astDataList `);
     }
   }
 }
@@ -225,16 +213,16 @@ export function selectWeatherIcon(code: number) {
     "c14",
   ];
   const temps = [`c${code}`, `c${code}-n`, `c${code}-d`];
-  let result = null
-  console.log(temps)
+  let result = null;
+  console.log(temps);
   for (let item of dataArray) {
     temps.forEach((i) => {
       if (i == item) {
-        result = item
+        result = item;
       }
     });
   }
-    console.log(`code: ${code} res : ${result}`)
+  console.log(`code: ${code} res : ${result}`);
 
   return result;
 }

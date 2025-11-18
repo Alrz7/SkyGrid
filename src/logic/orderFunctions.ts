@@ -86,6 +86,7 @@ export async function updateMainCity(
     const cityA = newCityList.at(-2);
     const cityC = newCityList.at(0);
     updateCity(cityName);
+    console.log(cityName)
     selectPattern(setPattern, cityName);
     const currentWeather = await readOpmData("current");
     const hourlyWeather = await readOpmData("hourly");
@@ -140,7 +141,7 @@ export async function changeOrders(
     const cityC = loadOrder.cityC;
     const cityB = loadOrder.cityB;
     updateCity(newCity);
-    selectPattern(setPattern, newCity ? newCity : null);
+    selectPattern(setPattern, newCity);
     updateOrder({
       cityA:
         newCityA == cityB[0]
@@ -164,6 +165,8 @@ export async function changeOrders(
         ftHourlyData(hourlyWeather[newCityC]) ?? false,
       ],
     });
+    console.log(newCity)
+    console.log(ftHourlyData(hourlyWeather[newCity]))
     console.log({
       cityA:
         newCityA == cityB[0]

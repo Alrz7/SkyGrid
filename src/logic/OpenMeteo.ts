@@ -6,12 +6,6 @@ import {
   writeTextFile,
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
-import { caption } from "framer-motion/client";
-
-export function toNameCase(str: string) {
-    str = str.toLowerCase();
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
 
 const lastConfig = await readConfig();
 const url = "https://api.open-meteo.com/v1/forecast";
@@ -26,9 +20,8 @@ export async function getWeatherStat(
   const locations = await readLocations();
   let location: Record<string, any> | null = null;
 
-  const capname = toNameCase(cityName);
-  if (locations && capname) {
-    location = capname in locations ? locations[capname] : null;
+  if (locations && cityName) {
+    location = cityName in locations ? locations[cityName] : null;
   }
   if (location || addingCity) {
     let locData: { latitude: number; longitude: number } = {
@@ -52,7 +45,7 @@ export async function getWeatherStat(
     const dt = await fetch(adrs, { method: "GET" });
     const data = await dt.json();
     for (let mode of ["daily", "hourly", "current"]) {
-      saveData(capname, data[mode], mode);
+      saveData(cityName, data[mode], mode);
     }
     return [data.current, data.hourly];
   } else {

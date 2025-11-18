@@ -5,7 +5,7 @@ import CloseSearch from "../assets/closeSearch.svg?react";
 import "./styles/AddCity.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { addLocation } from "../logic/GeoLocations";
-import { readData, getWeatherStat, toNameCase } from "../logic/OpenMeteo";
+import { getWeatherStat } from "../logic/OpenMeteo";
 
 export default function AddCity({
   updateMainCity,

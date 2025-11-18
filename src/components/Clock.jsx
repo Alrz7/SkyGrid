@@ -10,10 +10,10 @@ export default function Clock({ color, city }) {
 
     async function runClock() {
       while (mounted && city) {
-        const localtime = await findlocalTime(city, "fullTime");
+        const localtime = await findlocalTime(city);
         if(localtime){
-        const secondsLeft = 60 - Number(localtime.time.slice(6));
-        setTime({ time: localtime.time.slice(0, 5), zone: localtime.zone });
+        const secondsLeft = 60 - Number(localtime.time.fullTime.slice(6));
+        setTime({ time: localtime.time.fullTime.slice(0, 5), zone: localtime.zone });
         await new Promise((r) => setTimeout(r, secondsLeft * 1000));
         }
       }

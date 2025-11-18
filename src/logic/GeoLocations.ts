@@ -5,23 +5,18 @@ import {
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
 
-export function toNameCase(str: string) {
-  str = str.toLowerCase();
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-async function getLocation(cityname: string, prtcl = "opn") {
+async function getLocation(cityName: string, prtcl = "opn") {
   let dt;
   if (prtcl == "met") {
     dt = await fetch(
       // << IMP >>  to filter Countrys in this search we can build a static country code search like  Iran => "IR" and filter use it as ...&countryCode=${countryCode}
-      `https://geocoding-api.open-meteo.com/v1/search?name=${cityname}&count=1&language=en`,
+      `https://geocoding-api.open-meteo.com/v1/search?name=${cityName}&count=1&language=en`,
       { method: "GET" }
     );
   } else {
     const apiKey = await getApiKey();
     dt = await fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${cityname}&limit=1&appid=${apiKey}&lang=en`,
+      `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${apiKey}&lang=en`,
       { method: "GET" }
     );
   }
@@ -43,9 +38,8 @@ async function getLocation(cityname: string, prtcl = "opn") {
 
 export async function addLocation(cityName: string) {
   const lastFile = await readData();
-  const capname = toNameCase(cityName);
 
-  if (capname&& lastFile && capname in lastFile) {
+  if (cityName && lastFile && cityName in lastFile) {
     console.log("city already exists in file");
   } else {
     const geoByMeteo = await getLocation(cityName, "met");
@@ -53,8 +47,8 @@ export async function addLocation(cityName: string) {
     if (geoByMeteo) {
       console.log(geoByMeteo);
       console.log("got the location!!! going for save!");
-      saveData(capname, geoByMeteo["results"][0]);
-      return [capname, geoByMeteo["results"][0]]; //   <<IMP>>  the ["results"][0] represents the first result of the respond and this means the respond can have more than 1 item due to Api , open meteo's location coding Api supports up to 100 results in free licence...
+      saveData(cityName, geoByMeteo["results"][0]);
+      return [cityName, geoByMeteo["results"][0]]; //   <<IMP>>  the ["results"][0] represents the first result of the respond and this means the respond can have more than 1 item due to Api , open meteo's location coding Api supports up to 100 results in free licence...
     } else {
       return null;
       // nothing yet

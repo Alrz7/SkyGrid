@@ -8,17 +8,12 @@ import {
 import { readData as readLocations } from "./GeoLocations.js";
 import { build } from "vite";
 
-export function toNameCase(str: string) {
-  str = str.toLowerCase();
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
-export async function getAstro(cityname: string) {
+export async function getAstro(cityName: string) {
   const locations = await readLocations();
   let location = undefined;
 
-  const capname = toNameCase(cityname);
-  if (locations && capname) {
-    location = capname in locations ? locations[capname] : false;
+  if (locations && cityName) {
+    location = cityName in locations ? locations[cityName] : false;
   }
   if (location) {
     const dt = await fetch(
@@ -26,11 +21,11 @@ export async function getAstro(cityname: string) {
       { method: "GET" }
     );
     const data = await dt.json();
-    saveData(capname, data);
+    saveData(cityName, data);
     // console.log(data);
     return data;
   } else {
-    console.log(`there is no location with name of ${capname} in datas`);
+    console.log(`there is no location with name of ${cityName} in datas`);
   }
 }
 

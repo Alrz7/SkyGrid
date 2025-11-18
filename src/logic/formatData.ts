@@ -1,11 +1,26 @@
-import { findlocalTime } from "./skyPattern.js";
+import { findlocalTime, difrentHour } from "./skyPattern.js";
 export function ftHourlyData(data: any) {
   if (data) {
     const now = getLocalTime().fullStr;
     const timeIndex: any = [];
     data.time.forEach((item: any, index: number) => {
-      if (item.slice(0, 10) == now) timeIndex.push(index);
+      if (item.slice(0, 10) == now) {
+        timeIndex.push(index);
+      }
     });
+    if (timeIndex.length == 0) {
+      for (let i of data.time) {
+        // this pasrt is for situations that updated list is a head of the local time due to server and location's time difference
+        if (difrentHour(now, i) > 0) {
+          const lastAvalable = i;
+          data.time.forEach((item: any, index: number) => {
+            if (item.slice(0, 10) == lastAvalable) {
+              timeIndex.push(index);
+            }
+          });
+        }
+      }
+    }
     const newlist: any = [];
     timeIndex.forEach((indx: any) => {
       const newItem = {
@@ -45,7 +60,7 @@ export async function selectWatherItem(data: any, city: string) {
     // console.log(localTime, `${localTime.slice(0,2)}:00`)
     if (localTime) {
       for (let item of data) {
-        if (item.hour == `${localTime?.slice(0, 2)}:00`) {
+        if (item.hour == `${localTime?.time.fullTime.slice(0, 2)}:00`) {
           return item;
         }
       }

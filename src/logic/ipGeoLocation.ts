@@ -7,6 +7,7 @@ import {
 import { readData as readLocations } from "./GeoLocations.js";
 
 function difrentHour(timeString1: string, timeString2: string) {
+  console.log(timeString1)
   const date1 = new Date(timeString1 + "Z");
   const date2 = new Date(timeString2 + "Z");
   const differenceInMilliseconds = date1.getTime() - date2.getTime();
@@ -20,30 +21,25 @@ async function getApiKey() {
   return JSON.parse(apiKey)["key"];
 }
 
-export function toNameCase(str: string) {
-    str = str.toLowerCase();
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
-
-export async function getAstro(cityname: string) {
-  if (cityname) {
+export async function getAstro(cityName: string) {
+  if (cityName) {
     const locations = await readLocations();
     let location = undefined;
-    const capname = toNameCase(cityname);
-    if (locations && capname) {
-      location = capname in locations ? locations[capname] : null;
+
+    if (locations && cityName) {
+      location = cityName in locations ? locations[cityName] : null;
     }
     if (location) {
       const apiKey = await getApiKey();
       // console.log(apiKey)
       // console.log(location)
       const dt = await fetch(
-        `https://api.ipgeolocation.io/v2/astronomy?apiKey=${apiKey}&location=${capname}&elevation=10`,
+        `https://api.ipgeolocation.io/v2/astronomy?apiKey=${apiKey}&location=${cityName}&elevation=10`,
         { method: "GET" }
       );
       // console.log(dt)
       const data = await dt.json();
-      saveData(capname, data);
+      saveData(cityName, data);
       console.log(data);
       return data;
     } else {
@@ -102,10 +98,13 @@ export async function updateData(
   if (cityName in DataList) {
     const lastData = DataList[cityName];
     const lastUpdateTime = `${lastData.astronomy.date}T${lastData.astronomy.current_time}`;
+    const localTime = await findlocalTime(cityName)
+    console.log(localTime?.time.fullStr)
     const timeDiff = difrentHour(
-      findlocalTime(cityName).fullStr,
+      localTime?.time.fullStr,
       lastUpdateTime
     );
+    console.log(cityName, engage)
     if (engage) {
       // console.log("engaging in astro update")
       if (timeDiff >= 24) {

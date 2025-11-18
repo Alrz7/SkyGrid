@@ -44,6 +44,7 @@ export default function GetUpdate({
                   updateMainCity(
                     set.updateOrder,
                     set.updateCity,
+                    set.setPattern,
                     city,
                     res.val[0],
                     res.val[1]
