@@ -90,7 +90,7 @@ export default function App() {
         <MinimizeSvg />
       </button>
       <div className="floating-ball">
-        <CurvedLine />
+        <CurvedLine  city={city} />
         <Soluna solarData={Pattern.solarData} />
       </div>
       <SwitchButtons

@@ -12,6 +12,10 @@
   app-region: drag;
 }
 
+.floating-ball {
+  overflow: hidden;
+}
+
 .app-background {
   background: linear-gradient(
     190deg,

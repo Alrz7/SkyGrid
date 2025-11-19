@@ -42,10 +42,10 @@
 
 .Moon {
   position: absolute;
-  top: 8%;
-  right: 15%;
-  width: 150px;
-  height: 150px;
+  top: 184px;
+  right: 540px;
+  width: 130px;
+  height: 130px;
   transition: transform 0.3s ease-in-out;
   z-index: 20;
   animation: float 15s ease-in-out infinite, pulse-light 5s ease-in-out infinite;

@@ -6,7 +6,7 @@
 
   width: 100%;
   height: auto;
-  opacity: 65%;
+  opacity: 60%;
   z-index: 15;
   transition: transform 1.5s ease-in-out;
 }
