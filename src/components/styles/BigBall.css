@@ -1,4 +1,5 @@
 .Sun {
+  transform: translate(-50%, -50%);
   position: absolute;
   top: -6%;
   right: 15%;
@@ -41,6 +42,7 @@
 }
 
 .Moon {
+  transform: translate(-50%, -50%);
   position: absolute;
   top: 184px;
   right: 540px;

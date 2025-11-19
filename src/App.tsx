@@ -10,7 +10,6 @@ import CloseSvg from "./assets/close.svg?react";
 import MinimizeSvg from "./assets/minimize.svg?react";
 import MaximizeSvg from "./assets/maximize.svg?react";
 import { selectWatherItem } from "./logic/formatData.js";
-import CurvedLine from "./components/CurvedLine.js";
 import Soluna from "./components/Soluna.js";
 import SwitchButtons from "./components/SwitchCity.js";
 import DataCard from "./components/DataCard.js";
@@ -90,7 +89,6 @@ export default function App() {
         <MinimizeSvg />
       </button>
       <div className="floating-ball">
-        <CurvedLine  city={city} />
         <Soluna solarData={Pattern.solarData} />
       </div>
       <SwitchButtons
