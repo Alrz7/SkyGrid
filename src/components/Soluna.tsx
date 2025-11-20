@@ -9,26 +9,7 @@ export default function SunComp({
 }: {
   solarData: Record<string, any>;
 }) {
-  const ballRef = useRef<SVGSVGElement>(null);
   const [location, setLocation] = useState([540, 184]);
-
-  // function getSolunaLocation() {
-  //   const pageWidth = window.innerWidth;
-  //   const pageHeight = window.innerHeight;
-
-  //   const entPoint = 0.5;
-  //   const x = pageWidth * entPoint - pageWidth / 2;
-  //   const y = curvature * (x + 90) ** 2 + pageHeight * 0.01;
-
-  //   setLocation([pageWidth * entPoint, y]);
-  // }
-  // useEffect(() => {
-  //   const observer = new ResizeObserver(() => {
-  //     // getSolunaLocation();
-  //   });
-  //   observer.observe(document.body);
-  //   return () => observer.disconnect();
-  // }, []);
 
   if (solarData?.isSunTime) {
     return (
@@ -36,7 +17,6 @@ export default function SunComp({
         <CurvedLine setLocation={setLocation} />
         <Sun
           className="Sun"
-          ref={ballRef}
           style={{
             top: `${location[1] ? location[1] - 75 : location[1]}`,
             left: `${location[0] ? location[0] - 75 : location[0]}`,
@@ -51,8 +31,8 @@ export default function SunComp({
 
         <Moon
           className="Moon"
-          ref={ballRef}
-          style={{ left: `${location[0]}`, top: `${location[1]}` }}
+          style={{top: `${location[1] ? location[1] - 30 : location[1]}`,
+            left: `${location[0] ? location[0] - 30 : location[0]}`}}
         />
       </div>
     );

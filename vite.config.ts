@@ -5,13 +5,31 @@ import svgr from "vite-plugin-svgr";
 const host = process.env.TAURI_DEV_HOST;
 
 export default defineConfig({
-  plugins: [react(), svgr()],
+  plugins: [svgr(), react()],
   clearScreen: false,
   server: {
     port: 1420,
     strictPort: true,
     host: host || false,
-    hmr: host ? { protocol: "ws", host, port: 1421 } : false,
-    watch: { ignored: ["**/src-tauri/**"] },
+    hmr: host
+      ? {
+          protocol: "ws",
+          host,
+          port: 1421,
+          clientPort: 1421,
+        }
+      : true,
+    watch: {
+      ignored: ["**/src-tauri/**"],
+      usePolling: true,
+    },
+  },
+  resolve: {
+    alias: {
+      "@": "/src", 
+    },
+  },
+  optimizeDeps: {
+    include: ["react", "react-dom"],
   },
 });

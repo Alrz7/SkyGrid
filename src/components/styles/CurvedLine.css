@@ -6,7 +6,7 @@
 
   width: 100%;
   height: auto;
-  opacity: 60%;
+  opacity: 35%;
   z-index: 15;
   transition: transform 1.5s ease-in-out;
 }
@@ -14,3 +14,11 @@
 /* .curved-line:hover {
   opacity: 100%;
 } */
+
+.stars-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: transparent;
+}
