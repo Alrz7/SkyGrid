@@ -14,6 +14,7 @@ export async function setSphere(
 ) {
    console.log(cityName)
   const now = await findlocalTime(cityName);
+  console.log(data)
   if (now) {
     const moonCompletion = difrentHour(now.time.time, data.moonrise);
     const isMoonTime =

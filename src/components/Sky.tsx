@@ -77,7 +77,7 @@ export default function CurvedLineComp({
 
   return (
     <>
-      <Soluna location={location} solarCondition={solarCondition} />
+      <Soluna location={location} solarCondition={solarCondition} solarData={solarData} />
       {solarCondition.sun.isVisible ? null : <BackGroundStars />}
       {solarCondition.sun.isVisible || solarCondition.moon.isVisible ? (
         <Sky className="Sky-line" ref={svgRef} />
@@ -93,3 +93,4 @@ const getDynamicParabola = (svgWidth: number, svgTop: number) => {
   const k = svgTop - 12 * scale - 45;
   return { a, h, k };
 };
+

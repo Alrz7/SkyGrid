@@ -83,7 +83,7 @@ export default function StarsBackground() {
         gradient.addColorStop(1, "rgba(100,200,255,0)");
 
         ctx.strokeStyle = gradient;
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 1.5;
         ctx.beginPath();
         ctx.moveTo(m.x, m.y);
         ctx.lineTo(m.x + m.length, m.y + m.length);

@@ -1,0 +1,201 @@
+.Sun {
+  transform: translate(-50%, -50%);
+  position: absolute;
+  top: -6%;
+  right: 15%;
+  width: 280px;
+  height: 280px;
+  transition: transform 0.3s ease-in-out;
+  z-index: 20;
+  animation: float 15s ease-in-out infinite, pulse-light 5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes pulse-light {
+  0% {
+    opacity: 1;
+    filter: brightness(100%);
+  }
+  50% {
+    opacity: 0.9;
+    filter: brightness(110%);
+  }
+  100% {
+    opacity: 1;
+    filter: brightness(100%);
+  }
+}
+
+.Sun:hover {
+  transform: scale(1.1);
+}
+
+.Moon {
+  /* transform: translate(-50%, -50%); */
+  position: absolute;
+  top: 184px;
+  right: 540px;
+  width: 180px;
+  height: 180px;
+  transition: transform 0.3s ease-in-out;
+  z-index: 20;
+  animation: float 15s ease-in-out infinite, pulse-light 5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes pulse-light {
+  0% {
+    opacity: 1;
+    filter: brightness(100%);
+  }
+  50% {
+    opacity: 0.9;
+    filter: brightness(110%);
+  }
+  100% {
+    opacity: 1;
+    filter: brightness(100%);
+  }
+}
+
+.Moon:hover {
+  transform: scale(1.1);
+}
+
+
+.toggle-buttons {
+  position: fixed;
+  right: 10px;
+  top: 25%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 100;
+  background: rgba(36, 36, 71, 0.123);
+  padding: 12px 8px;
+  border-radius: 24px;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.098);
+}
+
+.toggle-btn {
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+.toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.toggle-btn.on {
+  background: linear-gradient(135deg, #7c4dff, #b388ff);
+  color: white;
+  border-color: #b388ff;
+  box-shadow: 0 0 20px rgba(124, 77, 255, 0.6);
+  transform: scale(1.08);
+}
+
+.toggle-btn svg {
+  width: 28px;
+  height: 28px;
+}
+
+.toggle-btn.pending {
+  background: linear-gradient(135deg, #18e6e9a8, #0692a58b);
+  color: white;
+  border-color: #ffffff;
+  /* box-shadow: 0 0 20px rgb(255, 255, 255); */
+  transform: scale(1.08);
+  
+  animation: pulse-glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-glow {
+  from {
+    box-shadow: 0px 0px 5px 1px rgba(255, 255, 255, 0);
+  }
+  to {
+    box-shadow: 0px 0px 5px 1px rgba(255, 255, 255, 0.85);
+  }
+}
+
+
+
+.tooltip-wrapper {
+  position: relative;            
+  display: inline-block;
+}
+
+.tooltip {
+  position: absolute;
+  right: 150%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(20, 20, 40, 0.743);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  pointer-events: none;
+  
+  border: 1px solid rgba(124, 77, 255, 0.4);
+  box-shadow: 0 0 20px rgba(124, 77, 255, 0.3);
+}
+
+.tooltip::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  margin-top: -6px;
+  border: 6px solid transparent;
+  border-left-color: rgba(124, 77, 255, 0.4);
+}
+
+.tooltip-wrapper:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) translateX(8px);
+}
+
+
