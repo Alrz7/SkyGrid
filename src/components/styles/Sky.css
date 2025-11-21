@@ -1,9 +1,8 @@
-.curved-line {
+.Sky-line {
   position: absolute;
   top: 15%;
   left: 0;
   right: 0;
-
   width: 100%;
   height: auto;
   opacity: 35%;
@@ -11,10 +10,9 @@
   transition: transform 1.5s ease-in-out;
 }
 
-/* .curved-line:hover {
+/* .Sky-line:hover {
   opacity: 100%;
 } */
-
 .stars-canvas {
   position: fixed;
   inset: 0;

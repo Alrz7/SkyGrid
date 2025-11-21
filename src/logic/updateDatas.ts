@@ -1,6 +1,8 @@
 import { readData, getWeatherStat } from "./OpenMeteo.js";
 import { updateData as updateAstro } from "./ipGeoLocation.js";
 import { findlocalTime } from "./skyPattern.js";
+import {dateDiferenceToHour as difrentHour} from '../logic/sources/dry.js';
+
 function getLocalTime() {
   const now = new Date();
   const year = now.getFullYear();
@@ -18,12 +20,6 @@ function getLocalTime() {
   };
 }
 
-function difrentHour(timeString1: string, timeString2: string) {
-  const date1 = new Date(timeString1 + "Z");
-  const date2 = new Date(timeString2 + "Z");
-  const differenceInMilliseconds = date1.getTime() - date2.getTime();
-  return differenceInMilliseconds / (1000 * 3600);
-}
 
 /**
  *  this should  manage the time of updating the current datas

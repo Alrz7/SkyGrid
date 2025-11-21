@@ -8,7 +8,6 @@ export default function GetOptions(
 //     hud: string;
 //     buttons: string;
 //     chart: string;
-//     solarData: {};
 // }
 ) {
   return (

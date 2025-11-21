@@ -11,7 +11,6 @@ export default function Clock({
     hud: string;
     buttons: string;
     chart: string;
-    solarData: {};
   };
   city: string;
 }) {

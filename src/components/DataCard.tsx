@@ -40,7 +40,6 @@ interface DataCardProps {
     hud: string;
     buttons: string;
     chart: string;
-    solarData: {};
   };
 }
 

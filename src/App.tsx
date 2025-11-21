@@ -1,16 +1,12 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
-import {
-  setCurrentCity,
-  updateMainCity,
-  changeOrders,
-} from "./logic/orderFunctions.js";
+import { setCurrentCity, changeOrders } from "./logic/orderFunctions.js";
 import CloseSvg from "./assets/close.svg?react";
 import MinimizeSvg from "./assets/minimize.svg?react";
 import MaximizeSvg from "./assets/maximize.svg?react";
 import { selectWatherItem } from "./logic/formatData.js";
-import Soluna from "./components/Soluna.js";
+import Sky from "./components/Sky.js";
 import SwitchButtons from "./components/SwitchCity.js";
 import DataCard from "./components/DataCard.js";
 import GetUpdate from "./components/Update.js";
@@ -31,12 +27,18 @@ export default function App() {
     hud: "",
     buttons: "",
     chart: "",
-    solarData: {},
   });
   const [hudData, setHudData] = useState({});
+  const [solarData, setsolarData] = useState({
+    moonrise: "",
+    moonset: "",
+    sunrise: "",
+    sunset: "",
+    solar_noon: "",
+  });
   const [isSearching, Searching] = useState(false);
   useEffect(() => {
-    setCurrentCity(updateOrder, updateCity, setPattern);
+    setCurrentCity(updateOrder, updateCity, setPattern, setsolarData);
   }, []);
 
   useEffect(() => {
@@ -89,15 +91,22 @@ export default function App() {
         <MinimizeSvg />
       </button>
       <div className="floating-ball">
-        <Soluna solarData={Pattern.solarData} />
+        <Sky solarData={solarData} city={city} />
       </div>
       <SwitchButtons
         onSwitchClick={(forward: boolean) => {
-          changeOrders(updateOrder, updateCity, loadOrder, setPattern, forward);
+          changeOrders(
+            updateOrder,
+            updateCity,
+            loadOrder,
+            setPattern,
+            setsolarData,
+            forward
+          );
         }}
       />
       <DataCard
-      activeParameters={["temperature"]}
+        activeParameters={["temperature"]}
         weatherData={loadOrder.cityB.length > 0 ? loadOrder.cityB[2] : null}
         color={Pattern}
       />
@@ -106,7 +115,7 @@ export default function App() {
       //  color={Pattern}
       />
       <AddCity
-        set={{ updateOrder, updateCity, setPattern }}
+        set={{ updateOrder, updateCity, setPattern, setsolarData }}
         color={Pattern}
         isSearching={isSearching}
         Searching={Searching}
@@ -116,7 +125,7 @@ export default function App() {
       <GetUpdate
         color={Pattern}
         city={city}
-        set={{ updateOrder, updateCity, setPattern }}
+        set={{ updateOrder, updateCity, setPattern, setsolarData }}
         isSearching={isSearching}
       />
       <Hud

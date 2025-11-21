@@ -6,38 +6,36 @@ import "./styles/AddCity.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { addLocation } from "../logic/GeoLocations.js";
 import { getWeatherStat } from "../logic/OpenMeteo.js";
-import {updateMainCity} from "../logic/orderFunctions.js";
+import { updateMainCity } from "../logic/orderFunctions.js";
 
-interface addcityProps{
+interface addcityProps {
   set: {
-      updateOrder: React.Dispatch<React.SetStateAction<any>>;
-      updateCity: React.Dispatch<React.SetStateAction<string>>;
-      setPattern: React.Dispatch<React.SetStateAction<any>>;
-    };
-    color: {
-      background: string;
-      hud: string;
-      buttons: string;
-      chart: string;
-      solarData: {};
-    };
-    isSearching: boolean;
-  Searching: React.Dispatch<React.SetStateAction<boolean>>
+    updateOrder: React.Dispatch<React.SetStateAction<any>>;
+    updateCity: React.Dispatch<React.SetStateAction<string>>;
+    setPattern: React.Dispatch<React.SetStateAction<any>>;
+    setsolarData: React.Dispatch<React.SetStateAction<any>>;
+  };
+  color: {
+    background: string;
+    hud: string;
+    buttons: string;
+    chart: string;
+  };
+  isSearching: boolean;
+  Searching: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
 
 export default function AddCity({
   set,
   color,
   isSearching,
-  Searching
+  Searching,
 }: addcityProps) {
   const [input, setInput] = useState("");
   async function processNewLocation(cityName: string) {
     if (cityName != "") {
       const newLocation = await addLocation(cityName);
       if (newLocation) {
-        
         const newWeatherData = await getWeatherStat(
           newLocation[0],
           true,
@@ -48,14 +46,15 @@ export default function AddCity({
             set.updateOrder,
             set.updateCity,
             set.setPattern,
+            set.setsolarData,
             newLocation[0],
             newWeatherData[0],
-            newWeatherData[1],
+            newWeatherData[1]
           );
         }
       }
-    }else{
-      console.log("'nothing' can not get searched!!!")
+    } else {
+      console.log("'nothing' can not get searched!!!");
     }
   }
   return (

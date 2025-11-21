@@ -8,7 +8,8 @@ import { selectPattern } from "./skyPattern.js";
 export async function setCurrentCity(
   updateOrder: any,
   updateCity: any,
-  setPattern: any
+  setPattern: any,
+  setsolarData:any
 ) {
   const locations = await readLocations();
   if (locations) {
@@ -29,7 +30,7 @@ export async function setCurrentCity(
       saveConfig({ city: newCity, cityList: [cityA, newCity, cityC] });
     }
     updateCity(newCity);
-    selectPattern(setPattern, newCity);
+    selectPattern(setPattern, setsolarData, newCity);
     const currentWeather = await readOpmData("current");
     const hourlyWeather = await readOpmData("hourly");
     console.log(hourlyWeather[cityA]);
@@ -75,6 +76,7 @@ export async function updateMainCity(
   updateOrder: any,
   updateCity: any,
   setPattern: any,
+  setsolarData:any,
   cityName: string,
   current: any,
   hourly: any
@@ -87,7 +89,7 @@ export async function updateMainCity(
     const cityC = newCityList.at(0);
     updateCity(cityName);
     console.log(cityName)
-    selectPattern(setPattern, cityName);
+    selectPattern(setPattern, setsolarData, cityName);
     const currentWeather = await readOpmData("current");
     const hourlyWeather = await readOpmData("hourly");
     updateOrder({
@@ -124,6 +126,7 @@ export async function changeOrders(
   updateCity: any,
   loadOrder: any,
   setPattern: any,
+  setsolarData:any,
   forward: boolean = true
 ) {
   const locations = await readLocations();
@@ -141,7 +144,7 @@ export async function changeOrders(
     const cityC = loadOrder.cityC;
     const cityB = loadOrder.cityB;
     updateCity(newCity);
-    selectPattern(setPattern, newCity);
+    selectPattern(setPattern, setsolarData, newCity);
     updateOrder({
       cityA:
         newCityA == cityB[0]

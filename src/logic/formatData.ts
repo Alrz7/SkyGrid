@@ -1,4 +1,5 @@
-import { findlocalTime, difrentHour } from "./skyPattern.js";
+import { findlocalTime } from "./skyPattern.js";
+import { difrentHour } from "../logic/sources/dry.js";
 export function ftHourlyData(data: any) {
   if (data) {
     const now = getLocalTime().fullStr;

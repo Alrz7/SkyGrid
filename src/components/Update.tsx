@@ -13,13 +13,13 @@ interface GetUpdateProps {
     updateOrder: React.Dispatch<React.SetStateAction<any>>;
     updateCity: React.Dispatch<React.SetStateAction<string>>;
     setPattern: React.Dispatch<React.SetStateAction<any>>;
+    setsolarData: React.Dispatch<React.SetStateAction<any>>;
   };
   color: {
     background: string;
     hud: string;
     buttons: string;
     chart: string;
-    solarData: {};
   };
   isSearching: boolean;
 }
@@ -63,6 +63,7 @@ export default function GetUpdate({
                     set.updateOrder,
                     set.updateCity,
                     set.setPattern,
+                    set.setsolarData,
                     city,
                     res.val[0],
                     res.val[1]

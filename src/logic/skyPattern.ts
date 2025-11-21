@@ -1,11 +1,9 @@
 import { updateData as updateAstro } from "./ipGeoLocation.js";
-
+import { difrentHour } from "../logic/sources/dry.js";
 import { skyCycle } from "./sources/skyCycle.js";
 import { readData as readLocations } from "./GeoLocations.js";
 
-export async function findlocalTime(
-  cityName: string
-){
+export async function findlocalTime(cityName: string) {
   const locations = await readLocations();
   if (cityName && cityName in locations) {
     const location = locations[cityName];
@@ -66,14 +64,6 @@ function sortHours(lst: Array<any>): any {
     pivot,
     ...(aft.length >= 2 ? sortHours(aft) : aft),
   ];
-}
-
-export function difrentHour(t1: string, t2: string) {
-  const [h1 = 0, m1 = 0] = t1.split(":").map(Number);
-  const [h2 = 0, m2 = 0] = t2.split(":").map(Number);
-  let diff = h1 * 60 + m1 - (h2 * 60 + m2);
-  // if (diff < -720) diff += 1440;
-  return diff * 60;
 }
 
 function selectTitle(item: any, time: string) {
@@ -140,39 +130,35 @@ function selectTitle(item: any, time: string) {
   return sorted.at(-1);
 }
 
-function SolarCondition(time: string, data: Record<string, any>) {
-  const rs = {
-    isMoonTime:
-      difrentHour(time, data.moonrise) >= 0 &&
-      difrentHour(time, data.moonset) < 0,
-    isSunTime:
-      difrentHour(time, data.sunrise) >= 0 &&
-      difrentHour(time, data.sunset) < 0,
-  };
-  return rs;
-}
-
-export async function selectPattern(setPattern: any, cityName: string) {
+export async function selectPattern(
+  setPattern: any,
+  setsolarData: any,
+  cityName: string
+) {
   console.log(cityName);
   if (cityName) {
     const astData = await updateAstro(cityName, findlocalTime, true);
     console.log(astData);
     if (astData.ok) {
       const time: any = await findlocalTime(cityName);
-      const solarData = SolarCondition(time.time.fullTime, astData.val.astronomy);
       if (time) {
         const selectedTitle = selectTitle(astData.val, time.time.fullTime);
         for (let pallet in skyCycle) {
           if (selectedTitle.title == pallet) {
             const backgroundColor = skyCycle[pallet][0].gradient;
             const hudColor = skyCycle[pallet][0].tempColor;
-            // console.log({ ...astData.val.astronomy, ...solarData });
+            setsolarData(astData.val.astronomy);
+            console.log({
+              background: backgroundColor,
+              hud: hudColor,
+              buttons: hudColor,
+              chart: hudColor,
+            });
             setPattern({
               background: backgroundColor,
               hud: hudColor,
               buttons: hudColor,
               chart: hudColor,
-              solarData: { ...astData.val.astronomy, ...solarData },
             });
             return;
           }

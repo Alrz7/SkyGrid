@@ -1,40 +1,41 @@
 import { useRef, useEffect, useState } from "react";
 import Sun from "../assets/sun.svg?react";
 import Moon from "../assets/moon.svg?react";
-import CurvedLine from "./CurvedLine.js";
 import "./styles/BigBall.css";
 
 export default function SunComp({
-  solarData,
+  solarCondition,
+  location,
 }: {
-  solarData: Record<string, any>;
+  solarCondition: {
+    sun: { isVisible: boolean; ratio: number };
+    moon: { isVisible: boolean; ratio: number };
+  };
+  location: { sun: number[]; moon: number[] };
 }) {
-  const [location, setLocation] = useState([540, 184]);
 
-  if (solarData?.isSunTime) {
-    return (
-      <>
-        <CurvedLine setLocation={setLocation} />
+  // console.log(solarCondition)
+  // console.log(location)
+  return (
+    <>
+      {solarCondition.sun.isVisible ? <div style={{ overflow: "hidden", opacity: "100%" }}>
         <Sun
           className="Sun"
           style={{
-            top: `${location[1] ? location[1] - 75 : location[1]}`,
-            left: `${location[0] ? location[0] - 75 : location[0]}`,
+            top: `${location.sun[1] ? location.sun[1] - 75 : location.sun[1]}`,
+            left: `${location.sun[0] ? location.sun[0] - 75 : location.sun[0]}`,
           }}
         />
-      </>
-    );
-  } else {
-    return (
-      <div style={{overflow: "hidden"}}>
-        <CurvedLine setLocation={setLocation} />
-
+      </div>: null}
+      {solarCondition.moon.isVisible ? <div style={{ overflow: "hidden", opacity: "100%" }}>
         <Moon
           className="Moon"
-          style={{top: `${location[1] ? location[1] - 30 : location[1]}`,
-            left: `${location[0] ? location[0] - 30 : location[0]}`}}
+          style={{
+            top: `${location.moon[1] ? location.moon[1] - 30 : location.moon[1]}`,
+            left: `${location.moon[0] ? location.moon[0] - 30 : location.moon[0]}`,
+          }}
         />
-      </div>
-    );
-  }
+      </div>: null}
+    </>
+  );
 }

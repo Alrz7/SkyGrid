@@ -13,7 +13,6 @@ export default function Forcast(
 //     hud: string;
 //     buttons: string;
 //     chart: string;
-//     solarData: {};
 // }
 ) {
   // console.log(color.color.buttons)

@@ -5,14 +5,7 @@ import {
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
 import { readData as readLocations } from "./GeoLocations.js";
-
-function difrentHour(timeString1: string, timeString2: string) {
-  console.log(timeString1)
-  const date1 = new Date(timeString1 + "Z");
-  const date2 = new Date(timeString2 + "Z");
-  const differenceInMilliseconds = date1.getTime() - date2.getTime();
-  return differenceInMilliseconds / (1000 * 3600);
-}
+import {dateDiferenceToHour as difrentHour} from '../logic/sources/dry.js';
 
 async function getApiKey() {
   const apiKey = await readTextFile("SkyGrid/apiKey/ipGeoLocationKey.json", {

@@ -15,7 +15,6 @@ interface HudPops {
     hud: string;
     buttons: string;
     chart: string;
-    solarData: {};
   };
   isSearching: boolean;
 }
