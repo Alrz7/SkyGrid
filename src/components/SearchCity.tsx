@@ -34,7 +34,7 @@ export default function SearchCity({
   useEffect(() => {
     console.log(input);
   }, [input]);
-  
+
   async function processNewLocation(cityName: string) {
     const newLocation = await apiSearch(cityName);
     if (newLocation.ok && newLocation.list.length > 0) {
@@ -54,8 +54,8 @@ export default function SearchCity({
   async function acceptSelectedResult(data: Record<string, any>) {
     if (data) {
       saveToLocations(data.name, data);
-      updateLocations()
-      console.log("api-req2")
+      updateLocations();
+      console.log("api-req2");
       const newWeatherData = await getWeatherStat(data.name, true, data);
       if (newWeatherData) {
         PrimaryUpdateCity(
@@ -78,15 +78,20 @@ export default function SearchCity({
               ? searchContent.map((item) => {
                   return (
                     <button
+                      key={item.nameInFile}
                       className="city-item"
                       onClick={() => {
                         if (item.apiResult) {
                           acceptSelectedResult(item);
                         } else {
-                          Searching(false);
-                          setInput("");
-                          PrimaryUpdateCity(false, item.nameInFile ?? item.name);
+                          PrimaryUpdateCity(
+                            false,
+                            item.nameInFile ?? item.name
+                          );
                         }
+                        // Searching(false);
+                        // setInput("");
+                        // setContent([])
                       }}
                     >
                       {item.name}/{item.admin1}/{item.country_code}
@@ -123,6 +128,12 @@ export default function SearchCity({
               onClick={() => {
                 if (isSearching === false) {
                   Searching(true);
+                  const allCities = lookingFor("").then((rs) => {
+                    console.log(rs);
+                    if (rs) {
+                      setContent(rs as any);
+                    }
+                  });
                 } else {
                   processNewLocation(input);
                 }
@@ -148,29 +159,24 @@ export default function SearchCity({
                 onChange={(e) => {
                   const str = e.target.value;
                   setInput(str);
-                  if (str !== "") {
-                    const sContent = lookingFor(str).then((sc) => {
-                      if (sc) {
-                        console.log(sc);
-                        console.log(sc[0].country_code);
-                        const resultCitylist = sc.map(
-                          (cit: Record<string, any>) => {
-                            return {
-                              apiResult: false,
-                              ...cit,
-                              // {  NOT PREPARED YET!  } selecting and hovering over city NAMES is not always an ideal choise... it's much better to Use City's Id
-                            };
-                          }
-                        );
-                        setContent(resultCitylist);
-                        console.log(resultCitylist);
-                      } else {
-                        setContent([]);
-                      }
-                    });
-                  } else {
-                    setContent([]);
-                  }
+                  const sContent = lookingFor(str).then((sc) => {
+                    if (sc) {
+                      // console.log(sc);
+                      const resultCitylist = sc.map(
+                        (cit: Record<string, any>) => {
+                          return {
+                            apiResult: false,
+                            ...cit,
+                            // {  NOT PREPARED YET!  } selecting and hovering over city NAMES is not always an ideal choise... it's much better to Use City's Id
+                          };
+                        }
+                      );
+                      setContent(resultCitylist);
+                      // console.log(resultCitylist);
+                    } else {
+                      setContent([]);
+                    }
+                  });
                 }}
               />
             )}

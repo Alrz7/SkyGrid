@@ -127,10 +127,10 @@
 .city-item {
   padding: 0 20px;
   height: 48px;
-  background: rgba(255, 255, 255, 0.621);
+background: linear-gradient(93deg,rgba(0, 156, 199, 0.37) 0%, rgba(255, 255, 255, 0.86) 100%);
   border: none;
   border-radius: 14px;
-  color: rgb(52, 52, 52);
+  color: rgb(255, 255, 255);
   font-family: "Crf-bold", sans-serif;
   font-size: 1rem;
   font-weight: 550;
@@ -142,7 +142,7 @@
 }
 
 .city-item:hover {
-  background: rgba(29, 174, 246, 0.842);
+  background: #009CC7;
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
