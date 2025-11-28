@@ -5,6 +5,7 @@ import { findlocalTime } from "../logic/skyPattern.js";
 export default function Clock({
   color,
   city,
+  isSearching,
 }: {
   color: {
     background: string;
@@ -13,6 +14,7 @@ export default function Clock({
     chart: string;
   };
   city: string;
+  isSearching: boolean;
 }) {
   const [time, setTime] = useState({ time: "", zone: "" });
 
@@ -40,19 +42,21 @@ export default function Clock({
   }, [city]);
 
   return (
-    <div className="clock-container">
-      <h2
-        className="time-slot"
-        style={{ color: `${color ? color.hud : "rgb(237, 254, 255);"}` }}
-      >
-        {time.time}
-      </h2>
-      <h5
-        className="time-zone"
-        style={{ color: `${color ? color.hud : "rgb(237, 254, 255);"}` }}
-      >
-        {time.zone}
-      </h5>
-    </div>
+    <>{!isSearching ? 
+      <div className="clock-container">
+        <h2
+          className="time-slot"
+          style={{ color: color ? color.hud : "rgb(237, 254, 255)" }}
+        >
+          {time.time}
+        </h2>
+        <h5
+          className="time-zone"
+          style={{ color: color ? color.hud : "rgb(237, 254, 255)" }}
+        >
+          {time.zone}
+        </h5>
+      </div>: null}
+    </>
   );
 }

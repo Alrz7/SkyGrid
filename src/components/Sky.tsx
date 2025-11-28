@@ -65,6 +65,7 @@ export default function CurvedLineComp({
   };
 
   useEffect(() => {
+    if(solarCondition.sun.isVisible || solarCondition.moon.isVisible){
     const handleResize = () => {
       getSVGCorners();
     };
@@ -72,7 +73,7 @@ export default function CurvedLineComp({
     handleResize();
     window.addEventListener("resize", handleResize);
 
-    return () => window.removeEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);}
   }, [solarCondition]);
 
   return (

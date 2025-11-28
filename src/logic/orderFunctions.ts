@@ -4,12 +4,13 @@ import { readData as readLocations } from "./GeoLocations.js";
 import { saveConfig, readConfig } from "./gridconfig.js";
 import { selectPattern } from "./skyPattern.js";
 
+// this file needs to get dry soon... it's so messy
 
 export async function setCurrentCity(
   updateOrder: any,
   updateCity: any,
   setPattern: any,
-  setsolarData:any
+  setsolarData: any
 ) {
   const locations = await readLocations();
   if (locations) {
@@ -76,10 +77,11 @@ export async function updateMainCity(
   updateOrder: any,
   updateCity: any,
   setPattern: any,
-  setsolarData:any,
+  setsolarData: any,
+  direct: boolean = false,
   cityName: string,
-  current: any,
-  hourly: any
+  current: Record<string, any> | null,
+  hourly: Record<string, any> | null
 ) {
   const locations = await readLocations();
   if (locations) {
@@ -88,7 +90,6 @@ export async function updateMainCity(
     const cityA = newCityList.at(-2);
     const cityC = newCityList.at(0);
     updateCity(cityName);
-    console.log(cityName)
     selectPattern(setPattern, setsolarData, cityName);
     const currentWeather = await readOpmData("current");
     const hourlyWeather = await readOpmData("hourly");
@@ -98,7 +99,13 @@ export async function updateMainCity(
         currentWeather[cityA] ?? false,
         ftHourlyData(hourlyWeather[cityA]) ?? false,
       ],
-      cityB: [cityName, current ?? false, ftHourlyData(hourly) ?? false],
+      cityB: [
+        cityName,
+        current ?? currentWeather[cityName] ?? false,
+        hourly
+          ? ftHourlyData(hourly)
+          : ftHourlyData(hourlyWeather[cityName]) ?? false,
+      ],
       cityC: [
         cityC,
         currentWeather[cityC] ?? false,
@@ -126,7 +133,7 @@ export async function changeOrders(
   updateCity: any,
   loadOrder: any,
   setPattern: any,
-  setsolarData:any,
+  setsolarData: any,
   forward: boolean = true
 ) {
   const locations = await readLocations();
@@ -168,8 +175,8 @@ export async function changeOrders(
         ftHourlyData(hourlyWeather[newCityC]) ?? false,
       ],
     });
-    console.log(newCity)
-    console.log(ftHourlyData(hourlyWeather[newCity]))
+    console.log(newCity);
+    console.log(ftHourlyData(hourlyWeather[newCity]));
     console.log({
       cityA:
         newCityA == cityB[0]

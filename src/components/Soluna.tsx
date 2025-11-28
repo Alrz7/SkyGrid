@@ -8,7 +8,7 @@ import "./styles/Soluna.css";
 export default function SunComp({
   solarCondition,
   location,
-  solarData
+  solarData,
 }: {
   solarCondition: {
     sun: { isVisible: boolean; ratio: number };
@@ -22,8 +22,18 @@ export default function SunComp({
     sunset: string;
   };
 }) {
-  const [showSun, setShowSun] = useState(true);
+  const [showSun, setShowSun] = useState(false);
   const [showMoon, setShowMoon] = useState(false);
+
+  useEffect(() => {
+    const isSun = solarCondition.sun.isVisible;
+    setShowSun(isSun);
+    if (isSun) {
+      setShowMoon(false);
+    } else {
+      setShowMoon(solarCondition.moon.isVisible);
+    }
+  }, [solarCondition]);
   // console.log(solarCondition);
   // console.log(location)
   return (
@@ -61,29 +71,37 @@ export default function SunComp({
 
       <div className="toggle-buttons">
         <div className="tooltip-wrapper">
-        <button
-          className={`toggle-btn ${showSun ? "on" : ""}`}
-          onClick={() => {
-            if (!showSun) {
-              setShowSun(true);
-              setShowMoon(false);
-            }
-          }}
-        >
-          <IcSun />
-        </button><span className="tooltip">sunrise: {solarData.sunrise}, sunset: {solarData.sunset}</span></div>
+          <button
+            className={`toggle-btn ${showSun ? "on" : ""}`}
+            onClick={() => {
+              if (!showSun) {
+                setShowSun(true);
+                setShowMoon(false);
+              }
+            }}
+          >
+            <IcSun />
+          </button>
+          <span className="tooltip">
+            sunrise: {solarData.sunrise}, sunset: {solarData.sunset}
+          </span>
+        </div>
         <div className="tooltip-wrapper">
-        <button
-          className={`toggle-btn ${showMoon ? "on" : ""}`}
-          onClick={() => {
-            if (!showMoon) {
-              setShowMoon(true);
-              setShowSun(false);
-            }
-          }}
-        >
-          <IcMoon />
-        </button><span className="tooltip">moonrise: {solarData.moonrise}, moonset: {solarData.moonset}</span></div>
+          <button
+            className={`toggle-btn ${showMoon ? "on" : ""}`}
+            onClick={() => {
+              if (!showMoon) {
+                setShowMoon(true);
+                setShowSun(false);
+              }
+            }}
+          >
+            <IcMoon />
+          </button>
+          <span className="tooltip">
+            moonrise: {solarData.moonrise}, moonset: {solarData.moonset}
+          </span>
+        </div>
       </div>
     </>
   );

@@ -1,9 +1,19 @@
-
 import { useEffect, useRef, useState } from "react";
 export default function StarsBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    const handleResize = () => {
+      setBackGround();
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  function setBackGround() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -110,7 +120,7 @@ export default function StarsBackground() {
       cancelAnimationFrame(animationId);
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }
 
   return <canvas ref={canvasRef} className="stars-canvas" />;
 }

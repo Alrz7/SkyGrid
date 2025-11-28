@@ -117,15 +117,33 @@ function selectTitle(item: any, time: string) {
   }));
   const sorted = sortHours(mergedList);
   for (let [indx, val] of sorted.entries()) {
-    if (
-      difrentHour(time, val.time) > 0 &&
-      (indx < sorted.length - 1
-        ? difrentHour(time, sorted[indx + 1].time) < 0
-        : true)
-    ) {
-      return val;
+    const completion = difrentHour(time, val.time);
+    let left =
+      indx < sorted.length - 1
+        ? difrentHour(sorted[indx + 1].time, time)
+        : null;
+    const fullTimeDiff = difrentHour(
+      indx < sorted.length - 1 ? sorted[indx + 1].time : sorted[0].time,
+      val.time
+    );
+    const completionPersent = completion / fullTimeDiff;
+    let palletIndex = Math.trunc(
+      completionPersent * skyCycle[val.title].length
+    );
+    palletIndex =
+      palletIndex < 0
+        ? 0
+        : palletIndex >= skyCycle[val.title].length
+        ? skyCycle[val.title].length - 1
+        : palletIndex;
+
+    if (completion > 0 && (left ? left > 0 : true)) {
+      return { title: val.title, palletIndex: palletIndex };
+    } else if (completion < 0 && (left ? left < 0 : true)) {
+      return { title: sorted.at(-1).title, palletIndex: palletIndex };
     }
   }
+  console.log(time, item);
   console.log(sorted.at(-1)["time"], " <not found> ", sorted.at(-1)["title"]);
   return sorted.at(-1);
 }
@@ -142,27 +160,26 @@ export async function selectPattern(
     if (astData.ok) {
       const time: any = await findlocalTime(cityName);
       if (time) {
-        const selectedTitle = selectTitle(astData.val, time.time.fullTime);
-        for (let pallet in skyCycle) {
-          if (selectedTitle.title == pallet) {
-            const backgroundColor = skyCycle[pallet][0].gradient;
-            const hudColor = skyCycle[pallet][0].tempColor;
-            setsolarData(astData.val.astronomy);
-            console.log({
-              background: backgroundColor,
-              hud: hudColor,
-              buttons: hudColor,
-              chart: hudColor,
-            });
-            setPattern({
-              background: backgroundColor,
-              hud: hudColor,
-              buttons: hudColor,
-              chart: hudColor,
-            });
-            return;
-          }
-        }
+        const pallet = selectTitle(astData.val, time.time.fullTime);
+        console.log(pallet);
+        console.log(skyCycle[pallet.title][pallet.palletIndex]);
+        const backgroundColor =
+          skyCycle[pallet.title][pallet.palletIndex].gradient;
+        const hudColor = skyCycle[pallet.title][pallet.palletIndex].tempColor;
+        setsolarData(astData.val.astronomy);
+        console.log({
+          background: backgroundColor,
+          hud: hudColor,
+          buttons: hudColor,
+          chart: hudColor,
+        });
+        setPattern({
+          background: backgroundColor,
+          hud: hudColor,
+          buttons: hudColor,
+          chart: hudColor,
+        });
+        return;
       }
       // console.log(`${selectedTitle.title} is not existing in source-List`);
     } else {

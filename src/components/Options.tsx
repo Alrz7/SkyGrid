@@ -1,18 +1,16 @@
 import React from "react";
 import Options from "../assets/options.svg?react";
-import "./styles/Options.css"
+import "./styles/Options.css";
 
-export default function GetOptions(
-//   {color}: {
-//     background: string;
-//     hud: string;
-//     buttons: string;
-//     chart: string;
-// }
-) {
+export default function GetOptions() {
+  //   {color}: {
+  //     background: string;
+  //     hud: string;
+  //     buttons: string;
+  //     chart: string;
+  // }
   return (
     <div>
-      
       <button className="options-button">
         <Options />
       </button>

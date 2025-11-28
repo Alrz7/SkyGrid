@@ -7,7 +7,6 @@ import {
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
 
-const lastConfig = await readConfig();
 const url = "https://api.open-meteo.com/v1/forecast";
 
 export async function getWeatherStat(
@@ -17,6 +16,7 @@ export async function getWeatherStat(
   lat: number | string | null = null,
   lon: number | string | null = null
 ) {
+  const lastConfig = await readConfig();
   const locations = await readLocations();
   let location: Record<string, any> | null = null;
 
@@ -123,7 +123,7 @@ export async function readData(target = "current") {
 // const hourly = response.hourly()!;
 // const daily = response.daily()!;
 
-// // Note: The order of weather variables in the URL query and the indices below need to match!
+// // Note: The updateOrder of weather variables in the URL query and the indices below need to match!
 // const weatherData = {
 // 	current: {
 // 		time: new Date((Number(current.time()) + utcOffsetSeconds) * 1000),

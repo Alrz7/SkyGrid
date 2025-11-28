@@ -2,19 +2,14 @@ import React, { useState } from "react";
 import Default from "../assets/default.svg?react";
 import UpToDate from "../assets/isUpdate.svg?react";
 import Update from "../assets/update.svg?react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import "./styles/Update.css";
 import { checkUpdate } from "../logic/updateDatas.js";
-import { updateMainCity } from "../logic/orderFunctions.js";
 
 interface GetUpdateProps {
   city: string;
-  set: {
-    updateOrder: React.Dispatch<React.SetStateAction<any>>;
-    updateCity: React.Dispatch<React.SetStateAction<string>>;
-    setPattern: React.Dispatch<React.SetStateAction<any>>;
-    setsolarData: React.Dispatch<React.SetStateAction<any>>;
-  };
+  PrimaryUpdateCity: any;
+
   color: {
     background: string;
     hud: string;
@@ -25,8 +20,8 @@ interface GetUpdateProps {
 }
 
 export default function GetUpdate({
+  PrimaryUpdateCity,
   city,
-  set,
   color,
   isSearching,
 }: GetUpdateProps) {
@@ -37,7 +32,7 @@ export default function GetUpdate({
         <motion.button
           className="update-button"
           animate={{
-            left: isSearching ? "315px" : "105px",
+            left: isSearching ? "415px" : "105px",
           }}
           transition={{ duration: 0.2, ease: "easeInOut" }}
           // onMouseEnter={() => {
@@ -59,15 +54,7 @@ export default function GetUpdate({
             if (city) {
               const result = checkUpdate(city, true).then((res) => {
                 if (res.ok) {
-                  updateMainCity(
-                    set.updateOrder,
-                    set.updateCity,
-                    set.setPattern,
-                    set.setsolarData,
-                    city,
-                    res.val[0],
-                    res.val[1]
-                  );
+                  PrimaryUpdateCity(true, city, res.val[0], res.val[1]);
                 }
               });
             }

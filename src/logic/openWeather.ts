@@ -6,7 +6,6 @@ import {
 } from "@tauri-apps/plugin-fs";
 import { readData as readLocations } from "./GeoLocations.js";
 
-
 export async function getWeather(cityName: string) {
   const locations = await readLocations();
   let location = undefined;

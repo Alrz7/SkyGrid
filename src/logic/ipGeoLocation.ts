@@ -5,7 +5,7 @@ import {
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
 import { readData as readLocations } from "./GeoLocations.js";
-import {dateDiferenceToHour as difrentHour} from '../logic/sources/dry.js';
+import { dateDiferenceToHour as difrentHour } from "../logic/sources/dry.js";
 
 async function getApiKey() {
   const apiKey = await readTextFile("SkyGrid/apiKey/ipGeoLocationKey.json", {
@@ -91,13 +91,10 @@ export async function updateData(
   if (cityName in DataList) {
     const lastData = DataList[cityName];
     const lastUpdateTime = `${lastData.astronomy.date}T${lastData.astronomy.current_time}`;
-    const localTime = await findlocalTime(cityName)
-    console.log(localTime?.time.fullStr)
-    const timeDiff = difrentHour(
-      localTime?.time.fullStr,
-      lastUpdateTime
-    );
-    console.log(cityName, engage)
+    const localTime = await findlocalTime(cityName);
+    console.log(localTime?.time.fullStr);
+    const timeDiff = difrentHour(localTime?.time.fullStr, lastUpdateTime);
+    console.log(cityName, engage);
     if (engage) {
       // console.log("engaging in astro update")
       if (timeDiff >= 24) {

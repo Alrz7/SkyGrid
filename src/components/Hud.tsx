@@ -43,7 +43,7 @@ export default function Hud({ hudData, city, color, isSearching }: HudPops) {
       <motion.div
         className="city-container"
         animate={{
-          left: isSearching ? "210px" : "0px",
+          left: isSearching ? "310px" : "0px",
         }}
         transition={{ duration: 0.2, ease: "easeInOut" }}
       >

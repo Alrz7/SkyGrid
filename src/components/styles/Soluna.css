@@ -1,4 +1,6 @@
 .Sun {
+  overflow: hidden;
+
   transform: translate(-50%, -50%);
   position: absolute;
   top: -6%;
@@ -84,7 +86,6 @@
   transform: scale(1.1);
 }
 
-
 .toggle-buttons {
   position: fixed;
   right: 10px;
@@ -141,7 +142,7 @@
   border-color: #ffffff;
   /* box-shadow: 0 0 20px rgb(255, 255, 255); */
   transform: scale(1.08);
-  
+
   animation: pulse-glow 1.5s ease-in-out infinite alternate;
 }
 
@@ -154,10 +155,8 @@
   }
 }
 
-
-
 .tooltip-wrapper {
-  position: relative;            
+  position: relative;
   display: inline-block;
 }
 
@@ -177,7 +176,7 @@
   transition: all 0.3s ease;
   z-index: 1000;
   pointer-events: none;
-  
+
   border: 1px solid rgba(124, 77, 255, 0.4);
   box-shadow: 0 0 20px rgba(124, 77, 255, 0.3);
 }

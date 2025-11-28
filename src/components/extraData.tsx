@@ -129,10 +129,6 @@ function DonatChart(props: any) {
   );
 }
 
-
-
-
-
 // /* Radial chart styles */
 // .radial-chart-container {
 //   top:40%;

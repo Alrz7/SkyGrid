@@ -1,7 +1,11 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
-import { setCurrentCity, changeOrders } from "./logic/orderFunctions.js";
+import {
+  setCurrentCity,
+  changeOrders,
+  updateMainCity,
+} from "./logic/orderFunctions.js";
 import CloseSvg from "./assets/close.svg?react";
 import MinimizeSvg from "./assets/minimize.svg?react";
 import MaximizeSvg from "./assets/maximize.svg?react";
@@ -11,7 +15,7 @@ import SwitchButtons from "./components/SwitchCity.js";
 import DataCard from "./components/DataCard.js";
 import GetUpdate from "./components/Update.js";
 import GetOptions from "./components/Options.js";
-import AddCity from "./components/AddCity.js";
+import SearchCity from "./components/SearchCity.js";
 import Hud from "./components/Hud.js";
 import Clock from "./components/Clock.js";
 
@@ -40,6 +44,24 @@ export default function App() {
   useEffect(() => {
     setCurrentCity(updateOrder, updateCity, setPattern, setsolarData);
   }, []);
+
+  function PrimaryUpdateCity(
+    direct: boolean,
+    cityName: string,
+    current: Record<string, any> | null,
+    hourly: Record<string, any> | null
+  ) {
+    updateMainCity(
+      updateOrder,
+      updateCity,
+      setPattern,
+      setsolarData,
+      direct,
+      cityName,
+      current,
+      hourly
+    );
+  }
 
   useEffect(() => {
     async function loadTemp() {
@@ -90,9 +112,15 @@ export default function App() {
       >
         <MinimizeSvg />
       </button>
-      <div className="floating-ball">
+      <div style={{ overflow: "hidden" }}>
         <Sky solarData={solarData} city={city} />
       </div>
+      <SearchCity
+        PrimaryUpdateCity={PrimaryUpdateCity}
+        color={Pattern}
+        isSearching={isSearching}
+        Searching={Searching}
+      />
       <SwitchButtons
         onSwitchClick={(forward: boolean) => {
           changeOrders(
@@ -114,18 +142,12 @@ export default function App() {
       <GetOptions
       //  color={Pattern}
       />
-      <AddCity
-        set={{ updateOrder, updateCity, setPattern, setsolarData }}
-        color={Pattern}
-        isSearching={isSearching}
-        Searching={Searching}
-      />
       {/* <ReloadData /> */}
-      <Clock color={Pattern} city={city} />
+      <Clock color={Pattern} city={city} isSearching={isSearching} />
       <GetUpdate
         color={Pattern}
         city={city}
-        set={{ updateOrder, updateCity, setPattern, setsolarData }}
+        PrimaryUpdateCity={PrimaryUpdateCity}
         isSearching={isSearching}
       />
       <Hud
