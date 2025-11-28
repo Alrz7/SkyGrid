@@ -1,4 +1,3 @@
-import { s } from "framer-motion/client";
 import { readData as readLocations } from "./GeoLocations.js";
 import {toNameCase} from './sources/dry.js';
 
@@ -14,7 +13,7 @@ export async function lookingFor(searchString: string) {
   let resList = [];
   for (let cit in locations) {
     if (cit.includes(searchString) || cit.includes(cap)) {
-      resList.push(cit);
+      resList.push(locations[cit]);
     }
   }
   if(resList.length > 0){

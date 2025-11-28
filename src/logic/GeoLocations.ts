@@ -10,7 +10,7 @@ async function getLocation(cityName: string, prtcl = "opn") {
   if (prtcl == "met") {
     dt = await fetch(
       // << IMP >>  to filter Countrys in this search we can build a static country code search like  Iran => "IR" and filter use it as ...&countryCode=${countryCode}
-      `https://geocoding-api.open-meteo.com/v1/search?name=${cityName}&count=1&language=en`,
+      `https://geocoding-api.open-meteo.com/v1/search?name=${cityName}&count=5&language=en`,
       { method: "GET" }
     );
   } else {
@@ -36,25 +36,26 @@ async function getLocation(cityName: string, prtcl = "opn") {
   }
 }
 
-export async function addLocation(cityName: string) {
+export async function apiSearch(cityName: string) {
   const lastFile = await readData();
 
-  if (cityName && lastFile && cityName in lastFile) {
-    console.log("city already exists in file");
+  if (lastFile && cityName in lastFile) {
+    return { ok: true, avalable: true, list: [] };
   } else {
     const geoByMeteo = await getLocation(cityName, "met");
     //   const geoByOpenweather = getLocation(cityName, "opn");
     if (geoByMeteo) {
       console.log(geoByMeteo);
-      console.log("got the location!!! going for save!");
-      saveData(cityName, geoByMeteo["results"][0]);
-      return [cityName, geoByMeteo["results"][0]]; //   <<IMP>>  the ["results"][0] represents the first result of the respond and this means the respond can have more than 1 item due to Api , open meteo's location coding Api supports up to 100 results in free licence...
+      console.log(geoByMeteo["results"])
+      // saveData(cityName, geoByMeteo["results"][0]);
+      return { ok: true, avalable: false, list: geoByMeteo["results"] }; //   <<IMP>>  the ["results"][0] represents the first result of the respond and this means the respond can have more than 1 item due to Api , open meteo's location coding Api supports up to 100 results in free licence...
     } else {
-      return null;
+      return { ok: false, avalable: false, list: [] };
       // nothing yet
     }
   }
 }
+
 async function getApiKey() {
   const apiKey = await readTextFile("SkyGrid/apiKey/openweatherKey.json", {
     baseDir: BaseDirectory.Document,

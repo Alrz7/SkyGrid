@@ -3,10 +3,13 @@ import Addcity from "../assets/addcity.svg?react";
 import Search from "../assets/search.svg?react";
 import CloseSearch from "../assets/closeSearch.svg?react";
 import "./styles/SearchCity.css";
-import { motion, AnimatePresence } from "framer-motion";
-import { addLocation } from "../logic/GeoLocations.js";
+import { motion, AnimatePresence, circIn } from "framer-motion";
+import {
+  apiSearch,
+  saveData as saveToLocations,
+} from "../logic/GeoLocations.js";
 import { getWeatherStat } from "../logic/OpenMeteo.js";
-import { lookingFor } from "../logic/useCities.js";
+import { lookingFor, updateLocations } from "../logic/useCities.js";
 
 interface addcityProps {
   PrimaryUpdateCity: any;
@@ -27,22 +30,35 @@ export default function SearchCity({
   Searching,
 }: addcityProps) {
   const [input, setInput] = useState("");
-  const [searchContent, setContent] = useState<string[]>([]);
+  const [searchContent, setContent] = useState<Record<string, any>[]>([]);
   useEffect(() => {
     console.log(input);
   }, [input]);
   async function processNewLocation(cityName: string) {
-    const newLocation = await addLocation(cityName);
-    if (newLocation) {
-      const newWeatherData = await getWeatherStat(
-        newLocation[0],
-        true,
-        newLocation[1]
+    const newLocation = await apiSearch(cityName);
+    if (newLocation.ok && newLocation.list.length > 0) {
+      const resultCItyList = newLocation.list.map(
+        (cit: Record<string, any>) => {
+          return {
+            apiResult: true,
+            ...cit,
+          };
+        }
       );
+      console.log(resultCItyList);
+      setContent((searchContent) => [...resultCItyList, ...searchContent]);
+    }
+  }
+
+  async function acceptSelectedResult(data: Record<string, any>) {
+    if (data) {
+      saveToLocations(data.name, data);
+      updateLocations()
+      const newWeatherData = await getWeatherStat(data.name, true, data);
       if (newWeatherData) {
         PrimaryUpdateCity(
-          true,
-          newLocation[0],
+          false,
+          data.name,
           newWeatherData[0],
           newWeatherData[1]
         );
@@ -62,12 +78,16 @@ export default function SearchCity({
                     <button
                       className="city-item"
                       onClick={() => {
-                        Searching(false);
-                        setInput("");
-                        PrimaryUpdateCity(false, item);
+                        if (item.apiResult) {
+                          acceptSelectedResult(item);
+                        } else {
+                          Searching(false);
+                          setInput("");
+                          PrimaryUpdateCity(false, item.name);
+                        }
                       }}
                     >
-                      {item}
+                      {item.name}/{item.admin1}/{item.country_code}
                     </button>
                   );
                 })
@@ -129,8 +149,19 @@ export default function SearchCity({
                   if (str !== "") {
                     const sContent = lookingFor(str).then((sc) => {
                       if (sc) {
-                        setContent(sc);
                         console.log(sc);
+                        console.log(sc[0].country_code);
+                        const resultCitylist = sc.map(
+                          (cit: Record<string, any>) => {
+                            return {
+                              apiResult: false,
+                              ...cit,
+                              // {  NOT PREPARED YET!  } selecting and hovering over city NAMES is not always an ideal choise... it's much better to Use City's Id
+                            };
+                          }
+                        );
+                        setContent(resultCitylist);
+                        console.log(resultCitylist);
                       } else {
                         setContent([]);
                       }
@@ -149,7 +180,7 @@ export default function SearchCity({
               onClick={() => {
                 Searching(false);
                 setInput("");
-                setContent([])
+                setContent([]);
               }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
