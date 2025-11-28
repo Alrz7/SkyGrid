@@ -17,6 +17,7 @@ import GetUpdate from "./components/Update.js";
 import GetOptions from "./components/Options.js";
 import SearchCity from "./components/SearchCity.js";
 import Hud from "./components/Hud.js";
+import More from "./components/More.js";
 import Clock from "./components/Clock.js";
 
 export default function App() {
@@ -150,6 +151,7 @@ export default function App() {
         PrimaryUpdateCity={PrimaryUpdateCity}
         isSearching={isSearching}
       />
+      <More />
       <Hud
         hudData={hudData}
         city={city}

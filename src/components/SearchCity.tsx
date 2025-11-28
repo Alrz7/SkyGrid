@@ -36,18 +36,20 @@ export default function SearchCity({
   }, [input]);
 
   async function processNewLocation(cityName: string) {
-    const newLocation = await apiSearch(cityName);
-    if (newLocation.ok && newLocation.list.length > 0) {
-      const resultCItyList = newLocation.list.map(
-        (cit: Record<string, any>) => {
-          return {
-            apiResult: true,
-            ...cit,
-          };
-        }
-      );
-      console.log(resultCItyList);
-      setContent((searchContent) => [...resultCItyList, ...searchContent]);
+    if (cityName !== "") {
+      const newLocation = await apiSearch(cityName);
+      if (newLocation.ok && newLocation.list.length > 0) {
+        const resultCItyList = newLocation.list.map(
+          (cit: Record<string, any>) => {
+            return {
+              apiResult: true,
+              ...cit,
+            };
+          }
+        );
+        console.log(resultCItyList);
+        setContent((searchContent) => [...resultCItyList, ...searchContent]);
+      }
     }
   }
 

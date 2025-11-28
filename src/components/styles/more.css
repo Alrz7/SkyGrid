@@ -1,0 +1,55 @@
+@font-face {
+  font-family: "Crf-reg";
+  src: url("../fonts/DeliusUnicase-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+.more-panel {
+  position: fixed;
+  left: 50%;
+  bottom: 10%;
+  transform: translateX(-50%);
+  width: 98%;
+  max-width: 900px;
+  height: 80%;
+  background: rgba(35, 35, 72, 0.935);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 28px;
+  border: 1px solid rgba(124, 77, 255, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 999;
+  overflow: hidden;
+}
+
+.more-panel.open {
+  bottom: 50%;
+  transform: translate(-50%, 50%);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+.radial-chart-container {
+  position: absolute;
+  left: -80px;
+  top: -50px;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  height: 100%;
+  padding: 40px;
+}
+
+.curved-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  font-family: "Crf-reg";
+  letter-spacing: 1px;
+  fill: rgba(255, 255, 255, 0.705);
+  paint-order: stroke fill;
+}
