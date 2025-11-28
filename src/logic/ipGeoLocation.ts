@@ -91,6 +91,7 @@ export async function updateData(
   if (cityName in DataList) {
     const lastData = DataList[cityName];
     const lastUpdateTime = `${lastData.astronomy.date}T${lastData.astronomy.current_time}`;
+    console.log(10008888)
     const localTime = await findlocalTime(cityName);
     console.log(localTime?.time.fullStr);
     const timeDiff = difrentHour(localTime?.time.fullStr, lastUpdateTime);

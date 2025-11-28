@@ -13,7 +13,7 @@ export async function lookingFor(searchString: string) {
   let resList = [];
   for (let cit in locations) {
     if (cit.includes(searchString) || cit.includes(cap)) {
-      resList.push(locations[cit]);
+      resList.push({nameInFile: cit, ...locations[cit]});
     }
   }
   if(resList.length > 0){

@@ -66,7 +66,8 @@ export async function selectWatherItem(data: any, city: string) {
         }
       }
       return null;
-    } else return null;
+    }
+    return null;
   }
 }
 

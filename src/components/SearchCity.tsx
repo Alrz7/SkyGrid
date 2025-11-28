@@ -34,6 +34,7 @@ export default function SearchCity({
   useEffect(() => {
     console.log(input);
   }, [input]);
+  
   async function processNewLocation(cityName: string) {
     const newLocation = await apiSearch(cityName);
     if (newLocation.ok && newLocation.list.length > 0) {
@@ -54,6 +55,7 @@ export default function SearchCity({
     if (data) {
       saveToLocations(data.name, data);
       updateLocations()
+      console.log("api-req2")
       const newWeatherData = await getWeatherStat(data.name, true, data);
       if (newWeatherData) {
         PrimaryUpdateCity(
@@ -83,7 +85,7 @@ export default function SearchCity({
                         } else {
                           Searching(false);
                           setInput("");
-                          PrimaryUpdateCity(false, item.name);
+                          PrimaryUpdateCity(false, item.nameInFile ?? item.name);
                         }
                       }}
                     >

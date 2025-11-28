@@ -37,6 +37,7 @@ async function getLocation(cityName: string, prtcl = "opn") {
 }
 
 export async function apiSearch(cityName: string) {
+  console.log("api-req1");
   const lastFile = await readData();
 
   if (lastFile && cityName in lastFile) {
@@ -46,7 +47,7 @@ export async function apiSearch(cityName: string) {
     //   const geoByOpenweather = getLocation(cityName, "opn");
     if (geoByMeteo) {
       console.log(geoByMeteo);
-      console.log(geoByMeteo["results"])
+      console.log(geoByMeteo["results"]);
       // saveData(cityName, geoByMeteo["results"][0]);
       return { ok: true, avalable: false, list: geoByMeteo["results"] }; //   <<IMP>>  the ["results"][0] represents the first result of the respond and this means the respond can have more than 1 item due to Api , open meteo's location coding Api supports up to 100 results in free licence...
     } else {

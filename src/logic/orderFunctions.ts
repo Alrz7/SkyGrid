@@ -175,8 +175,8 @@ export async function changeOrders(
         ftHourlyData(hourlyWeather[newCityC]) ?? false,
       ],
     });
-    console.log(newCity);
-    console.log(ftHourlyData(hourlyWeather[newCity]));
+    // console.log(newCity);
+    // console.log(ftHourlyData(hourlyWeather[newCity]));
     console.log({
       cityA:
         newCityA == cityB[0]

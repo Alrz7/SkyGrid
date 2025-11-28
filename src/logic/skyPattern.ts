@@ -15,6 +15,7 @@ export async function findlocalTime(cityName: string) {
       return null;
     }
   } else {
+    // console.log(locations)
     console.log(`city ${cityName} doesn't exist in location list`);
     return null;
   }
@@ -143,7 +144,7 @@ function selectTitle(item: any, time: string) {
       return { title: sorted.at(-1).title, palletIndex: palletIndex };
     }
   }
-  console.log(time, item);
+  // console.log(time, item);
   console.log(sorted.at(-1)["time"], " <not found> ", sorted.at(-1)["title"]);
   return sorted.at(-1);
 }
@@ -156,23 +157,23 @@ export async function selectPattern(
   console.log(cityName);
   if (cityName) {
     const astData = await updateAstro(cityName, findlocalTime, true);
-    console.log(astData);
+    // console.log(astData);
     if (astData.ok) {
       const time: any = await findlocalTime(cityName);
       if (time) {
         const pallet = selectTitle(astData.val, time.time.fullTime);
-        console.log(pallet);
-        console.log(skyCycle[pallet.title][pallet.palletIndex]);
+        // console.log(pallet);
+        // console.log(skyCycle[pallet.title][pallet.palletIndex]);
         const backgroundColor =
           skyCycle[pallet.title][pallet.palletIndex].gradient;
         const hudColor = skyCycle[pallet.title][pallet.palletIndex].tempColor;
         setsolarData(astData.val.astronomy);
-        console.log({
-          background: backgroundColor,
-          hud: hudColor,
-          buttons: hudColor,
-          chart: hudColor,
-        });
+        // console.log({
+        //   background: backgroundColor,
+        //   hud: hudColor,
+        //   buttons: hudColor,
+        //   chart: hudColor,
+        // });
         setPattern({
           background: backgroundColor,
           hud: hudColor,
@@ -217,7 +218,7 @@ export function selectWeatherIcon(code: number) {
   ];
   const temps = [`c${code}`, `c${code}-n`, `c${code}-d`];
   let result = null;
-  console.log(temps);
+  // console.log(temps);
   for (let item of dataArray) {
     temps.forEach((i) => {
       if (i == item) {
@@ -225,7 +226,7 @@ export function selectWeatherIcon(code: number) {
       }
     });
   }
-  console.log(`code: ${code} res : ${result}`);
+  // console.log(`code: ${code} res : ${result}`);
 
   return result;
 }
