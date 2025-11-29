@@ -17,9 +17,11 @@ interface HudPops {
     chart: string;
   };
   isSearching: boolean;
+  page: string
+  setPage: any
 }
 
-export default function Hud({ hudData, city, color, isSearching }: HudPops) {
+export default function Hud({ hudData, city, color, isSearching, page, setPage }: HudPops) {
   const [Icon, setIcon] = useState<React.FC | null>(null);
 
   useEffect(() => {
@@ -54,7 +56,7 @@ export default function Hud({ hudData, city, color, isSearching }: HudPops) {
           {city}
         </h2>
       </motion.div>
-      <div className="hud-container">
+      {page == "main" ? <div className="hud-container">
         <div
           className="hud-card main-temp-card"
           style={{ color: color.buttons }}
@@ -109,7 +111,7 @@ export default function Hud({ hudData, city, color, isSearching }: HudPops) {
             </span>
           </div>
         </div>
-      </div>
+      </div>: null}
       {/* <style>
         {`
       .hud-info-item svg {

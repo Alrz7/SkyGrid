@@ -3,6 +3,7 @@
   top: 70px;
   left: 20px;
   text-align: left;
+  z-index: 60;
 }
 .time-slot {
   font-family: "Crf-reg", sans-serif;

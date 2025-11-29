@@ -112,7 +112,7 @@
   border: 1px solid rgba(255, 255, 255, 0.066);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   overflow-y: auto;
-  z-index: 50;
+  z-index: 110;
   animation: slideIn 0.3s ease-out;
 }
 

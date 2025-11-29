@@ -42,6 +42,7 @@ export default function App() {
     solar_noon: "",
   });
   const [isSearching, Searching] = useState(false);
+  const [page, setPage] = useState("main");
   useEffect(() => {
     setCurrentCity(updateOrder, updateCity, setPattern, setsolarData);
   }, []);
@@ -135,6 +136,8 @@ export default function App() {
         }}
       />
       <DataCard
+        page={page}
+        setPage={setPage}
         activeParameters={["temperature"]}
         weatherData={loadOrder.cityB.length > 0 ? loadOrder.cityB[2] : null}
         color={Pattern}
@@ -151,8 +154,15 @@ export default function App() {
         PrimaryUpdateCity={PrimaryUpdateCity}
         isSearching={isSearching}
       />
-      <More />
+      <More
+        page={page}
+        setPage={setPage}
+        weatherData={loadOrder.cityB.length > 0 ? loadOrder.cityB[2] : null}
+        color={Pattern}
+      />
       <Hud
+        page={page}
+        setPage={setPage}
         hudData={hudData}
         city={city}
         color={Pattern}

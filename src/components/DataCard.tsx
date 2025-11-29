@@ -41,15 +41,18 @@ interface DataCardProps {
     buttons: string;
     chart: string;
   };
+  page: string
+  setPage: any
 }
 
 const DataCard = ({
   weatherData = hourlyData,
   activeParameters = ["temperature"],
   color,
+  page,
+  setPage
 }: DataCardProps) => {
   if (!weatherData) weatherData = hourlyData;
-  const [activeData, setActiveData] = useState(null);
 
   const configs = {
     temperature: {
@@ -108,11 +111,11 @@ const DataCard = ({
 
   return (
     <div className="data-card" style={{ overflow: "visible" }}>
-      <div className="chart-container">
+      {page == "main" ? <div className="chart-container">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={weatherData || hourlyData}
-            margin={{ top: 0, right: 4, left: -36, bottom: 37 }}
+            margin={{ top: 2, right: 2, left: -32, bottom: 37 }}
           >
             <defs>
               {activeParameters.map((param: any) => {
@@ -173,8 +176,10 @@ const DataCard = ({
             })}
           </AreaChart>
         </ResponsiveContainer>
-      </div>
+      </div>: null}
       <Forcast
+      page = {page}
+        setPage = {setPage}
       // color={color}
       />
     </div>
