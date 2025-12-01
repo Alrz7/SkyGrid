@@ -67,7 +67,7 @@ export default function ChartLineMultiple({
           data={data}
           margin={{ left: -25, right: 18, top: 16, bottom: 2 }}
         >
-          <CartesianGrid vertical={false} stroke="#e5e7eb68" />
+          <CartesianGrid vertical={false} stroke="#e5e7eb2b" />
           <XAxis
             dataKey="hour"
             tickLine={false}

@@ -90,7 +90,10 @@
   height: 40px;
   background: rgba(255, 255, 255, 0);
   border: 1px solid rgba(255, 255, 255, 0);
-  border-radius: 25px;
+  border-bottom-right-radius: 18px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-top-right-radius: 8px;
   color: rgba(255, 255, 255, 0.6);
   font-size: 18px;
   font-weight: 600;
