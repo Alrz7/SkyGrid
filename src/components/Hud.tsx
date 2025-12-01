@@ -17,11 +17,18 @@ interface HudPops {
     chart: string;
   };
   isSearching: boolean;
-  page: string
-  setPage: any
+  page: string;
+  setPage: any;
 }
 
-export default function Hud({ hudData, city, color, isSearching, page, setPage }: HudPops) {
+export default function Hud({
+  hudData,
+  city,
+  color,
+  isSearching,
+  page,
+  setPage,
+}: HudPops) {
   const [Icon, setIcon] = useState<React.FC | null>(null);
 
   useEffect(() => {
@@ -56,62 +63,62 @@ export default function Hud({ hudData, city, color, isSearching, page, setPage }
           {city}
         </h2>
       </motion.div>
-      {page == "main" ? <div className="hud-container">
-        <div
-          className="hud-card main-temp-card"
-          style={{ color: color.buttons }}
-        >
-          <div className="hud-temp-value">
-            {hudData?.temperature ? `${hudData.temperature}°` : ""}
+      {page == "main" && hudData?.temperature ? (
+        <div className="hud-container">
+          <div
+            className="hud-card main-temp-card"
+            style={{ color: color.buttons }}
+          >
+            <div className="hud-temp-value">
+              {hudData?.temperature ? `${hudData.temperature}°` : ""}
+            </div>
+            <div
+              className="hud-temp-feelslike"
+              style={{ color: color.buttons }}
+            >
+              {hudData?.apparent_temperature
+                ? `Feels like ${hudData.apparent_temperature}°`
+                : ""}
+              <span className="hud-weather-status">
+                {Icon ? <Icon /> : null}
+              </span>
+            </div>
           </div>
-          <div className="hud-temp-feelslike" style={{ color: color.buttons }}>
-            {hudData?.apparent_temperature
-              ? `Feels like ${hudData.apparent_temperature}°`
-              : ""}
-            <span className="hud-weather-status">{Icon ? <Icon /> : null}</span>
-          </div>
-        </div>
 
-        <div className="hud-card info-card">
-          <div className="hud-info-item">
-            <Humidity />
-            <span className="hud-label" style={{ color: color.buttons }}>
-              Humidity:
-            </span>
-            <span className="hud-value" style={{ color: color.buttons }}>
-              {hudData?.humidity ?? ""}%
-            </span>
-          </div>
-          <div className="hud-info-item">
-            <Wind />
-            <span className="hud-label" style={{ color: color.buttons }}>
-              Wind:
-            </span>
-            <span className="hud-value" style={{ color: color.buttons }}>
-              {hudData?.wind_speed ?? ""} m/s ({hudData?.wind_direction ?? ""}
-              °)
-            </span>
-          </div>
-          <div className="hud-info-item">
-            <Visibility />
-            <span className="hud-label" style={{ color: color.buttons }}>
-              Visibility:
-            </span>
-            <span className="hud-value" style={{ color: color.buttons }}>
-              {hudData?.visibility ?? ""} m
-            </span>
-          </div>
-          <div className="hud-info-item">
-            <Pressure />
-            <span className="hud-label" style={{ color: color.buttons }}>
-              Pressure:
-            </span>
-            <span className="hud-value" style={{ color: color.buttons }}>
-              {hudData?.pressure_msl ?? ""} hPa
-            </span>
+          <div className="hud-card info-card">
+            {[
+              {
+                Icon: Humidity,
+                value: `${hudData?.humidity ?? "-"}%`,
+                label: "Humidity",
+              },
+              {
+                Icon: Wind,
+                value: `${hudData?.wind_speed ?? "-"} m/s`,
+                label: "Wind",
+              },
+              {
+                Icon: Visibility,
+                value: `${hudData?.visibility ?? "-"} m`,
+                label: "Visibility",
+              },
+              {
+                Icon: Pressure,
+                value: `${hudData?.pressure_msl ?? "-"} hPa`,
+                label: "Pressure",
+              },
+            ].map((item, idx) => (
+              <div key={idx} className="info-row" style={{color: color.buttons}}>
+                <div className="icon-value-wrapper" data-tooltip={item.label}>
+                  <item.Icon />
+                  <span className="hud-value" style={{color: color.buttons}}>{item.value}</span>
+                </div>
+                {idx < 3 && <div className="separator" />}
+              </div>
+            ))}
           </div>
         </div>
-      </div>: null}
+      ) : null}
       {/* <style>
         {`
       .hud-info-item svg {

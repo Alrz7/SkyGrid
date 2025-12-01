@@ -1,27 +1,9 @@
-"use client";
-import Forcast from "./Forcast.js";
 import { useState } from "react";
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
+import AreaIcon from "../assets/areaChart.svg?react";
+import LineIcon from "../assets/lineChart.svg?react";
+import AreaChart from "./AreaChart.js";
+import LineChart from "./LineChart.js";
 import "./styles/DataCard.css";
-
-const hourlyData = [
-  { hour: "00:00", temperature: 0, humidity: 0, windSpeed: 0 },
-  { hour: "03:00", temperature: 0, humidity: 0, windSpeed: 0 },
-  { hour: "06:00", temperature: 0, humidity: 0, windSpeed: 0 },
-  { hour: "09:00", temperature: 0, humidity: 0, windSpeed: 0 },
-  { hour: "12:00", temperature: 0, humidity: 0, windSpeed: 0 },
-  { hour: "15:00", temperature: 0, humidity: 0, windSpeed: 0 },
-  { hour: "18:00", temperature: 0, humidity: 0, windSpeed: 0 },
-  { hour: "21:00", temperature: 0, humidity: 0, windSpeed: 0 },
-];
 
 interface DataCardProps {
   weatherData:
@@ -34,156 +16,68 @@ interface DataCardProps {
         humidity: number;
         windSpeed: number;
       }[];
-  activeParameters: [string];
   color: {
     background: string;
     hud: string;
     buttons: string;
     chart: string;
   };
-  page: string
-  setPage: any
+  page: string;
+  setPage: any;
 }
 
-const DataCard = ({
-  weatherData = hourlyData,
-  activeParameters = ["temperature"],
+export default function DataCard({
+  weatherData,
   color,
   page,
-  setPage
-}: DataCardProps) => {
-  if (!weatherData) weatherData = hourlyData;
-
-  const configs = {
-    temperature: {
-      unit: "°C",
-      colors: { start: color.chart, end: "#909090ff" },
-      opacity: 0.8,
-    },
-    cloud_cover: {
-      unit: "%",
-      colors: { start: "#0c73a3ff", end: "#3f5ec3ff" },
-      opacity: 0.6,
-    },
-    wind_speed: {
-      unit: "km/h",
-      colors: { start: "#10b981", end: "#047857" },
-      opacity: 0.4,
-    },
-  } as const;
-  type ConfigKey = keyof typeof configs;
-
-  const getParameterConfig = (param: ConfigKey) => {
-    return configs[param] || configs.temperature;
-  };
-
-  type CustomTooltipProps = {
-    active?: boolean;
-    payload?: any[];
-    label?: any;
-  };
-
-  const CustomTooltip = ({
-    active,
-    payload,
-    label,
-  }: {
-    active?: boolean;
-    payload?: any[];
-    label?: any;
-  }) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="custom-tooltip">
-          <p className="tooltip-label">{label}</p>
-          {payload.map((entry: any, index: any) => {
-            const config = getParameterConfig(entry.dataKey);
-            return (
-              <p key={index} className="tooltip-value">
-                {`${entry.dataKey}: ${entry.value}${config.unit}`}
-              </p>
-            );
-          })}
-        </div>
-      );
-    }
-  };
-
+  setPage,
+}: DataCardProps) {
+  const [chartType, setType] = useState("area");
   return (
-    <div className="data-card" style={{ overflow: "visible" }}>
-      {page == "main" ? <div className="chart-container">
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart
-            data={weatherData || hourlyData}
-            margin={{ top: 2, right: 2, left: -32, bottom: 37 }}
-          >
-            <defs>
-              {activeParameters.map((param: any) => {
-                const config = getParameterConfig(param);
-                return (
-                  <linearGradient
-                    key={param}
-                    id={`gradient-${param}`}
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="1"
-                  >
-                    <stop
-                      offset="5%"
-                      stopColor={config.colors.start}
-                      stopOpacity={config.opacity}
-                    />
-                    <stop
-                      offset="95%"
-                      stopColor={config.colors.end}
-                      stopOpacity={0.1}
-                    />
-                  </linearGradient>
-                );
-              })}
-            </defs>
-            <CartesianGrid
-              strokeDasharray="3 3"
-              stroke="rgba(255, 255, 255, 0.15)"
-            />
-            <XAxis
-              dataKey="hour"
-              // interval={0}
-              axisLine={false}
-              tickLine={false}
-              tick={{ fill: color.chart, fontSize: 12 }}
-            />
-            <YAxis
-              axisLine={false}
-              tickLine={false}
-              tick={{ fill: color.chart, fontSize: 12 }}
-            />
-            <Tooltip content={<CustomTooltip />} />
-            {activeParameters.map((param: any) => {
-              const config = getParameterConfig(param);
-              return (
-                <Area
-                  key={param}
-                  type="monotone"
-                  dataKey={param}
-                  stroke={config.colors.start}
-                  strokeWidth={2}
-                  fillOpacity={1}
-                  fill={`url(#gradient-${param})`}
-                />
-              );
-            })}
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>: null}
-      <Forcast
-      page = {page}
-        setPage = {setPage}
-      // color={color}
-      />
-    </div>
-  );
-};
+    <>
+      {page == "main" ? (
+        <div className="data-card" style={{ overflow: "visible" }}>
+          {chartType == "area" ? <AreaChart
+            page={page}
+            setPage={setPage}
+            activeParameters={[
+              "temperature",
+              "apparent_temperature",
+              "rain",
+              "showers",
+              "snowfall",
+              "wind_speed",
+            ]}
+            weatherData={weatherData}
+            color={color}
+          /> : <LineChart weatherData={weatherData}/>}
+          <div>
+            <div className="button-container">
+              <button
+                className="forcast-button main"
+                onClick={() => {
+                  setPage("forecast");
+                }}
+              >
+                5-day forecast
+              </button>
+            </div>
 
-export default DataCard;
+            <button
+              className={`single-btn ${chartType == "area" ? "area" : "line"}`}
+              onClick={() => {
+                if (chartType == "area") {
+                  setType("line");
+                } else {
+                  setType("area");
+                }
+              }}
+            >
+              {chartType == "area" ? <LineIcon /> : <AreaIcon />}
+            </button>
+          </div>
+        </div>
+      ) : null}
+    </>
+  );
+}

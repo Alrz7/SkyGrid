@@ -1,10 +1,5 @@
 "use client";
-import "./styles/more.css";
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import ChartLineMultiple from "./LineChart.js";
-import { selectWeatherIcon } from "../logic/skyPattern.js";
-import ClosePage from "../assets/closePage.svg?react";
+import { useState } from "react";
 import {
   AreaChart,
   Area,
@@ -14,80 +9,20 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
+import "./styles/AreaChart.css";
 
-const BackupData = [
-  { hour: "00:00", temperature: 19, cloud_cover: 78, wind_speed: 8 },
-  { hour: "03:00", temperature: 17, cloud_cover: 84, wind_speed: 10 },
-  { hour: "06:00", temperature: 16, cloud_cover: 88, wind_speed: 12 },
-  { hour: "09:00", temperature: 22, cloud_cover: 72, wind_speed: 15 },
-  { hour: "12:00", temperature: 28, cloud_cover: 55, wind_speed: 18 },
-  { hour: "15:00", temperature: 31, cloud_cover: 48, wind_speed: 22 },
-  { hour: "18:00", temperature: 27, cloud_cover: 62, wind_speed: 16 },
-  { hour: "21:00", temperature: 23, cloud_cover: 70, wind_speed: 11 },
+
+const hourlyData = [
+  { hour: "00:00", temperature: 0, humidity: 0, windSpeed: 0 },
+  { hour: "03:00", temperature: 0, humidity: 0, windSpeed: 0 },
+  { hour: "06:00", temperature: 0, humidity: 0, windSpeed: 0 },
+  { hour: "09:00", temperature: 0, humidity: 0, windSpeed: 0 },
+  { hour: "12:00", temperature: 0, humidity: 0, windSpeed: 0 },
+  { hour: "15:00", temperature: 0, humidity: 0, windSpeed: 0 },
+  { hour: "18:00", temperature: 0, humidity: 0, windSpeed: 0 },
+  { hour: "21:00", temperature: 0, humidity: 0, windSpeed: 0 },
 ];
 
-export default function More({
-  color,
-  weatherData,
-  page,
-  setPage,
-}: {
-  color: any;
-  weatherData:
-    | never[]
-    | null
-    | undefined
-    | {
-        hour: string;
-        temperature: number;
-        humidity: number;
-        windSpeed: number;
-        weather_code: number;
-      }[];
-  page: string;
-  setPage: any;
-}) {
-  const [iconList, setIconList] = useState<
-    {
-      hour: string;
-      icon: null;
-    }[]
-  >([]);
-
-  
-
-  return (
-    <motion.div
-      className={"more-panel open"}
-      initial={{ bottom: "-46%", opacity: 1 }}
-      animate={{
-        bottom: page != "more" ? "-46%" : "46%",
-        visibility: page != "more" ? "hidden" : "visible",
-      }}
-      transition={{ duration: 0.2, ease: "easeInOut" }}
-    >
-      <button
-        className="closePage-button"
-        onClick={() => {
-          setPage("main");
-        }}
-      >
-        <ClosePage />
-      </button>
-      <div className="weather-code">
-          {/* there will be  weather Icons here */}
-      </div>
-      {page == "more" ? (
-        <>
-          <ChartLineMultiple weatherData={weatherData} />
-          <Chart weatherData={weatherData} color={color} />
-        </>
-      ) : null}
-    </motion.div>
-  );
-}
-
-// the Multi
 interface DataCardProps {
   weatherData:
     | never[]
@@ -99,23 +34,30 @@ interface DataCardProps {
         humidity: number;
         windSpeed: number;
       }[];
+  activeParameters: string[];
   color: {
     background: string;
     hud: string;
     buttons: string;
     chart: string;
   };
+  page: string;
+  setPage: any;
 }
 
-const Chart = ({ weatherData, color }: DataCardProps) => {
-  const activeParameters = [
+export default function ({
+  weatherData = hourlyData,
+  activeParameters = [
     "temperature",
     "apparent_temperature",
     "rain",
     "showers",
     "snowfall",
     "wind_speed",
-  ];
+  ],
+  color,
+}: DataCardProps) {
+  if (!weatherData) weatherData = hourlyData;
 
   const configs = {
     temperature: {
@@ -186,14 +128,13 @@ const Chart = ({ weatherData, color }: DataCardProps) => {
       );
     }
   };
-
   return (
-    <div className="chart-card" style={{ overflow: "visible" }}>
+    <>
       <div className="chart-container">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
-            data={weatherData || BackupData}
-            margin={{ top: 2, right: 4, left: -28, bottom: -6 }}
+            data={weatherData || hourlyData}
+            margin={{ top: 8, right: 2, left: -32, bottom: 37 }}
           >
             <defs>
               {activeParameters.map((param: any) => {
@@ -255,6 +196,6 @@ const Chart = ({ weatherData, color }: DataCardProps) => {
           </AreaChart>
         </ResponsiveContainer>
       </div>
-    </div>
+    </>
   );
-};
+}

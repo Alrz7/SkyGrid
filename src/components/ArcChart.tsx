@@ -1,7 +1,7 @@
 "use client";
 import "./styles/ArcChart.css";
 
-export function Arc() {
+export default function Arc() {
   const weatherData = [
     { name: "Humidity", value: 65, color: "#039fbeff", maxValue: 100 },
     { name: "Wind Speed", value: 12, color: "#066ce0ff", maxValue: 50 },

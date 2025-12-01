@@ -6,14 +6,13 @@
 }
 
 .line-Chart-card {
-  margin-left: 4%;
-  width: 92%;
-  height: 30%;
-  margin-top: 58px;
-  border: 1px solid #ffffff02;
+  width: 98%;
+  height: 82%;
+  margin-bottom: 35px;
+  border: 1px solid #ffffff00;
   border-radius: 8px;
-  background-color: #ffffff07;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.334);
+  background-color: #ffffff00;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0);
   overflow: hidden;
 }
 

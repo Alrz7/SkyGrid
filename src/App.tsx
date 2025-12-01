@@ -17,7 +17,7 @@ import GetUpdate from "./components/Update.js";
 import GetOptions from "./components/Options.js";
 import SearchCity from "./components/SearchCity.js";
 import Hud from "./components/Hud.js";
-import More from "./components/More.js";
+import More from "./components/Forecast.js";
 import Clock from "./components/Clock.js";
 
 export default function App() {
@@ -138,7 +138,6 @@ export default function App() {
       <DataCard
         page={page}
         setPage={setPage}
-        activeParameters={["temperature"]}
         weatherData={loadOrder.cityB.length > 0 ? loadOrder.cityB[2] : null}
         color={Pattern}
       />
