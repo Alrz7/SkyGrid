@@ -10,8 +10,9 @@ import {
 } from "../logic/GeoLocations.js";
 import { getWeatherStat } from "../logic/OpenMeteo.js";
 import { lookingFor, updateLocations } from "../logic/useCities.js";
-
+import { toNameCase } from "../logic/sources/dry.js";
 interface addcityProps {
+  addNotif: any;
   PrimaryUpdateCity: any;
   color: {
     background: string;
@@ -24,6 +25,7 @@ interface addcityProps {
 }
 
 export default function SearchCity({
+  addNotif,
   PrimaryUpdateCity,
   color,
   isSearching,
@@ -32,7 +34,7 @@ export default function SearchCity({
   const [input, setInput] = useState("");
   const [searchContent, setContent] = useState<Record<string, any>[]>([]);
   useEffect(() => {
-    console.log(input);
+    // console.log(input);
   }, [input]);
 
   async function processNewLocation(cityName: string) {
@@ -55,10 +57,16 @@ export default function SearchCity({
 
   async function acceptSelectedResult(data: Record<string, any>) {
     if (data) {
+      data.srcName = toNameCase(input);
       saveToLocations(data.name, data);
       updateLocations();
       console.log("api-req2");
-      const newWeatherData = await getWeatherStat(data.name, true, data);
+      const newWeatherData = await getWeatherStat(
+        addNotif,
+        data.name,
+        true,
+        data
+      );
       if (newWeatherData) {
         PrimaryUpdateCity(
           false,
@@ -166,15 +174,11 @@ export default function SearchCity({
                       // console.log(sc);
                       const resultCitylist = sc.map(
                         (cit: Record<string, any>) => {
-                          return {
-                            apiResult: false,
-                            ...cit,
-                            // {  NOT PREPARED YET!  } selecting and hovering over city NAMES is not always an ideal choise... it's much better to Use City's Id
-                          };
+                          return cit;
                         }
                       );
                       setContent(resultCitylist);
-                      // console.log(resultCitylist);
+                      console.log(resultCitylist);
                     } else {
                       setContent([]);
                     }

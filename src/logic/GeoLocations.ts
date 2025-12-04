@@ -4,6 +4,7 @@ import {
   writeTextFile,
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
+import { readKey, doesExist, create } from "./DataManagement.js";
 
 async function getLocation(cityName: string, prtcl = "opn") {
   let dt;
@@ -14,9 +15,9 @@ async function getLocation(cityName: string, prtcl = "opn") {
       { method: "GET" }
     );
   } else {
-    const apiKey = await getApiKey();
+    const apiKey = await readKey("openwKey");
     dt = await fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${apiKey}&lang=en`,
+      `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${apiKey.key}&lang=en`,
       { method: "GET" }
     );
   }
@@ -57,13 +58,6 @@ export async function apiSearch(cityName: string) {
   }
 }
 
-async function getApiKey() {
-  const apiKey = await readTextFile("SkyGrid/apiKey/openweatherKey.json", {
-    baseDir: BaseDirectory.Document,
-  });
-  return JSON.parse(apiKey)["key"];
-}
-
 export async function saveData(
   cityName: string | null,
   data: Record<string, any>,
@@ -71,10 +65,10 @@ export async function saveData(
 ) {
   if (cityName) {
     const lastFile = await readData(target);
-    if (lastFile === false) {
-      const container = { cityName: data };
+    if (!lastFile) {
+      const container = { [cityName]: data };
       await writeTextFile(
-        `SkyGrid/Data/GeoLocations/${target}.json`,
+        `SkyGrid/locationData/${target}.json`,
         JSON.stringify(container),
         {
           baseDir: BaseDirectory.Document,
@@ -83,7 +77,7 @@ export async function saveData(
     } else {
       lastFile[cityName] = data;
       await writeTextFile(
-        `SkyGrid/Data/GeoLocations/${target}.json`,
+        `SkyGrid/locationData/${target}.json`,
         JSON.stringify(lastFile),
         {
           baseDir: BaseDirectory.Document,
@@ -94,12 +88,18 @@ export async function saveData(
 }
 
 export async function readData(target = "locations") {
-  const file = await readTextFile(`SkyGrid/Data/GeoLocations/${target}.json`, {
-    baseDir: BaseDirectory.Document,
-  });
-  if (file) {
-    const data = JSON.parse(file);
-    return data;
+  const adrs = `SkyGrid/locationData/${target}.json`;
+  const ext = await doesExist(adrs);
+  if (ext) {
+    const file = await readTextFile(adrs, {
+      baseDir: BaseDirectory.Document,
+    });
+    if (file) {
+      const data = JSON.parse(file);
+      return data;
+    } else {
+      return null;
+    }
   } else {
     return null;
   }

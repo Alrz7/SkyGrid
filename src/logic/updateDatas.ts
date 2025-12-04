@@ -1,7 +1,7 @@
 import { readData, getWeatherStat } from "./OpenMeteo.js";
-import { updateData as updateAstro } from "./ipGeoLocation.js";
+import { updateData as updateAstro, updateData } from "./ipGeoLocation.js";
 import { findlocalTime } from "./skyPattern.js";
-import {dateDiferenceToHour as difrentHour} from '../logic/sources/dry.js';
+import { dateDiferenceToHour as difrentHour } from "../logic/sources/dry.js";
 
 function getLocalTime() {
   const now = new Date();
@@ -20,7 +20,6 @@ function getLocalTime() {
   };
 }
 
-
 /**
  *  this should  manage the time of updating the current datas
  */
@@ -34,20 +33,42 @@ export async function checkCurrent(cityName: string, data: { time: string }) {
   }
 }
 
-export async function checkUpdate(cityName: string, engage: boolean) {
+export async function checkUpdate(
+  addNotif: any,
+  cityName: string,
+  engage: boolean
+) {
   const now = getLocalTime().fullStr;
   const locations = await readData("hourly");
   if (cityName && cityName in locations) {
     const lastDate = locations[cityName].time;
     const time_difference = difrentHour(now, lastDate.at(-1));
     if (engage) {
+
       // console.log("engaging in weather update");
-      updateAstro(cityName, findlocalTime, true);
-      if (time_difference >= 0) {
-        const newWeatherData = await getWeatherStat(cityName);
+      const astroUpdResponse = await updateAstro(cityName, findlocalTime, true);
+      const wethUpd = time_difference >= 0;
+      const astroUpd = !astroUpdResponse?.isUpdate;
+
+      const ntfText = `Updating ${wethUpd ? "Weather" : ""} ${
+        wethUpd && astroUpd ? "&" : ""
+      } ${astroUpd ? "Astronomic" : ""} ${
+        wethUpd && astroUpd ? "Datas" : "Data"
+      } `;
+      addNotif([
+        "info",
+        `${wethUpd || astroUpd ? ntfText : "Datas are already Up To Date"}`,
+      ]);
+
+      console.log(
+        `need to update?  => ${
+          wethUpd || astroUpd ? ntfText : "Datas are already Up To Date"
+        }`
+      );
+      if (wethUpd) {
+        const newWeatherData = await getWeatherStat(addNotif, cityName);
         return { ok: true, val: newWeatherData };
       } else {
-        console.log("no need to Update the data...");
         return { ok: false, val: null };
       }
     } else {
@@ -57,10 +78,25 @@ export async function checkUpdate(cityName: string, engage: boolean) {
         findlocalTime,
         false
       );
+      const wethUpd = time_difference >= 0;
+      const astroUpd = !astroUpdResponse?.isUpdate;
+
+      const ntfText = `Updating ${wethUpd ? "Weather" : ""} ${
+        wethUpd && astroUpd ? "&" : ""
+      } ${astroUpd ? "Astronomic" : ""} ${
+        wethUpd && astroUpd ? "Datas" : "Data"
+      } `;
+      addNotif([
+        "info",
+        `${wethUpd || astroUpd ? ntfText : "Datas are already Up To Date"}`,
+      ]);
+
       console.log(
-        `need to update?  => ${time_difference >= 0 || astroUpdResponse.val}`
+        `need to update?  => ${
+          wethUpd || astroUpd ? ntfText : "Datas are already Up To Date"
+        }`
       );
-      return time_difference >= 0 || astroUpdResponse.val;
+      return { ok: false, val: null };
     }
   } else {
     return { ok: false, val: null };

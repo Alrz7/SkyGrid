@@ -6,10 +6,11 @@ import {
   writeTextFile,
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
-
+import { checkDir, checkApiKeys, doesExist } from "./DataManagement.js";
 const url = "https://api.open-meteo.com/v1/forecast";
 
 export async function getWeatherStat(
+  addNotif: any,
   cityName: string,
   addingCity: boolean = false,
   addingData: Record<string, any> | null = null,
@@ -49,6 +50,7 @@ export async function getWeatherStat(
     }
     return [data.current, data.hourly];
   } else {
+    addNotif(["error", `city '${cityName}' is not found in datas`]);
     console.log(
       `No such place with ${cityName ? `,name of ${cityName}` : ""} ${
         lat ? ` ,latitude of ${lat}` : ""
@@ -65,10 +67,10 @@ export async function saveData(
 ) {
   if (cityName) {
     const lastFile = await readData(target);
-    if (lastFile === false) {
-      const container = { cityName: data };
+    if (!lastFile) {
+      const container = { [cityName]: data };
       await writeTextFile(
-        `SkyGrid/Data/openMeteo/${target}Weather.json`,
+        `SkyGrid/weatherData/openMeteo/${target}Weather.json`,
         JSON.stringify(container),
         {
           baseDir: BaseDirectory.Document,
@@ -77,7 +79,7 @@ export async function saveData(
     } else {
       lastFile[cityName] = data;
       await writeTextFile(
-        `SkyGrid/Data/openMeteo/${target}Weather.json`,
+        `SkyGrid/weatherData/openMeteo/${target}Weather.json`,
         JSON.stringify(lastFile),
         {
           baseDir: BaseDirectory.Document,
@@ -88,20 +90,22 @@ export async function saveData(
 }
 
 export async function readData(target = "current") {
-  const file = await readTextFile(
-    `SkyGrid/Data/openMeteo/${target}Weather.json`,
-    {
+  const adrs = `SkyGrid/weatherData/openMeteo/${target}Weather.json`;
+  const ext = await doesExist(adrs);
+  if (ext) {
+    const file = await readTextFile(adrs, {
       baseDir: BaseDirectory.Document,
+    });
+    if (file) {
+      const data = JSON.parse(file);
+      return data;
+    } else {
+      return null;
     }
-  );
-  if (file) {
-    const data = JSON.parse(file);
-    return data;
   } else {
     return null;
   }
 }
-
 // const responses = await fetchWeatherApi(url, params);
 
 // Process first location. Add a for-loop for multiple locations or weather models

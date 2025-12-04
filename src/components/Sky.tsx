@@ -30,6 +30,7 @@ export default function CurvedLineComp({
   });
 
   useEffect(() => {
+    if (!city || city == "") return;
     setSphere(city, solarData, setCondition);
   }, [city, solarData]);
 
@@ -65,20 +66,25 @@ export default function CurvedLineComp({
   };
 
   useEffect(() => {
-    if(solarCondition.sun.isVisible || solarCondition.moon.isVisible){
-    const handleResize = () => {
-      getSVGCorners();
-    };
+    if (solarCondition.sun.isVisible || solarCondition.moon.isVisible) {
+      const handleResize = () => {
+        getSVGCorners();
+      };
 
-    handleResize();
-    window.addEventListener("resize", handleResize);
+      handleResize();
+      window.addEventListener("resize", handleResize);
 
-    return () => window.removeEventListener("resize", handleResize);}
+      return () => window.removeEventListener("resize", handleResize);
+    }
   }, [solarCondition]);
 
   return (
     <>
-      <Soluna location={location} solarCondition={solarCondition} solarData={solarData} />
+      <Soluna
+        location={location}
+        solarCondition={solarCondition}
+        solarData={solarData}
+      />
       {solarCondition.sun.isVisible ? null : <BackGroundStars />}
       {solarCondition.sun.isVisible || solarCondition.moon.isVisible ? (
         <Sky className="Sky-line" ref={svgRef} />
@@ -94,4 +100,3 @@ const getDynamicParabola = (svgWidth: number, svgTop: number) => {
   const k = svgTop - 12 * scale - 45;
   return { a, h, k };
 };
-

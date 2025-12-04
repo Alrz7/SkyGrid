@@ -15,7 +15,9 @@ export async function lookingFor(searchString: string): Promise<any[] | null> {
       const cap = toNameCase(searchString);
       for (let cit in locations) {
         if (cit.includes(searchString) || cit.includes(cap)) {
-          resList.push({ nameInFile: cit, ...locations[cit] });
+          let newdata = locations[cit]
+          newdata.apiResult = false
+          resList.push({ nameInFile: cit, ...newdata });
         }
       }
       if (resList.length > 0) {
@@ -26,13 +28,15 @@ export async function lookingFor(searchString: string): Promise<any[] | null> {
       }
     } else {
       for (let cit in locations) {
-        resList.push({ nameInFile: cit, ...locations[cit] });
+        let newdata = locations[cit]
+          newdata.apiResult = false
+        resList.push({ nameInFile: cit, ...newdata });
       }
       console.log(resList);
       return resList;
     }
   } else {
-    console.log(locations);
+    // console.log(locations);
     return null;
   }
 }

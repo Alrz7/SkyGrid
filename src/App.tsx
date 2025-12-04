@@ -19,6 +19,7 @@ import SearchCity from "./components/SearchCity.js";
 import Hud from "./components/Hud.js";
 import More from "./components/Forecast.js";
 import Clock from "./components/Clock.js";
+import Notif from "./components/Notifications.js";
 
 export default function App() {
   const [loadOrder, updateOrder] = useState({
@@ -43,8 +44,15 @@ export default function App() {
   });
   const [isSearching, Searching] = useState(false);
   const [page, setPage] = useState("main");
+  const [notifs, setNotifs] = useState<[string, string][]>([]);
+
+  function addNotif(newNotif: [string, string]) {
+    console.log([newNotif, ...notifs])
+    setNotifs(() => [newNotif, ...notifs]);
+  }
+
   useEffect(() => {
-    setCurrentCity(updateOrder, updateCity, setPattern, setsolarData);
+    setCurrentCity(updateOrder, updateCity, setPattern, addNotif, setsolarData);
   }, []);
 
   function PrimaryUpdateCity(
@@ -57,6 +65,7 @@ export default function App() {
       updateOrder,
       updateCity,
       setPattern,
+      addNotif,
       setsolarData,
       direct,
       cityName,
@@ -118,6 +127,7 @@ export default function App() {
         <Sky solarData={solarData} city={city} />
       </div>
       <SearchCity
+        addNotif={addNotif}
         PrimaryUpdateCity={PrimaryUpdateCity}
         color={Pattern}
         isSearching={isSearching}
@@ -130,6 +140,7 @@ export default function App() {
             updateCity,
             loadOrder,
             setPattern,
+            addNotif,
             setsolarData,
             forward
           );
@@ -143,11 +154,14 @@ export default function App() {
       />
 
       <GetOptions
-      //  color={Pattern}
+        notifs={notifs}
+        setNotifs={setNotifs}
+        //  color={Pattern}
       />
       {/* <ReloadData /> */}
       <Clock color={Pattern} city={city} isSearching={isSearching} />
       <GetUpdate
+        addNotif={addNotif}
         color={Pattern}
         city={city}
         PrimaryUpdateCity={PrimaryUpdateCity}
@@ -167,6 +181,7 @@ export default function App() {
         color={Pattern}
         isSearching={isSearching}
       />
+      <Notif notifs={notifs} setNotifs={setNotifs} />
     </div>
   );
 }

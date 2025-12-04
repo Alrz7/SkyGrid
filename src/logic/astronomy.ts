@@ -36,10 +36,10 @@ export async function saveData(
 ) {
   if (cityName) {
     const lastFile = await readData();
-    if (lastFile === false) {
-      const container = { cityName: data };
+    if (!lastFile) {
+      const container = { [cityName]: data };
       await writeTextFile(
-        `SkyGrid/Data/sunrise&set/${target}.json`,
+        `SkyGrid/astroData/${target}.json`,
         JSON.stringify(container),
         {
           baseDir: BaseDirectory.Document,
@@ -48,7 +48,7 @@ export async function saveData(
     } else {
       lastFile[cityName] = data;
       await writeTextFile(
-        `SkyGrid/Data/sunrise&set/${target}.json`,
+        `SkyGrid/astroData/${target}.json`,
         JSON.stringify(lastFile),
         {
           baseDir: BaseDirectory.Document,
@@ -59,7 +59,7 @@ export async function saveData(
 }
 
 export async function readData(target = "astronomyData") {
-  const file = await readTextFile(`SkyGrid/Data/sunrise&set/${target}.json`, {
+  const file = await readTextFile(`SkyGrid/Data/astroData/${target}.json`, {
     baseDir: BaseDirectory.Document,
   });
   if (file) {

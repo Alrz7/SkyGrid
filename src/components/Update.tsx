@@ -7,6 +7,7 @@ import "./styles/Update.css";
 import { checkUpdate } from "../logic/updateDatas.js";
 
 interface GetUpdateProps {
+  addNotif: any;
   city: string;
   PrimaryUpdateCity: any;
 
@@ -20,6 +21,7 @@ interface GetUpdateProps {
 }
 
 export default function GetUpdate({
+  addNotif,
   PrimaryUpdateCity,
   city,
   color,
@@ -52,9 +54,11 @@ export default function GetUpdate({
           // }}
           onClick={() => {
             if (city) {
-              const result = checkUpdate(city, true).then((res) => {
+              const result = checkUpdate(addNotif, city, true).then((res) => {
                 if (res.ok) {
-                  PrimaryUpdateCity(true, city, res.val[0], res.val[1]);
+                  if (res.val) {
+                    PrimaryUpdateCity(true, city, res.val[0], res.val[1]);
+                  }
                 }
               });
             }

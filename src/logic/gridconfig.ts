@@ -3,6 +3,7 @@ import {
   writeTextFile,
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
+import { checkDir, checkApiKeys, doesExist } from "./DataManagement.js";
 
 export async function saveConfig(
   data: Record<string, any>,
@@ -13,27 +14,43 @@ export async function saveConfig(
   if (data) {
     if (!lastFile) {
       const container: Record<string, any> = { ...data };
-      await writeTextFile(`SkyGrid/${target}.json`, JSON.stringify(container), {
-        baseDir: BaseDirectory.Document,
-      });
+      await writeTextFile(
+        `SkyGrid/config/${target}.json`,
+        JSON.stringify(container),
+        {
+          baseDir: BaseDirectory.Document,
+        }
+      );
     } else {
       const container: Record<string, any> = { ...lastFile, ...data };
-      await writeTextFile(`SkyGrid/${target}.json`, JSON.stringify(container), {
-        baseDir: BaseDirectory.Document,
-      });
+      await writeTextFile(
+        `SkyGrid/config/${target}.json`,
+        JSON.stringify(container),
+        {
+          baseDir: BaseDirectory.Document,
+        }
+      );
     }
   }
 }
 
 export async function readConfig(target = "GridConfig") {
-  const file = await readTextFile(`SkyGrid/${target}.json`, {
-    baseDir: BaseDirectory.Document,
-  });
-  if (file) {
-    const data = JSON.parse(file);
-    return data;
+  const adrs = `SkyGrid/config/${target}.json`;
+  const ext = await doesExist(adrs);
+  if (ext) {
+    const file = await readTextFile(adrs, {
+      baseDir: BaseDirectory.Document,
+    });
+    if (file) {
+      const data = JSON.parse(file);
+      return data;
+    } else {
+      return null;
+    }
   } else {
-    return null;
+    const defult = { meteoParams: meteoParamsBackUp };
+    saveConfig(defult);
+    return defult;
   }
 }
 
@@ -91,3 +108,5 @@ export let meteoParamsBackUp = {
 };
 
 // saveConfig({meteoParams: meteoParamsBackUp})
+// checkDir()
+//  checkApiKeys();

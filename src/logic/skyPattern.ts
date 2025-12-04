@@ -4,6 +4,9 @@ import { skyCycle } from "./sources/skyCycle.js";
 import { readData as readLocations } from "./GeoLocations.js";
 
 export async function findlocalTime(cityName: string) {
+  if (cityName == "") {
+    console.log("bug");
+  }
   const locations = await readLocations();
   if (cityName && cityName in locations) {
     const location = locations[cityName];
@@ -154,7 +157,6 @@ export async function selectPattern(
   setsolarData: any,
   cityName: string
 ) {
-  console.log(cityName);
   if (cityName) {
     const astData = await updateAstro(cityName, findlocalTime, true);
     // console.log(astData);

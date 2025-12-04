@@ -1,6 +1,6 @@
 import { findlocalTime } from "./skyPattern.js";
 import { difrentHour } from "../logic/sources/dry.js";
-export function ftHourlyData(data: any) {
+export function ftHourlyData(data: any, addNotif: any | null = null) {
   if (data) {
     const now = getLocalTime().fullStr;
     const timeIndex: any = [];
@@ -47,6 +47,10 @@ export function ftHourlyData(data: any) {
     if (newlist.length > 0) {
       return newlist;
     } else {
+      if (addNotif) {
+        console.log("weather Data is not up to Date, use");
+        addNotif(["error", "weather Data is not up to Date"]);
+      }
       return null;
     }
   } else {
@@ -57,6 +61,7 @@ export function ftHourlyData(data: any) {
 export async function selectWatherItem(data: any, city: string) {
   // console.log(data, city)
   if (data && city) {
+    console.log(city)
     const localTime = await findlocalTime(city);
     // console.log(localTime, `${localTime.slice(0,2)}:00`)
     if (localTime) {
