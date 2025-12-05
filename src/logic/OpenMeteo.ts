@@ -103,6 +103,7 @@ export async function readData(target = "current") {
       return null;
     }
   } else {
+    checkDir()
     return null;
   }
 }

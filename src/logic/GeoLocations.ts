@@ -4,9 +4,9 @@ import {
   writeTextFile,
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
-import { readKey, doesExist, create } from "./DataManagement.js";
+import { readKey, doesExist, checkDir } from "./DataManagement.js";
 
-async function getLocation(cityName: string, prtcl = "opn") {
+async function getLocation(addNotif: any, cityName: string, prtcl = "opn") {
   let dt;
   if (prtcl == "met") {
     dt = await fetch(
@@ -16,10 +16,15 @@ async function getLocation(cityName: string, prtcl = "opn") {
     );
   } else {
     const apiKey = await readKey("openwKey");
-    dt = await fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${apiKey.key}&lang=en`,
-      { method: "GET" }
-    );
+    if (apiKey && apiKey.key) {
+      dt = await fetch(
+        `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${apiKey.key}&lang=en`,
+        { method: "GET" }
+      );
+    } else {
+      addNotif("error", "Apikey is Not set or Invalid")
+      return null;
+    }
   }
   //   console.log(dt);
   if (dt.ok) {
@@ -37,14 +42,14 @@ async function getLocation(cityName: string, prtcl = "opn") {
   }
 }
 
-export async function apiSearch(cityName: string) {
+export async function apiSearch(addNotif: any, cityName: string) {
   console.log("api-req1");
   const lastFile = await readData();
 
   if (lastFile && cityName in lastFile) {
     return { ok: true, avalable: true, list: [] };
   } else {
-    const geoByMeteo = await getLocation(cityName, "met");
+    const geoByMeteo = await getLocation(addNotif, cityName, "met");
     //   const geoByOpenweather = getLocation(cityName, "opn");
     if (geoByMeteo) {
       console.log(geoByMeteo);
@@ -101,6 +106,7 @@ export async function readData(target = "locations") {
       return null;
     }
   } else {
+    checkDir();
     return null;
   }
 }

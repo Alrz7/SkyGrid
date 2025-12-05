@@ -39,7 +39,7 @@ export default function SearchCity({
 
   async function processNewLocation(cityName: string) {
     if (cityName !== "") {
-      const newLocation = await apiSearch(cityName);
+      const newLocation = await apiSearch(addNotif, cityName);
       if (newLocation.ok && newLocation.list.length > 0) {
         const resultCItyList = newLocation.list.map(
           (cit: Record<string, any>) => {

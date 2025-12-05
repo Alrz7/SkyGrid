@@ -4,7 +4,7 @@ import {
   writeTextFile,
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
-import { readKey } from "./DataManagement.js";
+import { checkDir, readKey } from "./DataManagement.js";
 import { readData as readLocations } from "./GeoLocations.js";
 
 export async function getWeather(cityName: string) {
@@ -16,13 +16,16 @@ export async function getWeather(cityName: string) {
   }
   if (location) {
     const apiKey = await readKey("openwKey");
-    const dt = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${location["lat"]}&lon=${location["lon"]}&appid=${apiKey.key}&units=metric`,
-      { method: "GET" }
-    );
-    const data = await dt.json();
-    saveData(cityName, data);
-    return data;
+    if (apiKey && apiKey.key) {
+      const dt = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${location["lat"]}&lon=${location["lon"]}&appid=${apiKey.key}&units=metric`,
+        { method: "GET" }
+      );
+      const data = await dt.json();
+      saveData(cityName, data);
+      return data;
+    }
+    //addNotif
   } else {
     console.log("there was not any location with that name in datas");
   }
@@ -65,6 +68,7 @@ export async function readData(target = "openWeather") {
     const data = JSON.parse(file);
     return data;
   } else {
+    checkDir();
     return null;
   }
 }

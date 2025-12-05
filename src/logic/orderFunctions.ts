@@ -32,7 +32,7 @@ export async function setCurrentCity(
       }
     }
     updateCity(newCity);
-    selectPattern(setPattern, setsolarData, newCity);
+    selectPattern(addNotif, setPattern, setsolarData, newCity);
     const currentWeather = await readOpmData("current");
     const hourlyWeather = await readOpmData("hourly");
     console.log(hourlyWeather[cityA]);
@@ -92,7 +92,7 @@ export async function updateMainCity(
     const cityA = newCityList.at(-2);
     const cityC = newCityList.at(0);
     updateCity(cityName);
-    selectPattern(setPattern, setsolarData, cityName);
+    selectPattern(addNotif, setPattern, setsolarData, cityName);
     const currentWeather = await readOpmData("current");
     const hourlyWeather = await readOpmData("hourly");
     updateOrder({
@@ -160,7 +160,7 @@ export async function changeOrders(
     const cityC = loadOrder.cityC;
     const cityB = loadOrder.cityB;
     updateCity(newCity);
-    selectPattern(setPattern, setsolarData, newCity);
+    selectPattern(addNotif, setPattern, setsolarData, newCity);
     if (newCity == cityC[0] && cityC[2] == false)
       addNotif(["error", "weather Data is not up to Date"]);
     updateOrder({

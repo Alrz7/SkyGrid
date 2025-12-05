@@ -70,7 +70,7 @@ function sortHours(lst: Array<any>): any {
   ];
 }
 
-function selectTitle(item: any, time: string) {
+function selectTitle(addNotif: any, item: any, time: string) {
   // const time = timeNow().fullhr; for local time test
   // const time = '17:55';
   const titlelist = [
@@ -131,7 +131,7 @@ function selectTitle(item: any, time: string) {
       val.time
     );
     const completionPersent = completion / fullTimeDiff;
-    let palletIndex = Math.trunc(
+    let palletIndex: number = Math.trunc(
       completionPersent * skyCycle[val.title].length
     );
     palletIndex =
@@ -148,11 +148,13 @@ function selectTitle(item: any, time: string) {
     }
   }
   // console.log(time, item);
+  addNotif("error", "skyPattern: Title not found")
   console.log(sorted.at(-1)["time"], " <not found> ", sorted.at(-1)["title"]);
   return sorted.at(-1);
 }
 
 export async function selectPattern(
+  addNotif: any,
   setPattern: any,
   setsolarData: any,
   cityName: string
@@ -163,8 +165,8 @@ export async function selectPattern(
     if (astData.ok) {
       const time: any = await findlocalTime(cityName);
       if (time) {
-        const pallet = selectTitle(astData.val, time.time.fullTime);
-        // console.log(pallet);
+        const pallet = selectTitle(addNotif, astData.val, time.time.fullTime);
+        console.log(pallet);
         // console.log(skyCycle[pallet.title][pallet.palletIndex]);
         const backgroundColor =
           skyCycle[pallet.title][pallet.palletIndex].gradient;
@@ -186,7 +188,8 @@ export async function selectPattern(
       }
       // console.log(`${selectedTitle.title} is not existing in source-List`);
     } else {
-      console.log(`city ${cityName} not found in astDataList `);
+      addNotif(["error", `city "${cityName}" not found in astDataList `])
+      console.log(`city "${cityName}" not found in astDataList `);
     }
   }
 }

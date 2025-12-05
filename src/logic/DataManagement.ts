@@ -36,11 +36,20 @@ export async function checkDir() {
   }
 }
 
-export async function readKey(dir: string): Promise<Record<string, any>> {
-  const key = await readTextFile(`SkyGrid/apiKey/${dir}.json`, {
-    baseDir: BaseDirectory.Document,
-  });
-  return JSON.parse(key);
+export async function readKey(
+  dir: string
+): Promise<Record<string, any> | null> {
+  const adrs = `SkyGrid/apiKey/${dir}.json`;
+  const ext = await doesExist(adrs);
+  if (ext) {
+    const key = await readTextFile(adrs, {
+      baseDir: BaseDirectory.Document,
+    });
+    return JSON.parse(key);
+  } else {
+    checkApiKeys();
+    return null;
+  }
 }
 
 export async function writeKey(dir: string, data: Record<string, any>) {
@@ -59,8 +68,11 @@ export async function checkApiKeys(
     if (exst) {
       if (newVal && target == dir) {
         const lastFile = await readKey(dir);
-        lastFile.key = newVal;
-        writeKey(dir, lastFile);
+        if (lastFile) {
+          lastFile.key = newVal;
+          writeKey(dir, lastFile);
+        }
+        console.log("apiKeys don't have valid values")
       }
     } else {
       const container = { key: newVal && target == dir ? newVal : false };

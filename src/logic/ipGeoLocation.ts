@@ -6,7 +6,7 @@ import {
 } from "@tauri-apps/plugin-fs";
 import { readData as readLocations } from "./GeoLocations.js";
 import { dateDiferenceToHour as difrentHour } from "../logic/sources/dry.js";
-import { readKey, doesExist } from "./DataManagement.js";
+import { readKey, doesExist, checkDir } from "./DataManagement.js";
 
 export async function getAstro(cityName: string) {
   if (cityName) {
@@ -18,7 +18,7 @@ export async function getAstro(cityName: string) {
     }
     const apiKey = await readKey("ipGeoKey");
     console.log(apiKey);
-    if (location && apiKey.key) {
+    if (location && apiKey && apiKey.key) {
       // console.log(apiKey)
       // console.log(location)
       const dt = await fetch(
@@ -31,6 +31,7 @@ export async function getAstro(cityName: string) {
       console.log(data);
       return data;
     } else {
+      // addNotif
       console.log("there was not any location with that name in datas");
     }
   }
@@ -79,6 +80,7 @@ export async function readData(target = "locationData") {
       return null;
     }
   } else {
+    checkDir()
     return null;
   }
 }
@@ -89,7 +91,7 @@ export async function updateData(
   engage: boolean
 ) {
   const DataList = await readData();
-  if (DataList && cityName in DataList) {
+  if (DataList && DataList && cityName in DataList) {
     const lastData = DataList[cityName];
     console.log(lastData)
     const lastUpdateTime = `${lastData.astronomy.date}T${lastData.astronomy.current_time}`;
