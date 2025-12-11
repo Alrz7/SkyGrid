@@ -12,11 +12,6 @@
   font-style: normal;
 }
 
-* {
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
 
 .data-card {
   position: absolute;
