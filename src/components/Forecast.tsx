@@ -4,6 +4,11 @@ import Wind from "../assets/wind.svg?react";
 import Rain from "../assets/rain.svg?react";
 import Snow from "../assets/snow.svg?react";
 import UvIndex from "../assets/uvIndex.svg?react";
+import Weather from "../assets/weather.svg?react";
+import Precipitation from "../assets/precipitation.svg?react";
+import Showers from "../assets/showers.svg?react";
+import Temp from "../assets/temp.svg?react";
+import Date from "../assets/date.svg?react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ftForecastData } from "../logic/formatData.js";
@@ -67,17 +72,17 @@ export default function Forecast({
       transition={{ duration: 0.2, ease: "easeInOut" }}
     >
       <div className="DataColm">
-        {/* <div className="container info">
-          <div>Date</div>
-          <div>Weather</div>
-          <div>Temp</div>
-          <div>Rain</div>
-          <div>Shower</div>
-          <div>Snow</div>
-          <div>Perciption</div>
-          <div>Wind</div>
-          <div>UV-index</div>    
-        </div> */}
+        <div className="container info">
+          <div><Date/></div>
+          <div><Weather/></div>
+          <div><Temp/></div>
+          <div><Rain/></div>
+          <div><Showers/></div>
+          <div><Snow/></div>
+          <div><Precipitation/></div>
+          <div><Wind/></div>
+          <div><UvIndex/></div>    
+        </div>
         {forecastData?.length == 7
           ? forecastData.map((item) => {
               return <DataColm data={item} />;

@@ -57,7 +57,10 @@
   top: 6px;
   width: 45px;
   height: 40px;
-  border-top-right-radius: 25px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  border-bottom-right-radius: 5px;
   border: none;
   background: rgba(124, 77, 255, 0.572);
   backdrop-filter: blur(10px);
@@ -78,9 +81,9 @@
 .DataColm {
   position: absolute;
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(8, 1fr);
   gap: 5px;
-  left: 4%;
+  left: 1%;
   bottom: 8%;
   background-color: rgba(255, 255, 255, 0);
   width: 92%;
@@ -105,20 +108,19 @@
   transition: all 0.4s ease;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
-/* 
+
 .container.info {
   font-size: 0.8rem;
-  padding: 12px 6px;
-  border: 2px dashed rgba(124, 77, 255, 0);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0);
-      background: rgba(30, 30, 60, 0);
-
-
-} */
-
-.element svg {
-  width: 20px;
+  padding: 12px 1px;
+  border: 2px dashed rgba(124, 77, 255, 0.16);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.096);
+  background: rgba(30, 30, 60, 0.146);
 }
+.info svg {
+  width: 28px;
+  height: 28px;
+}
+
 .element {
   font-size: 1.3rem;
 }
