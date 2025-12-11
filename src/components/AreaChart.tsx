@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from "recharts";
 import "./styles/AreaChart.css";
-
+import { object } from "framer-motion/client";
 
 const hourlyData = [
   { hour: "00:00", temperature: 0, humidity: 0, windSpeed: 0 },
@@ -58,6 +58,15 @@ export default function ({
   color,
 }: DataCardProps) {
   if (!weatherData) weatherData = hourlyData;
+
+  function tipColor(name: string) {
+    for (let [title, val] of Object.entries(configs)) {
+      if (title == name) {
+        return val.colors.start;
+      }
+    }
+    return "#ffffff";
+  }
 
   const configs = {
     temperature: {
@@ -119,7 +128,11 @@ export default function ({
           {payload.map((entry: any, index: any) => {
             const config = getParameterConfig(entry.dataKey);
             return (
-              <p key={index} className="tooltip-value">
+              <p
+                key={index}
+                className="tooltip-value"
+                style={{ background: tipColor(entry.dataKey) }}
+              >
                 {`${entry.dataKey}: ${entry.value}${config.unit}`}
               </p>
             );

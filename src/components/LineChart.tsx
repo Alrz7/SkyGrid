@@ -24,7 +24,45 @@ export default function ChartLineMultiple({
 }: {
   weatherData: any;
 }) {
+  function tipColor(name: string) {
+    for (let item of configs) {
+      if (item.dataKey == name) {
+        return item.stroke;
+      }
+    }
+    return "#ffffff";
+  }
 
+  const configs = [
+    {
+      dataKey: "cloud_cover",
+      type: "monotone",
+      stroke: "#13d1e6ff",
+      strokeWidth: 4,
+      dot: false,
+    },
+    {
+      dataKey: "precipitation_probability",
+      type: "monotone",
+      stroke: "#05a3b8ff",
+      strokeWidth: 4,
+      dot: false,
+    },
+    {
+      dataKey: "humidity",
+      type: "monotone",
+      stroke: "#0de974ff",
+      strokeWidth: 4,
+      dot: false,
+    },
+    {
+      dataKey: "uvIndex",
+      type: "monotone",
+      stroke: "#9c3bf6ff",
+      strokeWidth: 4,
+      dot: false,
+    },
+  ];
 
   type CustomTooltipProps = {
     active?: boolean;
@@ -47,7 +85,14 @@ export default function ChartLineMultiple({
           <p className="tooltip-label">{label}</p>
           {payload.map((entry: any, index: any) => {
             return (
-              <p key={index} className="tooltip-value">
+              <p
+                key={index}
+                className="tooltip-value"
+                style={{
+                  background: tipColor(entry.dataKey),
+                  display: "flex",
+                }}
+              >
                 {`${entry.dataKey}: ${entry.value}%`}
               </p>
             );
@@ -56,7 +101,6 @@ export default function ChartLineMultiple({
       );
     }
   };
-
 
   const data = weatherData || BackupData;
   console.log(weatherData);
@@ -80,34 +124,17 @@ export default function ChartLineMultiple({
             tick={{ fill: "#ffffffff", fontSize: 12 }}
           />
           <Tooltip content={<CustomTooltip />} />
-          <Line
-            dataKey="cloud_cover"
-            type="monotone"
-            stroke="#13d1e6ff"
-            strokeWidth={4}
-            dot={false}
-          />
-          <Line
-            dataKey="precipitation_probability"
-            type="monotone"
-            stroke="#05a3b8ff"
-            strokeWidth={4}
-            dot={false}
-          />
-          <Line
-            dataKey="humidity"
-            type="monotone"
-            stroke="#0de974ff"
-            strokeWidth={4}
-            dot={false}
-          />
-          <Line
-            dataKey="uvIndex"
-            type="monotone"
-            stroke="#9c3bf6ff"
-            strokeWidth={4}
-            dot={false}
-          />
+          {configs.map((item) => {
+            return (
+              <Line
+                dataKey={item.dataKey}
+                type="monotone"
+                stroke={item.stroke}
+                strokeWidth={item.strokeWidth}
+                dot={item.dot}
+              />
+            );
+          })}
         </LineChart>
       </ResponsiveContainer>
     </div>

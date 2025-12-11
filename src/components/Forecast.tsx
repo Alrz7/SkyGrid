@@ -73,15 +73,33 @@ export default function Forecast({
     >
       <div className="DataColm">
         <div className="container info">
-          <div><Date/></div>
-          <div><Weather/></div>
-          <div><Temp/></div>
-          <div><Rain/></div>
-          <div><Showers/></div>
-          <div><Snow/></div>
-          <div><Precipitation/></div>
-          <div><Wind/></div>
-          <div><UvIndex/></div>    
+          <div>
+            <Date />
+          </div>
+          <div>
+            <Weather />
+          </div>
+          <div>
+            <Temp />
+          </div>
+          <div>
+            <Rain />
+          </div>
+          <div>
+            <Showers />
+          </div>
+          <div>
+            <Snow />
+          </div>
+          <div>
+            <Precipitation />
+          </div>
+          <div>
+            <Wind />
+          </div>
+          <div>
+            <UvIndex />
+          </div>
         </div>
         {forecastData?.length == 7
           ? forecastData.map((item) => {
@@ -129,12 +147,30 @@ function DataColm({ data }: { data: Record<string, any> }) {
             {data.tempMin}/{data.tempMax}
           </span>
         </div>
-        <div className="rain element">{data.rainSum}<span className="parameter">mm</span></div>
-        <div className="shower element">{data.showersSum}<span className="parameter">mm</span></div>
-        <div className="snow element">{data.snowfallSum}<span className="parameter">mm</span></div>
-        <div className="precipitation element">{data.precipitationSum}<span className="parameter">%</span></div>
-        <div className="wind-speed element">{data.windSpeedMax}<span className="parameter">km/h</span></div>
-        <div className="uv-index element">{data.uvIndexMax}<span className="parameter">%</span></div>
+        <div className="rain element">
+          {data.rainSum}
+          <span className="parameter">mm</span>
+        </div>
+        <div className="shower element">
+          {data.showersSum}
+          <span className="parameter">mm</span>
+        </div>
+        <div className="snow element">
+          {data.snowfallSum}
+          <span className="parameter">mm</span>
+        </div>
+        <div className="precipitation element">
+          {data.precipitationSum}
+          <span className="parameter">%</span>
+        </div>
+        <div className="wind-speed element">
+          {data.windSpeedMax}
+          <span className="parameter">km/h</span>
+        </div>
+        <div className="uv-index element">
+          {data.uvIndexMax}
+          <span className="parameter">%</span>
+        </div>
       </div>
     </>
   );

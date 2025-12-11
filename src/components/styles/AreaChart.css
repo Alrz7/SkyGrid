@@ -27,9 +27,21 @@
 
 .tooltip-value {
   color: #ffffff;
-  font-size: 14px;
   margin: 0;
   font-weight: 200;
+  display: inline-block;
+  background: #ff9f1c;
+  font-family: monospace;
+  font-size: 14px;
+  font-weight: bold;
+  opacity: 100%;
+  padding: 5px 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(255, 159, 28, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  z-index: 100;
 }
 
 @media (max-width: 768px) {
