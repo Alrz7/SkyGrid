@@ -1,7 +1,12 @@
 "use client";
 import "./styles/Forecast.css";
+import Wind from "../assets/wind.svg?react";
+import Rain from "../assets/rain.svg?react";
+import Snow from "../assets/snow.svg?react";
+import UvIndex from "../assets/uvIndex.svg?react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { ftForecastData } from "../logic/formatData.js";
 import {
   Sun,
   Cloud,
@@ -11,15 +16,17 @@ import {
   Zap,
 } from "lucide-react";
 import ClosePage from "../assets/closePage.svg?react";
+import { ensuredForwardRef } from "react-use";
 
-
-export default function More({
+export default function Forecast({
   color,
+  dailyForecast,
   weatherData,
   page,
   setPage,
 }: {
   color: any;
+  dailyForecast: any;
   weatherData:
     | never[]
     | null
@@ -41,31 +48,13 @@ export default function More({
     }[]
   >([]);
 
+  const [forecastData, setForecastData] = useState<Record<string, any>[]>([]);
   useEffect(() => {
-    const getWeatherIcon = (code: number) => {
-      const iconProps = { size: 35, strokeWidth: 2.4, color: "white" };
-
-      if (code === 0) return <Sun {...iconProps} />;
-      if (code === 1 || code === 2)
-        return <Sun {...iconProps} className="opacity-80" />;
-      if (code === 3) return <Cloud {...iconProps} />;
-      if (code >= 45 && code <= 48)
-        return <Cloud {...iconProps} className="opacity-70" />;
-      if (code >= 51 && code <= 57) return <CloudDrizzle {...iconProps} />;
-      if (code >= 61 && code <= 67) return <CloudRain {...iconProps} />;
-      if (code >= 71 && code <= 86) return <CloudSnow {...iconProps} />;
-      if (code >= 95 && code <= 99) return <Zap {...iconProps} />;
-
-      return <Cloud {...iconProps} />;
-    };
-    if (weatherData) {
-      const newIconList = weatherData.map((e) => {
-        return { hour: e.hour, icon: getWeatherIcon(e.weather_code) };
-      });
-      setIconList(newIconList);
-      console.log(iconList);
-    }
-  }, [weatherData]);
+    if (!dailyForecast) return;
+    const newForecastData = ftForecastData(dailyForecast);
+    setForecastData(newForecastData);
+    console.log(newForecastData);
+  }, [dailyForecast]);
 
   return (
     <motion.div
@@ -77,6 +66,24 @@ export default function More({
       }}
       transition={{ duration: 0.2, ease: "easeInOut" }}
     >
+      <div className="DataColm">
+        {/* <div className="container info">
+          <div>Date</div>
+          <div>Weather</div>
+          <div>Temp</div>
+          <div>Rain</div>
+          <div>Shower</div>
+          <div>Snow</div>
+          <div>Perciption</div>
+          <div>Wind</div>
+          <div>UV-index</div>    
+        </div> */}
+        {forecastData?.length == 7
+          ? forecastData.map((item) => {
+              return <DataColm data={item} />;
+            })
+          : null}
+      </div>
       <button
         className="closePage-button"
         onClick={() => {
@@ -87,5 +94,43 @@ export default function More({
       </button>
       {page == "forecast" ? <></> : null}
     </motion.div>
+  );
+}
+
+function DataColm({ data }: { data: Record<string, any> }) {
+  const getWeatherIcon = (code: number) => {
+    const iconProps = { size: 35, strokeWidth: 2.4, color: "white" };
+
+    if (code === 0) return <Sun {...iconProps} />;
+    if (code === 1 || code === 2)
+      return <Sun {...iconProps} className="opacity-80" />;
+    if (code === 3) return <Cloud {...iconProps} />;
+    if (code >= 45 && code <= 48)
+      return <Cloud {...iconProps} className="opacity-70" />;
+    if (code >= 51 && code <= 57) return <CloudDrizzle {...iconProps} />;
+    if (code >= 61 && code <= 67) return <CloudRain {...iconProps} />;
+    if (code >= 71 && code <= 86) return <CloudSnow {...iconProps} />;
+    if (code >= 95 && code <= 99) return <Zap {...iconProps} />;
+    return <Cloud {...iconProps} />;
+  };
+
+  return (
+    <>
+      <div className="container">
+        <div className="date">{data.date}</div>
+        <div className="code">{getWeatherIcon(data.code)}</div>
+        <div className="temperature">
+          <span>
+            {data.tempMin}/{data.tempMax}
+          </span>
+        </div>
+        <div className="rain element">{data.rainSum}<span className="parameter">mm</span></div>
+        <div className="shower element">{data.showersSum}<span className="parameter">mm</span></div>
+        <div className="snow element">{data.snowfallSum}<span className="parameter">mm</span></div>
+        <div className="precipitation element">{data.precipitationSum}<span className="parameter">%</span></div>
+        <div className="wind-speed element">{data.windSpeedMax}<span className="parameter">km/h</span></div>
+        <div className="uv-index element">{data.uvIndexMax}<span className="parameter">%</span></div>
+      </div>
+    </>
   );
 }

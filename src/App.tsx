@@ -17,7 +17,7 @@ import GetUpdate from "./components/Update.js";
 import GetOptions from "./components/Options.js";
 import SearchCity from "./components/SearchCity.js";
 import Hud from "./components/Hud.js";
-import More from "./components/Forecast.js";
+import Forecast from "./components/Forecast.js";
 import Clock from "./components/Clock.js";
 import Notif from "./components/Notifications.js";
 
@@ -167,8 +167,9 @@ export default function App() {
         PrimaryUpdateCity={PrimaryUpdateCity}
         isSearching={isSearching}
       />
-      <More
+      <Forecast
         page={page}
+        dailyForecast={loadOrder.cityB.length > 0 ? loadOrder.cityB[1] : null}
         setPage={setPage}
         weatherData={loadOrder.cityB.length > 0 ? loadOrder.cityB[2] : null}
         color={Pattern}

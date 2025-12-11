@@ -59,7 +59,7 @@ export default function DataCard({
                   setPage("forecast");
                 }}
               >
-                5-day forecast
+                7-day forecast
               </button>
             </div>
 

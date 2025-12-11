@@ -89,7 +89,7 @@ export async function saveData(
   }
 }
 
-export async function readData(target = "current") {
+export async function readData(target = "daily") {
   const adrs = `SkyGrid/weatherData/openMeteo/${target}Weather.json`;
   const ext = await doesExist(adrs);
   if (ext) {

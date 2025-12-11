@@ -61,7 +61,7 @@ export function ftHourlyData(data: any, addNotif: any | null = null) {
 export async function selectWatherItem(data: any, city: string) {
   // console.log(data, city)
   if (data && city) {
-    console.log(city)
+    console.log(city);
     const localTime = await findlocalTime(city);
     // console.log(localTime, `${localTime.slice(0,2)}:00`)
     if (localTime) {
@@ -78,12 +78,17 @@ export async function selectWatherItem(data: any, city: string) {
 
 function getLocalTime() {
   const now = new Date();
+  const spl = now.toLocaleString("en-US", { weekday: "short" });
+  const dayCoutn = now.getDay();
+  console.log(dayCoutn);
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, "0");
   const day = String(now.getDate()).padStart(2, "0");
   const hour = String(now.getHours()).padStart(2, "0");
   const minute = String(now.getMinutes()).padStart(2, "0");
   return {
+    spl: spl,
+    cnt: dayCoutn,
     year: year,
     month: month,
     day: day,
@@ -91,4 +96,46 @@ function getLocalTime() {
     minute: minute,
     fullStr: `${year}-${month}-${day}`,
   };
+}
+
+export function ftForecastData(data: Record<string, any>) {
+  let res = [];
+  const today = getLocalTime();
+  for (let i = 0; i < 7; i++) {
+    const today = getLocalTime();
+    const date = new Date(data.time[i]);
+    let dateSpl = date.toLocaleString("en-US", { weekday: "short" });
+    if (data.time[i] == today.fullStr) {
+      dateSpl = "Today";
+    } else if (
+      data.time[i] == `${today.year}-${today.month}-${Number(today.day) + 1}`
+    ) {
+      dateSpl = "Tomarrow";
+    } else if (
+      data.time[i] == `${today.year}-${today.month}-${Number(today.day) - 1}`
+    ) {
+      dateSpl = "Yesterday";
+    }
+
+    const newItem = {
+      date: dateSpl,
+      code: data.weather_code[i],
+      tempMax: data.temperature_2m_max[i],
+      tempMin: data.temperature_2m_min[i],
+      apparentTempMax: data.apparent_temperature_max[i],
+      apparentTempMin: data.apparent_temperature_min[i],
+      rainSum: data.rain_sum[i],
+      showersSum: data.showers_sum[i],
+      snowfallSum: data.snowfall_sum[i],
+      precipitationSum: data.precipitation_sum[i],
+      precipitationHours: data.precipitation_hours[i],
+      precipitationProbabilityMax: data.precipitation_probability_max[i],
+      uvIndexMax: data.uv_index_max[i],
+      windSpeedMax: data.wind_speed_10m_max[i],
+      windGustsMax: data.wind_gusts_10m_max[i],
+      windDirectionDominant: data.wind_direction_10m_dominant[i],
+    };
+    res.push(newItem);
+  }
+  return res;
 }
