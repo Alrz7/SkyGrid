@@ -57,7 +57,7 @@ export default function GetUpdate({
               const result = checkUpdate(addNotif, city, true).then((res) => {
                 if (res.ok) {
                   if (res.val) {
-                    PrimaryUpdateCity(true, city, res.val[0], res.val[1]);
+                    PrimaryUpdateCity(true, city, res.val.daily, res.val.hourly);
                   }
                 }
               });

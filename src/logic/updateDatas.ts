@@ -47,7 +47,7 @@ export async function checkUpdate(
 
       // console.log("engaging in weather update");
       const astroUpdResponse = await updateAstro(cityName, findlocalTime, true);
-      const wethUpd = time_difference >= 0;
+      const wethUpd =  true//time_difference >= 0;
       const astroUpd = !astroUpdResponse?.isUpdate;
 
       const ntfText = `Updating ${wethUpd ? "Weather" : ""} ${

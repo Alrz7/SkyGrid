@@ -45,7 +45,7 @@ export default function StarsBackground() {
         y: Math.random() * canvas.height,
         size: Math.random() * 2 + 0.5,
         opacity: Math.random() * 0.8 + 0.2,
-        speed: Math.random() * 0.1 + 0.1,
+        speed: Math.random() * 0.1 + 0.02,
         twinkleSpeed: Math.random() * 0.04 + 0.01,
         angle: Math.random() * 0.3 - 0.15,
       });

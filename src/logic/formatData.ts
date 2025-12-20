@@ -116,7 +116,7 @@ export function ftForecastData(data: Record<string, any>) {
     ) {
       dateSpl = "Yesterday";
     }
-
+    console.log(data)
     const newItem = {
       date: dateSpl,
       code: data.weather_code[i],

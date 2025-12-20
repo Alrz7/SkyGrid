@@ -48,7 +48,7 @@ export async function getWeatherStat(
     for (let mode of ["daily", "hourly", "current"]) {
       saveData(cityName, data[mode], mode);
     }
-    return [data.current, data.hourly];
+    return { daily: data.daily, hourly: data.hourly };
   } else {
     addNotif(["error", `city '${cityName}' is not found in datas`]);
     console.log(
@@ -103,7 +103,7 @@ export async function readData(target = "daily") {
       return null;
     }
   } else {
-    checkDir()
+    checkDir();
     return null;
   }
 }

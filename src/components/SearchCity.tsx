@@ -71,8 +71,8 @@ export default function SearchCity({
         PrimaryUpdateCity(
           false,
           data.name,
-          newWeatherData[0],
-          newWeatherData[1]
+          newWeatherData.daily,
+          newWeatherData.hourly
         );
       }
     } else {

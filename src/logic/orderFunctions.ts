@@ -27,7 +27,6 @@ export async function setCurrentCity(
         newCity = cont.at(1);
         cityC = cont.at(2);
       } else {
-        console.log("2sss");
         saveConfig({ city: newCity, cityList: [cityA, newCity, cityC] });
       }
     }
@@ -65,12 +64,12 @@ export async function updateMainCity(
   setsolarData: any,
   direct: boolean = false,
   cityName: string,
-  current: Record<string, any> | null,
+  daily: Record<string, any> | null,
   hourly: Record<string, any> | null
 ) {
   const locations = await readLocations();
   if (locations) {
-    // console.log("updating => ", cityName, current, hourly);
+    // console.log("updating => ", cityName, daily, hourly);
     const newCityList: any = Object.keys(locations);
     const cityA = newCityList.at(-2);
     const cityC = newCityList.at(0);
@@ -86,7 +85,7 @@ export async function updateMainCity(
       ],
       cityB: [
         cityName,
-        current ?? dailyWeather[cityName] ?? false,
+        daily ?? dailyWeather[cityName] ?? false,
         hourly
           ? ftHourlyData(hourly, addNotif)
           : ftHourlyData(hourlyWeather[cityName], addNotif) ?? false,
@@ -105,7 +104,7 @@ export async function updateMainCity(
       ],
       cityB: [
         cityName,
-        current ?? dailyWeather[cityName] ?? false,
+        daily ?? dailyWeather[cityName] ?? false,
         hourly
           ? ftHourlyData(hourly, addNotif)
           : ftHourlyData(hourlyWeather[cityName], addNotif) ?? false,

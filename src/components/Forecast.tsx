@@ -72,7 +72,7 @@ export default function Forecast({
       transition={{ duration: 0.2, ease: "easeInOut" }}
     >
       <div className="DataColm">
-        <div className="container info">
+        {/* <div className="container info">
           <div>
             <Date />
           </div>
@@ -100,7 +100,7 @@ export default function Forecast({
           <div>
             <UvIndex />
           </div>
-        </div>
+        </div> */}
         {forecastData?.length == 7
           ? forecastData.map((item) => {
               return <DataColm data={item} />;
