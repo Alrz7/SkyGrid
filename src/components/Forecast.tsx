@@ -54,6 +54,7 @@ export default function Forecast({
   >([]);
 
   const [forecastData, setForecastData] = useState<Record<string, any>[]>([]);
+  // const [hoverIndex, setHoverIndex] = useState(null);
   useEffect(() => {
     if (!dailyForecast) return;
     const newForecastData = ftForecastData(dailyForecast);
@@ -72,7 +73,7 @@ export default function Forecast({
       transition={{ duration: 0.2, ease: "easeInOut" }}
     >
       <div className="DataColm">
-        {/* <div className="container info">
+        <div className="container info">
           <div>
             <Date />
           </div>
@@ -100,10 +101,17 @@ export default function Forecast({
           <div>
             <UvIndex />
           </div>
-        </div> */}
+        </div>
         {forecastData?.length == 7
-          ? forecastData.map((item) => {
-              return <DataColm data={item} />;
+          ? forecastData.map((item, id) => {
+              return (
+                <DataColm
+                  data={item}
+                  // index={hoverIndex}
+                  // setIndex={setHoverIndex}
+                  // id={id}
+                />
+              );
             })
           : null}
       </div>
@@ -120,7 +128,17 @@ export default function Forecast({
   );
 }
 
-function DataColm({ data }: { data: Record<string, any> }) {
+function DataColm({
+  data,
+  // index,
+  // setIndex,
+  // id,
+}: {
+  data: Record<string, any>;
+  // index: number | null;
+  // setIndex: any;
+  // id: number;
+}) {
   const getWeatherIcon = (code: number) => {
     const iconProps = { size: 35, strokeWidth: 2.4, color: "white" };
 
@@ -137,9 +155,26 @@ function DataColm({ data }: { data: Record<string, any> }) {
     return <Cloud {...iconProps} />;
   };
 
+  // const info = (inx: number | null) => {
+  //   if (inx == null) return null;
+  //   if (inx > 0) {
+  //     return inx - 1;
+  //   } else {
+  //     return inx + 1;
+  //   }
+  // };
+
   return (
     <>
-      <div className="container">
+      <div
+        className="container"
+        // onMouseMove={() => {
+        //   setIndex(id);
+        // }}
+        // onMouseLeave={() => {
+        //   setIndex(null);
+        // }}
+      >
         <div className="date">{data.date}</div>
         <div className="code">{getWeatherIcon(data.code)}</div>
         <div className="temperature">

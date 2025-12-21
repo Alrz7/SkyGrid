@@ -31,7 +31,6 @@
     #7dd1e8 52%,
     #f2f2ff 100%
   );
-  opacity: 1;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }

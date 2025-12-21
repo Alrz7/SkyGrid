@@ -80,11 +80,13 @@
 
 .DataColm {
   position: absolute;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  left: 1%;
+  display: flex;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(75px, 92px));
+  /* gap: 4px; */
   bottom: 8%;
   background-color: rgba(255, 255, 255, 0);
+  left: 1%;
   width: 98%;
   height: 80%;
   box-sizing: border-box;
@@ -95,7 +97,7 @@
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-radius: 20px;
-  border: 2px dashed rgba(124, 77, 255, 0.35);
+  border: 2px solid #7c4dff59;
   padding: 12px 8px;
   display: flex;
   width: 100%;
@@ -108,11 +110,13 @@
   font-family: "Crf-bold", sans-serif;
   transition: all 0.4s ease;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: 0.2s ease-in-out;
 }
 
 .container.info {
   font-size: 0.8rem;
   padding: 12px 1px;
+  width: 50%;
   border: 2px dashed rgba(124, 77, 255, 0.16);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.096);
   background: rgba(30, 30, 60, 0.146);
