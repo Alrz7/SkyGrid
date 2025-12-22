@@ -15,10 +15,12 @@ interface addcityProps {
   addNotif: any;
   PrimaryUpdateCity: any;
   color: {
-    background: string;
-    hud: string;
-    buttons: string;
-    chart: string;
+    background: any;
+    hud: any;
+    forecastButton: any;
+    solunaProp: any;
+    buttons: any;
+    chart: any;
   };
   isSearching: boolean;
   Searching: React.Dispatch<React.SetStateAction<boolean>>;

@@ -11,10 +11,12 @@ interface HudPops {
   hudData: Record<string, any>;
   city: string;
   color: {
-    background: string;
-    hud: string;
-    buttons: string;
-    chart: string;
+    background: any;
+    hud: any;
+    forecastButton: any;
+    solunaProp: any;
+    buttons: any;
+    chart: any;
   };
   isSearching: boolean;
   page: string;
@@ -67,14 +69,14 @@ export default function Hud({
         <div className="hud-container">
           <div
             className="hud-card main-temp-card"
-            style={{ color: color.buttons }}
+            style={{ color: color.hud }}
           >
             <div className="hud-temp-value">
               {hudData?.temperature ? `${hudData.temperature}°` : ""}
             </div>
             <div
               className="hud-temp-feelslike"
-              style={{ color: color.buttons }}
+              style={{ color: color.hud }}
             >
               {hudData?.apparent_temperature
                 ? `Feels like ${hudData.apparent_temperature}°`
@@ -108,10 +110,10 @@ export default function Hud({
                 label: "Pressure",
               },
             ].map((item, idx) => (
-              <div key={idx} className="info-row" style={{color: color.buttons}}>
+              <div key={idx} className="info-row" style={{color: color.hud}}>
                 <div className="icon-value-wrapper" data-tooltip={item.label}>
                   <item.Icon />
-                  <span className="hud-value" style={{color: color.buttons}}>{item.value}</span>
+                  <span className="hud-value" style={{color: color.hud}}>{item.value}</span>
                 </div>
                 {idx < 3 && <div className="separator" />}
               </div>

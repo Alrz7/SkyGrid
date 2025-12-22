@@ -7,12 +7,21 @@ import "./styles/Soluna.css";
 
 export default function SunComp({
   solarCondition,
+  color,
   location,
   solarData,
 }: {
   solarCondition: {
     sun: { isVisible: boolean; ratio: number };
     moon: { isVisible: boolean; ratio: number };
+  };
+  color: {
+    background: any;
+    hud: any;
+    forecastButton: any;
+    solunaProp: any;
+    buttons: any;
+    chart: any;
   };
   location: { sun: number[]; moon: number[] };
   solarData: {
@@ -73,6 +82,13 @@ export default function SunComp({
         <div className="tooltip-wrapper">
           <button
             className={`toggle-btn ${showSun ? "on" : ""}`}
+            style={{
+              background: showSun
+                ? color.solunaProp
+                : "rgba(255, 255, 255, 0.08)",
+
+              boxShadow: showSun ? `0 0 20px ${color.forecastButton}`: '',
+            }}
             onClick={() => {
               if (!showSun) {
                 setShowSun(true);
@@ -89,6 +105,12 @@ export default function SunComp({
         <div className="tooltip-wrapper">
           <button
             className={`toggle-btn ${showMoon ? "on" : ""}`}
+            style={{
+              background: showMoon
+                ? color.solunaProp
+                : "rgba(255, 255, 255, 0.08)",
+              boxShadow: showMoon ? `0 0 20px ${color.forecastButton}`: '',
+            }}
             onClick={() => {
               if (!showMoon) {
                 setShowMoon(true);

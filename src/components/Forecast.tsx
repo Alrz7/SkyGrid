@@ -21,8 +21,6 @@ import {
   Zap,
 } from "lucide-react";
 import ClosePage from "../assets/closePage.svg?react";
-import { ensuredForwardRef } from "react-use";
-
 export default function Forecast({
   color,
   dailyForecast,
@@ -30,7 +28,14 @@ export default function Forecast({
   page,
   setPage,
 }: {
-  color: any;
+  color: {
+    background: any;
+    hud: any;
+    forecastButton: any;
+    solunaProp: any;
+    buttons: any;
+    chart: any;
+  };
   dailyForecast: any;
   weatherData:
     | never[]
@@ -117,6 +122,7 @@ export default function Forecast({
       </div>
       <button
         className="closePage-button"
+        style={{background: color.forecastButton}}
         onClick={() => {
           setPage("main");
         }}
@@ -130,10 +136,10 @@ export default function Forecast({
 
 function DataColm({
   data,
-  // index,
-  // setIndex,
-  // id,
-}: {
+}: // index,
+// setIndex,
+// id,
+{
   data: Record<string, any>;
   // index: number | null;
   // setIndex: any;
@@ -179,7 +185,12 @@ function DataColm({
         <div className="code">{getWeatherIcon(data.code)}</div>
         <div className="temperature">
           <span>
-            {data.tempMin}/{data.tempMax}
+            <span style={{ color: "#ff5b5bb3", fontSize: "1.3rem" }}>
+              {data.tempMax}
+            </span>{" "}
+            <span style={{ color: "#5bdeffb3", fontSize: "1.1rem" }}>
+              {data.tempMin}
+            </span>
           </span>
         </div>
         <div className="rain element">

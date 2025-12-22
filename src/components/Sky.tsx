@@ -8,6 +8,7 @@ import "./styles/Sky.css";
 export default function CurvedLineComp({
   solarData,
   city,
+  color,
 }: {
   solarData: {
     moonrise: string;
@@ -17,6 +18,14 @@ export default function CurvedLineComp({
     solar_noon: string;
   };
   city: string;
+  color: {
+    background: any;
+    hud: any;
+    forecastButton: any;
+    solunaProp: any;
+    buttons: any;
+    chart: any;
+  };
 }) {
   // console.log(solarData);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -82,6 +91,7 @@ export default function CurvedLineComp({
     <>
       <Soluna
         location={location}
+        color={color}
         solarCondition={solarCondition}
         solarData={solarData}
       />

@@ -17,10 +17,12 @@ interface DataCardProps {
         windSpeed: number;
       }[];
   color: {
-    background: string;
-    hud: string;
-    buttons: string;
-    chart: string;
+    background: any;
+    hud: any;
+    forecastButton: any;
+    solunaProp: any;
+    buttons: any;
+    chart: any;
   };
   page: string;
   setPage: any;
@@ -37,20 +39,24 @@ export default function DataCard({
     <>
       {page == "main" ? (
         <div className="data-card" style={{ overflow: "visible" }}>
-          {chartType == "area" ? <AreaChart
-            page={page}
-            setPage={setPage}
-            activeParameters={[
-              "temperature",
-              "apparent_temperature",
-              "rain",
-              "showers",
-              "snowfall",
-              "wind_speed",
-            ]}
-            weatherData={weatherData}
-            color={color}
-          /> : <LineChart weatherData={weatherData}/>}
+          {chartType == "area" ? (
+            <AreaChart
+              page={page}
+              setPage={setPage}
+              activeParameters={[
+                "temperature",
+                "apparent_temperature",
+                "rain",
+                "showers",
+                "snowfall",
+                "wind_speed",
+              ]}
+              weatherData={weatherData}
+              color={color}
+            />
+          ) : (
+            <LineChart weatherData={weatherData} />
+          )}
           <div>
             <div className="button-container">
               <button

@@ -126,7 +126,7 @@
 .toggle-btn.on {
   background: linear-gradient(135deg, #7c4dff, #b388ff);
   color: white;
-  border-color: #b388ff;
+  border-color: #ffffff59;
   box-shadow: 0 0 20px rgba(124, 77, 255, 0.6);
   transform: scale(1.08);
 }

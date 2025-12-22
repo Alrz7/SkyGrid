@@ -10,7 +10,6 @@ import {
   Tooltip,
 } from "recharts";
 import "./styles/AreaChart.css";
-import { object } from "framer-motion/client";
 
 const hourlyData = [
   { hour: "00:00", temperature: 0, humidity: 0, windSpeed: 0 },
@@ -36,10 +35,12 @@ interface DataCardProps {
       }[];
   activeParameters: string[];
   color: {
-    background: string;
-    hud: string;
-    buttons: string;
-    chart: string;
+    background: any;
+    hud: any;
+    forecastButton: any;
+    solunaProp: any;
+    buttons: any;
+    chart: any;
   };
   page: string;
   setPage: any;
@@ -67,36 +68,54 @@ export default function ({
     }
     return "#ffffff";
   }
-
+  console.log(color.chart);
   const configs = {
     temperature: {
       unit: "°C",
-      colors: { start: "#ff6b6b", end: "#ff8e8e" },
+      colors: {
+        start: color?.chart?.temp?.start ?? "#ff6b6b",
+        end: color?.chart?.temp?.start ?? "#ff8e8e",
+      },
       opacity: 0.8,
     },
     apparent_temperature: {
       unit: "°C",
-      colors: { start: "#ff9f1c", end: "#ffb84d" },
+      colors: {
+        start: color?.chart?.apTemp?.start ?? "#ff9f1c",
+        end: color?.chart?.apTemp?.end ?? "#ffb84d",
+      },
       opacity: 0.8,
     },
     rain: {
       unit: "mm",
-      colors: { start: "#4ecdc4", end: "#7fe0d9" },
+      colors: {
+        start: color?.chart?.rain?.start ?? "#4ecdc4",
+        end: color?.chart?.rain?.start ?? "#7fe0d9",
+      },
       opacity: 0.8,
     },
     showers: {
       unit: "mm",
-      colors: { start: "#5e35b1", end: "#7c4dff" },
+      colors: {
+        start: color?.chart?.shower?.start ?? "#5e35b1",
+        end: color?.chart?.shower?.start ?? "#7c4dff",
+      },
       opacity: 0.8,
     },
     snowfall: {
       unit: "mm",
-      colors: { start: "#e0e7ff", end: "#c3dafe" },
+      colors: {
+        start: color?.chart?.snow?.start ?? "#e0e7ff",
+        end: color?.chart?.snow?.start ?? "#c3dafe",
+      },
       opacity: 0.8,
     },
     wind_speed: {
       unit: "km/h",
-      colors: { start: "#64b5f6", end: "#90caf9" },
+      colors: {
+        start: color?.chart?.windspd?.start ?? "#64b5f6",
+        end: color?.chart?.windspd?.start ?? "#90caf9",
+      },
       opacity: 0.4,
     },
   } as const;

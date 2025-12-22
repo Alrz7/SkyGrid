@@ -20,6 +20,7 @@ import Hud from "./components/Hud.js";
 import Forecast from "./components/Forecast.js";
 import Clock from "./components/Clock.js";
 import Notif from "./components/Notifications.js";
+import { color } from "framer-motion";
 
 export default function App() {
   const [loadOrder, updateOrder] = useState({
@@ -31,8 +32,10 @@ export default function App() {
   const [Pattern, setPattern] = useState({
     background: "",
     hud: "",
+    forecastButton: "",
+    solunaProp: "",
     buttons: "",
-    chart: "",
+    chart: {},
   });
   const [hudData, setHudData] = useState({});
   const [solarData, setsolarData] = useState({
@@ -47,7 +50,7 @@ export default function App() {
   const [notifs, setNotifs] = useState<[string, string][]>([]);
 
   function addNotif(newNotif: [string, string]) {
-    console.log([newNotif, ...notifs])
+    console.log([newNotif, ...notifs]);
     setNotifs(() => [newNotif, ...notifs]);
   }
 
@@ -124,7 +127,7 @@ export default function App() {
         <MinimizeSvg />
       </button>
       <div style={{ overflow: "hidden" }}>
-        <Sky solarData={solarData} city={city} />
+        <Sky solarData={solarData} city={city} color={Pattern} />
       </div>
       <SearchCity
         addNotif={addNotif}

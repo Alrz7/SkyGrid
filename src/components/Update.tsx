@@ -12,10 +12,12 @@ interface GetUpdateProps {
   PrimaryUpdateCity: any;
 
   color: {
-    background: string;
-    hud: string;
-    buttons: string;
-    chart: string;
+    background: any;
+    hud: any;
+    forecastButton: any;
+    solunaProp: any;
+    buttons: any;
+    chart: any;
   };
   isSearching: boolean;
 }

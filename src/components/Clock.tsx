@@ -8,10 +8,12 @@ export default function Clock({
   isSearching,
 }: {
   color: {
-    background: string;
-    hud: string;
-    buttons: string;
-    chart: string;
+    background: any;
+    hud: any;
+    forecastButton: any;
+    solunaProp: any;
+    buttons: any;
+    chart: any;
   };
   city: string;
   isSearching: boolean;
@@ -42,21 +44,23 @@ export default function Clock({
   }, [city]);
 
   return (
-    <>{!isSearching ? 
-      <div className="clock-container">
-        <h2
-          className="time-slot"
-          style={{ color: color ? color.hud : "rgb(237, 254, 255)" }}
-        >
-          {time.time}
-        </h2>
-        <h5
-          className="time-zone"
-          style={{ color: color ? color.hud : "rgb(237, 254, 255)" }}
-        >
-          {time.zone}
-        </h5>
-      </div>: null}
+    <>
+      {!isSearching ? (
+        <div className="clock-container">
+          <h2
+            className="time-slot"
+            style={{ color: color ? color.hud : "rgb(237, 254, 255)" }}
+          >
+            {time.time}
+          </h2>
+          <h5
+            className="time-zone"
+            style={{ color: color ? color.hud : "rgb(237, 254, 255)" }}
+          >
+            {time.zone}
+          </h5>
+        </div>
+      ) : null}
     </>
   );
 }

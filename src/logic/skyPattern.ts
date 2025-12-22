@@ -142,13 +142,14 @@ function selectTitle(addNotif: any, item: any, time: string) {
         : palletIndex;
 
     if (completion > 0 && (left ? left > 0 : true)) {
+      console.log(val.title, palletIndex);
       return { title: val.title, palletIndex: palletIndex };
     } else if (completion < 0 && (left ? left < 0 : true)) {
       return { title: sorted.at(-1).title, palletIndex: palletIndex };
     }
   }
   // console.log(time, item);
-  addNotif("error", "skyPattern: Title not found")
+  addNotif("error", "skyPattern: Title not found");
   console.log(sorted.at(-1)["time"], " <not found> ", sorted.at(-1)["title"]);
   return sorted.at(-1);
 }
@@ -167,28 +168,22 @@ export async function selectPattern(
       if (time) {
         const pallet = selectTitle(addNotif, astData.val, time.time.fullTime);
         console.log(pallet);
-        // console.log(skyCycle[pallet.title][pallet.palletIndex]);
-        const backgroundColor =
-          skyCycle[pallet.title][pallet.palletIndex].gradient;
-        const hudColor = skyCycle[pallet.title][pallet.palletIndex].tempColor;
         setsolarData(astData.val.astronomy);
-        // console.log({
-        //   background: backgroundColor,
-        //   hud: hudColor,
-        //   buttons: hudColor,
-        //   chart: hudColor,
-        // });
+        const ttl = pallet.title
+        const indx = pallet.palletIndex
         setPattern({
-          background: backgroundColor,
-          hud: hudColor,
-          buttons: hudColor,
-          chart: hudColor,
+          background: skyCycle[ttl][indx].gradient,
+          hud: skyCycle[ttl][indx].hudMainColor,
+          forecastButton: skyCycle[ttl][indx].forecastButton,
+          solunaProp: skyCycle[ttl][indx].solunaProp,
+          buttons: skyCycle[ttl][indx].solunaProp,
+          chart: skyCycle[ttl][indx].chart,
         });
         return;
       }
       // console.log(`${selectedTitle.title} is not existing in source-List`);
     } else {
-      addNotif(["error", `city "${cityName}" not found in astDataList `])
+      addNotif(["error", `city "${cityName}" not found in astDataList `]);
       console.log(`city "${cityName}" not found in astDataList `);
     }
   }

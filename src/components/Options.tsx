@@ -20,7 +20,7 @@ export default function GetOptions({
       <button
         className="options-button"
         onClick={() => {
-          setNotifs(() => [["warning", "newInfo22"], ...notifs]);
+          setNotifs(() => [["info", "this is an info"], ...notifs]);
         }}
       >
         <Options />

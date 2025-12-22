@@ -19,7 +19,7 @@ export default function Notif({
     const timer = setTimeout(() => {
       setNotifs((prev:any) => prev.slice(1));
       console.log(notifs);
-    }, 3000);
+    }, 1600 - notifs.length * 400);
 
     return () => clearTimeout(timer);
   }, [notifs]);
