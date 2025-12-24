@@ -70,10 +70,11 @@ export default function Forecast({
   return (
     <motion.div
       className={"more-panel open"}
-      initial={{ bottom: "-46%", opacity: 1 }}
+      initial={{ bottom: "-46%", opacity: 0 }}
       animate={{
-        bottom: page != "forecast" ? "-46%" : "46%",
-        visibility: page != "forecast" ? "hidden" : "visible",
+        bottom: page === "forecast" ? "46%" : "-46%",
+        opacity: page === "forecast" ? "1" : "0",
+        visibility: page === "forecast" ? "visible" : "hidden",
       }}
       transition={{ duration: 0.2, ease: "easeInOut" }}
     >
@@ -122,7 +123,7 @@ export default function Forecast({
       </div>
       <button
         className="closePage-button"
-        style={{background: color.forecastButton}}
+        style={{ background: '#ffffff22' }}
         onClick={() => {
           setPage("main");
         }}

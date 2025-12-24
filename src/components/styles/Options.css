@@ -1,3 +1,18 @@
+@font-face {
+  font-family: "Crf-bold";
+  src: url("./fonts/DeliusUnicase-Bold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  letter-spacing: 0;
+}
+
+@font-face {
+  font-family: "Crf-reg";
+  src: url("../fonts/DeliusUnicase-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 .options-button {
   position: absolute;
   top: 15px;
@@ -27,4 +42,101 @@
 .options-button svg {
   width: 35px;
   height: 35px;
+}
+
+.options-panel {
+  position: absolute;
+  left: 33px;
+  top: 0px;
+  width: 35px;
+  height: 34px;
+  transform: translateX(-50%);
+  /* max-width: 900px; */
+  background: rgba(0, 0, 0, 0.719);
+  backdrop-filter: blur(38px);
+  -webkit-backdrop-filter: blur(38px);
+  border: 1px solid rgba(255, 255, 255, 0);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0),
+    inset 20 80 80px rgba(255, 255, 255, 0);
+  border-radius: 24px;
+  opacity: 0;
+  /* pointer-events: none; */
+  z-index: 100;
+  /* overflow: hidden; */
+}
+
+.options-panel.open {
+  bottom: 46%;
+  transform: translate(-50%, 50%);
+  opacity: 1;
+  /* pointer-events: none; */
+}
+
+
+
+.settings-nav {
+  position: absolute;
+  width: 60%;
+  left: 20%;
+  top: 10px;
+  /* padding-left: 10px; */
+  height: 60px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  background: #ffffff1d;
+  border-bottom: 1px solid #1e1e2e;
+  z-index: 100;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 55px;
+}
+
+
+.nav-list {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-link {
+  color: #9ca3af;
+  text-decoration: none;
+  font-size: 13px;
+  font-family: "Crf-reg";
+  font-weight: 500;
+  padding: 0.5rem 0;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #ffffff;
+}
+
+.nav-link.active {
+  color: #ffffff;
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #ffffff;
+  border-radius: 2px;
 }

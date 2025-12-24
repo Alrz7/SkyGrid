@@ -5,8 +5,10 @@ import { findlocalTime } from "../logic/skyPattern.js";
 export default function Clock({
   color,
   city,
+  page,
   isSearching,
 }: {
+  page: any,
   color: {
     background: any;
     hud: any;
@@ -45,7 +47,7 @@ export default function Clock({
 
   return (
     <>
-      {!isSearching ? (
+      {!isSearching && page == "main" ? (
         <div className="clock-container">
           <h2
             className="time-slot"

@@ -13,6 +13,7 @@ import { lookingFor, updateLocations } from "../logic/useCities.js";
 import { toNameCase } from "../logic/sources/dry.js";
 interface addcityProps {
   addNotif: any;
+  page: any;
   PrimaryUpdateCity: any;
   color: {
     background: any;
@@ -29,6 +30,7 @@ interface addcityProps {
 export default function SearchCity({
   addNotif,
   PrimaryUpdateCity,
+  page,
   color,
   isSearching,
   Searching,
@@ -130,7 +132,7 @@ export default function SearchCity({
           }}
           transition={{ duration: 0.2, ease: "easeInOut" }}
         >
-          {
+          {page == "main" ? 
             <motion.button
               className={`icon-btn ${
                 isSearching && searchContent.length <= 0 && input.length > 0
@@ -155,7 +157,7 @@ export default function SearchCity({
             >
               {isSearching ? <Search /> : <Addcity />}
             </motion.button>
-          }
+          : null}
 
           <AnimatePresence>
             {isSearching && (

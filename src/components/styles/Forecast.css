@@ -17,9 +17,9 @@
   left: 50%;
   transform: translateX(-50%);
   width: 98%;
-  max-width: 900px;
+  max-width: 1200px;
   height: 88%;
-  background: rgba(255, 255, 255, 0.194);
+  background: rgba(0, 0, 0, 0.719);
   backdrop-filter: blur(38px);
   -webkit-backdrop-filter: blur(38px);
   border: 1px solid rgba(255, 255, 255, 0.18);
@@ -70,7 +70,7 @@
   cursor: pointer;
   display: flex;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 5px rgba(124, 77, 255, 0.3);
+  /* box-shadow: 0 2px 5px rgba(255, 255, 255, 0.3); */
 }
 
 .closePage-button:hover {
@@ -83,7 +83,7 @@
   display: flex;
   justify-content: center;
   grid-template-columns: repeat(auto-fit, minmax(75px, 92px));
-  /* gap: 4px; */
+  gap: 4px;
   bottom: 8%;
   background-color: rgba(255, 255, 255, 0);
   left: 0.5%;
@@ -93,20 +93,20 @@
 }
 
 .container {
-  background: rgba(0, 0, 0, 0.413);
+  background: rgba(76, 76, 76, 0.346);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-radius: 20px;
-  border: 2px solid #ffffff81;
+  border: 2px solid rgba(76, 76, 76, 0.346);
   padding: 12px 8px;
   display: flex;
-  width: 100%;
+  width: 90%;
   height: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   text-align: center;
-  color: white;
+  color: rgb(227, 227, 227);
   font-family: "Crf-bold", sans-serif;
   transition: all 0.4s ease;
   /* box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); */

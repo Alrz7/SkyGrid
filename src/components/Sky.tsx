@@ -8,8 +8,10 @@ import "./styles/Sky.css";
 export default function CurvedLineComp({
   solarData,
   city,
+  page,
   color,
 }: {
+  page: any;
   solarData: {
     moonrise: string;
     moonset: string;
@@ -92,6 +94,7 @@ export default function CurvedLineComp({
       <Soluna
         location={location}
         color={color}
+        page={page}
         solarCondition={solarCondition}
         solarData={solarData}
       />

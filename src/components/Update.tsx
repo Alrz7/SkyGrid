@@ -10,7 +10,7 @@ interface GetUpdateProps {
   addNotif: any;
   city: string;
   PrimaryUpdateCity: any;
-
+  page: any;
   color: {
     background: any;
     hud: any;
@@ -25,6 +25,7 @@ interface GetUpdateProps {
 export default function GetUpdate({
   addNotif,
   PrimaryUpdateCity,
+  page,
   city,
   color,
   isSearching,
@@ -32,7 +33,7 @@ export default function GetUpdate({
   const [logo, setLogo] = useState("Update");
   return (
     <div>
-      {
+      {page == "main" ? (
         <motion.button
           className="update-button"
           animate={{
@@ -59,7 +60,12 @@ export default function GetUpdate({
               const result = checkUpdate(addNotif, city, true).then((res) => {
                 if (res.ok) {
                   if (res.val) {
-                    PrimaryUpdateCity(true, city, res.val.daily, res.val.hourly);
+                    PrimaryUpdateCity(
+                      true,
+                      city,
+                      res.val.daily,
+                      res.val.hourly
+                    );
                   }
                 }
               });
@@ -74,7 +80,7 @@ export default function GetUpdate({
             <Default />
           )}
         </motion.button>
-      }
+      ) : null}
       {/* <style>
         {`
       .update-button {

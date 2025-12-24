@@ -46,7 +46,7 @@ export default function App() {
     solar_noon: "",
   });
   const [isSearching, Searching] = useState(false);
-  const [page, setPage] = useState("main");
+  const [page, setPage] = useState<"main" | "forecast" | "options">("main");
   const [notifs, setNotifs] = useState<[string, string][]>([]);
 
   function addNotif(newNotif: [string, string]) {
@@ -127,16 +127,18 @@ export default function App() {
         <MinimizeSvg />
       </button>
       <div style={{ overflow: "hidden" }}>
-        <Sky solarData={solarData} city={city} color={Pattern} />
+        <Sky solarData={solarData} city={city} page={page} color={Pattern} />
       </div>
       <SearchCity
         addNotif={addNotif}
         PrimaryUpdateCity={PrimaryUpdateCity}
+        page={page}
         color={Pattern}
         isSearching={isSearching}
         Searching={Searching}
       />
       <SwitchButtons
+        page={page}
         onSwitchClick={(forward: boolean) => {
           changeOrders(
             updateOrder,
@@ -158,15 +160,23 @@ export default function App() {
 
       <GetOptions
         notifs={notifs}
+        page={page}
+        setPage={setPage}
         setNotifs={setNotifs}
         //  color={Pattern}
       />
       {/* <ReloadData /> */}
-      <Clock color={Pattern} city={city} isSearching={isSearching} />
+      <Clock
+        color={Pattern}
+        city={city}
+        page={page}
+        isSearching={isSearching}
+      />
       <GetUpdate
         addNotif={addNotif}
         color={Pattern}
         city={city}
+        page={page}
         PrimaryUpdateCity={PrimaryUpdateCity}
         isSearching={isSearching}
       />

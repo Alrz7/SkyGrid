@@ -51,33 +51,29 @@ export default function Hud({
 
   return (
     <div>
-      <motion.div
-        className="city-container"
-        animate={{
-          left: isSearching ? "310px" : "0px",
-        }}
-        transition={{ duration: 0.2, ease: "easeInOut" }}
-      >
-        <h2
-          className="city"
-          style={{ color: `${color ? color.hud : "rgb(237, 254, 255);"}` }}
+      {page == "main" ? (
+        <motion.div
+          className="city-container"
+          animate={{
+            left: isSearching ? "310px" : "0px",
+          }}
+          transition={{ duration: 0.2, ease: "easeInOut" }}
         >
-          {city}
-        </h2>
-      </motion.div>
+          <h2
+            className="city"
+            style={{ color: `${color ? color.hud : "rgb(237, 254, 255);"}` }}
+          >
+            {city}
+          </h2>
+        </motion.div>
+      ) : null}
       {page == "main" && hudData?.temperature ? (
         <div className="hud-container">
-          <div
-            className="hud-card main-temp-card"
-            style={{ color: color.hud }}
-          >
+          <div className="hud-card main-temp-card" style={{ color: color.hud }}>
             <div className="hud-temp-value">
               {hudData?.temperature ? `${hudData.temperature}°` : ""}
             </div>
-            <div
-              className="hud-temp-feelslike"
-              style={{ color: color.hud }}
-            >
+            <div className="hud-temp-feelslike" style={{ color: color.hud }}>
               {hudData?.apparent_temperature
                 ? `Feels like ${hudData.apparent_temperature}°`
                 : ""}
@@ -110,10 +106,12 @@ export default function Hud({
                 label: "Pressure",
               },
             ].map((item, idx) => (
-              <div key={idx} className="info-row" style={{color: color.hud}}>
+              <div key={idx} className="info-row" style={{ color: color.hud }}>
                 <div className="icon-value-wrapper" data-tooltip={item.label}>
                   <item.Icon />
-                  <span className="hud-value" style={{color: color.hud}}>{item.value}</span>
+                  <span className="hud-value" style={{ color: color.hud }}>
+                    {item.value}
+                  </span>
                 </div>
                 {idx < 3 && <div className="separator" />}
               </div>
