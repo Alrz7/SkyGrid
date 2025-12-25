@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import Sky from "../assets/roadLine.svg?react";
+import Sky from "@assets/roadLine.svg?react";
 import Soluna from "./Soluna.js";
 import BackGroundStars from "./BackGroundStars.js";
-import { setSphere } from "../logic/solarSystem.js";
+import { setSphere } from "../../logic/solarSystem.js";
 import "./styles/Sky.css";
 
 export default function CurvedLineComp({

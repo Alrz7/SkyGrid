@@ -26,7 +26,10 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@": "/src", 
+      "@": "/src",
+      "@assets": "/src/assets",
+      "@pages": "/src/components/pages",
+      "@charts": "/src/components/charts",
     },
   },
   optimizeDeps: {

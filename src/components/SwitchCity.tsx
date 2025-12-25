@@ -1,5 +1,5 @@
-import ArrowLeft from "../assets/arrow_left.svg?react";
-import ArrowRight from "../assets/arrow_right.svg?react";
+import ArrowLeft from "@assets/arrow_left.svg?react";
+import ArrowRight from "@assets/arrow_right.svg?react";
 import "./styles/SwitchCity.css";
 
 export default function SwitchButtons({

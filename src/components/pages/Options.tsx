@@ -1,8 +1,8 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { motion, noop } from "framer-motion";
-import Options from "../assets/options.svg?react";
-import ClosePage from "../assets/closePage.svg?react";
+import Options from "@assets/options.svg?react";
+import ClosePage from "@assets/closePage.svg?react";
 import "./styles/Options.css";
 
 export default function GetOptions({

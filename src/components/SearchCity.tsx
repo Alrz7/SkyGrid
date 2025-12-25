@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Addcity from "../assets/addcity.svg?react";
-import Search from "../assets/search.svg?react";
-import CloseSearch from "../assets/closeSearch.svg?react";
+import Addcity from "@assets/addcity.svg?react";
+import Search from "@assets/search.svg?react";
+import CloseSearch from "@assets/closeSearch.svg?react";
 import "./styles/SearchCity.css";
 import { motion, AnimatePresence, circIn } from "framer-motion";
 import {
@@ -132,7 +132,7 @@ export default function SearchCity({
           }}
           transition={{ duration: 0.2, ease: "easeInOut" }}
         >
-          {page == "main" ? 
+          {page == "main" ? (
             <motion.button
               className={`icon-btn ${
                 isSearching && searchContent.length <= 0 && input.length > 0
@@ -157,7 +157,7 @@ export default function SearchCity({
             >
               {isSearching ? <Search /> : <Addcity />}
             </motion.button>
-          : null}
+          ) : null}
 
           <AnimatePresence>
             {isSearching && (

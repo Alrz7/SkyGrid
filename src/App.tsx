@@ -6,21 +6,21 @@ import {
   changeOrders,
   updateMainCity,
 } from "./logic/orderFunctions.js";
-import CloseSvg from "./assets/close.svg?react";
-import MinimizeSvg from "./assets/minimize.svg?react";
-import MaximizeSvg from "./assets/maximize.svg?react";
+import CloseSvg from "@assets/close.svg?react";
+import MinimizeSvg from "@assets/minimize.svg?react";
+import MaximizeSvg from "@assets/maximize.svg?react";
 import { selectWatherItem } from "./logic/formatData.js";
-import Sky from "./components/Sky.js";
+import Sky from "./components/pages/Sky.js";
 import SwitchButtons from "./components/SwitchCity.js";
 import DataCard from "./components/DataCard.js";
 import GetUpdate from "./components/Update.js";
-import GetOptions from "./components/Options.js";
+import GetOptions from "./components/pages/Options.js";
 import SearchCity from "./components/SearchCity.js";
 import Hud from "./components/Hud.js";
-import Forecast from "./components/Forecast.js";
+import Forecast from "./components/pages/Forecast.js";
 import Clock from "./components/Clock.js";
 import Notif from "./components/Notifications.js";
-import { color } from "framer-motion";
+
 
 export default function App() {
   const [loadOrder, updateOrder] = useState({

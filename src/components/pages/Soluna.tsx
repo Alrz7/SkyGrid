@@ -1,8 +1,8 @@
 import { useRef, useEffect, useState } from "react";
-import Sun from "../assets/sun.svg?react";
-import Moon from "../assets/moon.svg?react";
-import IcSun from "../assets/IcSun.svg?react";
-import IcMoon from "../assets/IcMoon.svg?react";
+import Sun from "@assets/sun.svg?react";
+import Moon from "@assets/moon.svg?react";
+import IcSun from "@assets/IcSun.svg?react";
+import IcMoon from "@assets/IcMoon.svg?react";
 import "./styles/Soluna.css";
 
 export default function SunComp({

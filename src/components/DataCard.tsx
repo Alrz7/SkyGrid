@@ -1,8 +1,8 @@
 import { useState } from "react";
-import AreaIcon from "../assets/areaChart.svg?react";
-import LineIcon from "../assets/lineChart.svg?react";
-import AreaChart from "./AreaChart.js";
-import LineChart from "./LineChart.js";
+import AreaIcon from "@assets/areaChart.svg?react";
+import LineIcon from "@assets/lineChart.svg?react";
+import AreaChart from "./charts/AreaChart.js";
+import LineChart from "./charts/LineChart.js";
 import "./styles/DataCard.css";
 
 interface DataCardProps {

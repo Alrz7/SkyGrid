@@ -1,8 +1,8 @@
 import "./styles/Notifications.css";
-import Alert from "../assets/alert.svg?react";
-import Warning from "../assets/warning.svg?react";
-import Check from "../assets/check.svg?react";
-import Info from "../assets/info.svg?react";
+import Alert from "@assets/alert.svg?react";
+import Warning from "@assets/warning.svg?react";
+import Check from "@assets/check.svg?react";
+import Info from "@assets/info.svg?react";
 import { motion, AnimatePresence, delay } from "framer-motion";
 import { useEffect, useState } from "react";
 
@@ -17,7 +17,7 @@ export default function Notif({
     if (notifs.length === 0) return;
 
     const timer = setTimeout(() => {
-      setNotifs((prev:any) => prev.slice(1));
+      setNotifs((prev: any) => prev.slice(1));
       console.log(notifs);
     }, 1600 - notifs.length * 400);
 

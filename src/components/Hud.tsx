@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "./styles/Hud.css";
-import Humidity from "../assets/humidity.svg?react";
-import Pressure from "../assets/pressure.svg?react";
-import Visibility from "../assets/visibility.svg?react";
-import Wind from "../assets/wind.svg?react";
+import Humidity from "@assets/humidity.svg?react";
+import Pressure from "@assets/pressure.svg?react";
+import Visibility from "@assets/visibility.svg?react";
+import Wind from "@assets/wind.svg?react";
 import { selectWeatherIcon } from "../logic/skyPattern.js";
 
 interface HudPops {

@@ -1,17 +1,17 @@
 "use client";
 import "./styles/Forecast.css";
-import Wind from "../assets/wind.svg?react";
-import Rain from "../assets/rain.svg?react";
-import Snow from "../assets/snow.svg?react";
-import UvIndex from "../assets/uvIndex.svg?react";
-import Weather from "../assets/weather.svg?react";
-import Precipitation from "../assets/precipitation.svg?react";
-import Showers from "../assets/showers.svg?react";
-import Temp from "../assets/temp.svg?react";
-import Date from "../assets/date.svg?react";
+import Wind from "@assets/wind.svg?react";
+import Rain from "@assets/rain.svg?react";
+import Snow from "@assets/snow.svg?react";
+import UvIndex from "@assets/uvIndex.svg?react";
+import Weather from "@assets/weather.svg?react";
+import Precipitation from "@assets/precipitation.svg?react";
+import Showers from "@assets/showers.svg?react";
+import Temp from "@assets/temp.svg?react";
+import Date from "@assets/date.svg?react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ftForecastData } from "../logic/formatData.js";
+import { ftForecastData } from "../../logic/formatData.js";
 import {
   Sun,
   Cloud,
@@ -20,7 +20,7 @@ import {
   CloudDrizzle,
   Zap,
 } from "lucide-react";
-import ClosePage from "../assets/closePage.svg?react";
+import ClosePage from "@assets/closePage.svg?react";
 export default function Forecast({
   color,
   dailyForecast,
@@ -123,7 +123,7 @@ export default function Forecast({
       </div>
       <button
         className="closePage-button"
-        style={{ background: '#ffffff22' }}
+        style={{ background: "#ffffff22" }}
         onClick={() => {
           setPage("main");
         }}

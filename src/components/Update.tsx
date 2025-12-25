@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Default from "../assets/default.svg?react";
-import UpToDate from "../assets/isUpdate.svg?react";
-import Update from "../assets/update.svg?react";
+import Default from "@assets/default.svg?react";
+import UpToDate from "@assets/isUpdate.svg?react";
+import Update from "@assets/update.svg?react";
 import { motion } from "framer-motion";
 import "./styles/Update.css";
 import { checkUpdate } from "../logic/updateDatas.js";
