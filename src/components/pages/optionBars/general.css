@@ -1,0 +1,146 @@
+.settings-section {
+  margin-bottom: 2rem;
+  background: #3a3a3a47;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 2px solid rgba(121, 121, 121, 0.176);
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px dashed #7474747a;
+}
+.setting-item.grid {
+  display: grid;
+  border-bottom: 1px dashed #7474747a;
+
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 0;
+}
+
+.setting-item:last-child {
+  border-bottom: none;
+}
+
+.setting-label {
+  font-size: 1rem;
+  color: #b0b0b0;
+  flex: 1;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 58px;
+  height: 35px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #272727;
+  border-radius: 26px;
+  transition: 0.4s;
+}
+.slider:hover {
+  background: #7d7d7d;
+  border-color: #767676;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 30px;
+  width: 30px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #e0e0e0;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #6b7280;
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+.select-input {
+  background: #6d6d6db4;
+  border: 1px solid #3a3a3a;
+  color: #e0e0e0;
+  padding: 0.6rem 1rem;
+  font-family: "Crf-reg";
+  border-radius: 8px;
+  font-size: 0.95rem;
+  width: 180px;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e0e0e0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 16px;
+}
+.select-input.text {
+  background-image: none;
+}
+
+.setting-button {
+  background: #343434;
+  color: #e0e0e0;
+  border: 1px solid #3c3c3c23;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-family: "Crf-reg", system-ui, -apple-system, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 140px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.161);
+}
+
+.setting-button:hover {
+  background: #7d7d7d;
+  border-color: #767676;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
+}
+
+.setting-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.15);
+}

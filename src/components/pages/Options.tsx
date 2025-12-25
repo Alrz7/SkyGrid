@@ -2,7 +2,8 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { motion, noop } from "framer-motion";
 import Options from "@assets/options.svg?react";
-import ClosePage from "@assets/closePage.svg?react";
+import CloseSearch from "@assets/closeSearch.svg?react";
+import General from "./optionBars/general.js";
 import "./styles/Options.css";
 
 export default function GetOptions({
@@ -20,7 +21,7 @@ export default function GetOptions({
     "general"
   );
   return (
-    <div>
+    <>
       {page == "main" ? (
         <button
           className="options-button"
@@ -46,22 +47,22 @@ export default function GetOptions({
         }}
         animate={{
           left: page == "options" ? "50%" : "33px",
-          top: page == "options" ? "-36%" : "0px",
-          width: page == "options" ? "99%" : "35px",
-          height: page == "options" ? "90%" : "34px",
+          top: page == "options" ? "-50%" : "0px",
+          width: page == "options" ? "100%" : "35px",
+          height: page == "options" ? "100%" : "34px",
           opacity: page == "options" ? "1" : "0",
           visibility: page == "options" ? "visible" : "hidden",
         }}
         transition={{ duration: 0.1, ease: "easeInOut" }}
       >
         <button
-          className="closePage-button"
+          className="closePage-button options"
           style={{ background: "#ffffff22" }}
           onClick={() => {
             setPage("main");
           }}
         >
-          <ClosePage />
+          <CloseSearch/>
         </button>
 
         <nav className="settings-nav">
@@ -124,7 +125,10 @@ export default function GetOptions({
             </ul>
           </div>
         </nav>
+        <div className="settings-container">
+          <General />
+        </div>
       </motion.div>
-    </div>
+    </>
   );
 }

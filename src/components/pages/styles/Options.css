@@ -44,21 +44,38 @@
   height: 35px;
 }
 
+
+.settings-container {
+  position: absolute;
+  top: 80px;
+  border-radius: 10px;
+  height: 90%;
+  left: 1%;
+  width: 98%;
+  overflow-y: auto;
+  background: #ffffff00;
+  color: #e0e0e0;
+  padding: 1.2rem;
+  font-family: "Crf-reg";
+}
+
+
 .options-panel {
   position: absolute;
   left: 33px;
   top: 0px;
+  overflow-y: hidden;
   width: 35px;
   height: 34px;
   transform: translateX(-50%);
   /* max-width: 900px; */
-  background: rgba(0, 0, 0, 0.719);
+  background: #1b1b1be0;
   backdrop-filter: blur(38px);
   -webkit-backdrop-filter: blur(38px);
   border: 1px solid rgba(255, 255, 255, 0);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0),
     inset 20 80 80px rgba(255, 255, 255, 0);
-  border-radius: 24px;
+  /* border-radius: 24px; */
   opacity: 0;
   /* pointer-events: none; */
   z-index: 100;
@@ -72,8 +89,6 @@
   /* pointer-events: none; */
 }
 
-
-
 .settings-nav {
   position: absolute;
   width: 60%;
@@ -84,8 +99,8 @@
   align-items: center;
   justify-content: center;
   border-radius: 20px;
-  background: #ffffff1d;
-  border-bottom: 1px solid #1e1e2e;
+  background: #5050501d;
+  border-bottom: 1px solid #1e1e2e00;
   z-index: 100;
 }
 
@@ -98,7 +113,6 @@
   justify-content: center;
   height: 55px;
 }
-
 
 .nav-list {
   display: flex;
@@ -131,7 +145,7 @@
 }
 
 .nav-link.active::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -2px;
   left: 0;

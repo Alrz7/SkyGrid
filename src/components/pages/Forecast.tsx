@@ -72,11 +72,11 @@ export default function Forecast({
       className={"more-panel open"}
       initial={{ bottom: "-46%", opacity: 0 }}
       animate={{
-        bottom: page === "forecast" ? "46%" : "-46%",
+        bottom: page === "forecast" ? "50%" : "-46%",
         opacity: page === "forecast" ? "1" : "0",
         visibility: page === "forecast" ? "visible" : "hidden",
       }}
-      transition={{ duration: 0.2, ease: "easeInOut" }}
+      transition={{ duration: 0.1, ease: "easeInOut" }}
     >
       <div className="DataColm">
         <div className="container info">
