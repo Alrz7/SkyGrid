@@ -144,3 +144,109 @@ input:checked + .slider:before {
   transform: translateY(0);
   box-shadow: 0 2px 6px rgba(255, 255, 255, 0.15);
 }
+
+.city-list {
+  display: grid;
+  position: relative;
+  /* top: 65px;  */
+  /* left: 60px; */
+  margin-top: 10px;
+  width: 96%;
+  left: 2%;
+  height: 320px;
+  background: linear-gradient(
+    to bottom,
+    rgba(240, 240, 245, 0.088) 0%,
+    rgba(248, 248, 252, 0.206) 50%,
+    rgba(255, 255, 255, 0.592) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
+  z-index: 110;
+  animation: slideIn 0.3s ease-out;
+}
+
+.city-card {
+  position: relative;
+  width: 90%;
+  height: 70px;
+  gap: 10px;
+  margin-top: 2%;
+  margin-left: 5%;
+  margin-bottom: 10px;
+  background: hsl(0, 0%, 20%);
+  color: #e0e0e0;
+  border: 1px solid #3c3c3c23;
+  border-radius: 12px;
+  font-family: "Crf-reg", system-ui, -apple-system, sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.161);
+}
+
+.city-card:hover {
+  background: #7d7d7d;
+  border-color: #767676;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
+}
+.city-card:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.15);
+}
+
+.card-button {
+  position: absolute;
+  display: grid;
+  right: 1%;
+  top: 12px;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 40px;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background: #54545492;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(124, 77, 255, 0);
+  cursor: pointer;
+  transition: all 0s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card-button svg {
+  width: 35px;
+  height: 35px;
+}
+
+.card-button.delete {
+  right: 10%;
+}
+
+.card-button.select:hover {
+  background: rgba(124, 77, 255, 0.35);
+  border-color: #a78bfa;
+  color: white;
+  transform: scale(1.15);
+  box-shadow: 0 0 20px rgba(124, 77, 255, 0.6);
+}
+
+.card-button.delete:hover {
+  background: rgba(239, 68, 68, 0.35);
+  border-color: #c71414;
+  color: white;
+  transform: scale(1.15);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+}

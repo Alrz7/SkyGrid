@@ -142,7 +142,7 @@ function selectTitle(addNotif: any, item: any, time: string) {
         : palletIndex;
 
     if (completion > 0 && (left ? left > 0 : true)) {
-      console.log(val.title, palletIndex);
+      // console.log(val.title, palletIndex);
       return { title: val.title, palletIndex: palletIndex };
     } else if (completion < 0 && (left ? left < 0 : true)) {
       return { title: sorted.at(-1).title, palletIndex: palletIndex };
@@ -167,10 +167,10 @@ export async function selectPattern(
       const time: any = await findlocalTime(cityName);
       if (time) {
         const pallet = selectTitle(addNotif, astData.val, time.time.fullTime);
-        console.log(pallet);
+        // console.log(pallet);
         setsolarData(astData.val.astronomy);
-        const ttl = pallet.title
-        const indx = pallet.palletIndex
+        const ttl = pallet.title;
+        const indx = pallet.palletIndex;
         setPattern({
           background: skyCycle[ttl][indx].gradient,
           hud: skyCycle[ttl][indx].hudMainColor,

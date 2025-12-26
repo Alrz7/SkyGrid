@@ -4,12 +4,12 @@ import {
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
 import { checkDir, checkApiKeys, doesExist } from "./DataManagement.js";
+import { updateData } from "./ipGeoLocation.js";
 
 export async function saveConfig(
   data: Record<string, any>,
   target = "GridConfig"
 ) {
-  console.log(data);
   const lastFile = await readConfig(target);
   if (data) {
     if (!lastFile) {
@@ -48,7 +48,12 @@ export async function readConfig(target = "GridConfig") {
       return null;
     }
   } else {
-    const defult = { meteoParams: meteoParamsBackUp };
+    const defult = {
+      meteoParams: meteoParamsBackUp,
+      rememberCity: true,
+      searchCount: 5,
+      autoUpdate: true,
+    };
     saveConfig(defult);
     return defult;
   }

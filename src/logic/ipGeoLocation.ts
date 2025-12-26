@@ -99,14 +99,14 @@ export async function updateData(
     const localTime = await findlocalTime(cityName);
     console.log(localTime?.time.fullStr);
     const timeDiff = difrentHour(localTime?.time.fullStr, lastUpdateTime);
-    console.log(cityName, engage);
+    // console.log(cityName, engage);
     if (engage) {
       // console.log("engaging in astro update")
       if (timeDiff >= 24) {
         const newData = await getAstro(cityName);
         return { ok: true, isUpdate: false, val: newData };
       } else {
-        console.log("no update in astro data is needed: IPGEO");
+        // console.log("no update in astro data is needed: IPGEO");
         return { ok: true, isUpdate: true, val: lastData };
       }
     } else {

@@ -9,6 +9,7 @@ import { selectPattern } from "./skyPattern.js";
 export async function setCurrentCity(
   updateOrder: any,
   updateCity: any,
+  rmb: boolean,
   setPattern: any,
   addNotif: any,
   setsolarData: any
@@ -27,7 +28,9 @@ export async function setCurrentCity(
         newCity = cont.at(1);
         cityC = cont.at(2);
       } else {
-        saveConfig({ city: newCity, cityList: [cityA, newCity, cityC] });
+        if (rmb) {
+          saveConfig({ city: newCity, cityList: [cityA, newCity, cityC] });
+        }
       }
     }
     updateCity(newCity);
@@ -62,7 +65,7 @@ export async function updateMainCity(
   setPattern: any,
   addNotif: any,
   setsolarData: any,
-  direct: boolean = false,
+  save: boolean = false,
   cityName: string,
   daily: Record<string, any> | null,
   hourly: Record<string, any> | null
@@ -76,6 +79,12 @@ export async function updateMainCity(
     updateCity(cityName);
     selectPattern(addNotif, setPattern, setsolarData, cityName);
     const dailyWeather = await readOpmData("daily");
+    if (save) {
+      saveConfig({
+        city: cityName,
+        cityList: [cityA, cityName, cityC],
+      });
+    }
     const hourlyWeather = await readOpmData("hourly");
     updateOrder({
       cityA: [
@@ -121,6 +130,7 @@ export async function updateMainCity(
 export async function changeOrders(
   updateOrder: any,
   updateCity: any,
+  rmb: boolean,
   loadOrder: any,
   setPattern: any,
   addNotif: any,
@@ -134,7 +144,10 @@ export async function changeOrders(
     const newCityA = changeCity(cityList, cityIndex - 1, forward);
     const newCity = changeCity(cityList, cityIndex, forward);
     const newCityC = changeCity(cityList, cityIndex + 1, forward);
-    saveConfig({ city: newCity, cityList: [newCityA, newCity, newCityC] });
+    if (rmb) {
+      console.log('ssss22')
+      saveConfig({ city: newCity, cityList: [newCityA, newCity, newCityC] });
+    }
     console.log(cityList);
     console.log(newCityA + " " + newCity + " " + newCityC);
     const dailyWeather = await readOpmData("daily");

@@ -48,7 +48,7 @@ export function ftHourlyData(data: any, addNotif: any | null = null) {
       return newlist;
     } else {
       if (addNotif) {
-        console.log("weather Data is not up to Date, use");
+        console.log("weather Data is not up to Date");
         addNotif(["error", "weather Data is not up to Date"]);
       }
       return null;
@@ -80,7 +80,7 @@ function getLocalTime() {
   const now = new Date();
   const spl = now.toLocaleString("en-US", { weekday: "short" });
   const dayCoutn = now.getDay();
-  console.log(dayCoutn);
+  // console.log(dayCoutn);
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, "0");
   const day = String(now.getDate()).padStart(2, "0");
@@ -116,7 +116,7 @@ export function ftForecastData(data: Record<string, any>) {
     ) {
       dateSpl = "Yesterday";
     }
-    console.log(data)
+    // console.log(data)
     const newItem = {
       date: dateSpl,
       code: data.weather_code[i],

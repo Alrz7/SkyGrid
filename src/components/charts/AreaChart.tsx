@@ -68,7 +68,7 @@ export default function ({
     }
     return "#ffffff";
   }
-  console.log(color.chart);
+  // console.log(color.chart);
   const configs = {
     temperature: {
       unit: "°C",

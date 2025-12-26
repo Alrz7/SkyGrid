@@ -8,12 +8,22 @@ import "./styles/Options.css";
 
 export default function GetOptions({
   notifs,
+  autupdt,
+  rmb,
+  srcnt,
   page,
+  city,
+  updateCity,
   setPage,
   setNotifs,
 }: {
   notifs: [string, string][];
+  autupdt: any;
   page: any;
+  srcnt: any;
+  city: string;
+  updateCity: any;
+  rmb: any;
   setPage: any;
   setNotifs: any;
 }) {
@@ -62,7 +72,7 @@ export default function GetOptions({
             setPage("main");
           }}
         >
-          <CloseSearch/>
+          <CloseSearch />
         </button>
 
         <nav className="settings-nav">
@@ -83,6 +93,19 @@ export default function GetOptions({
               </li>
               <li className="nav-item">
                 <a
+                  href="#api"
+                  className={`nav-link ${nav == "apikey" ? "active" : null}`}
+                  onClick={() => {
+                    if (nav != "apikey") {
+                      setNav("apikey");
+                    }
+                  }}
+                >
+                  API Keys
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
                   href="#appearance"
                   className={`nav-link ${
                     nav == "appearance" ? "active" : null
@@ -94,19 +117,6 @@ export default function GetOptions({
                   }}
                 >
                   Appearance
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  href="#api"
-                  className={`nav-link ${nav == "apikey" ? "active" : null}`}
-                  onClick={() => {
-                    if (nav != "apikey") {
-                      setNav("apikey");
-                    }
-                  }}
-                >
-                  API Keys
                 </a>
               </li>
               <li className="nav-item">
@@ -126,7 +136,16 @@ export default function GetOptions({
           </div>
         </nav>
         <div className="settings-container">
-          <General />
+          {nav == "general" ? (
+            <General
+              rmb={rmb}
+              srcnt={srcnt}
+              city={city}
+              updateCity={updateCity}
+              autupdt={autupdt}
+            />
+          ) : nav == "apikey" ? null : nav == "appearance" ? null : nav ==
+            "about" ? null : null}
         </div>
       </motion.div>
     </>

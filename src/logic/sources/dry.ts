@@ -14,7 +14,7 @@ export function difrentHour(t1: string, t2: string) {
 }
 
 export function dateDiferenceToHour(timeString1: string, timeString2: string) {
-  console.log(timeString1);
+  // console.log(timeString1);
   const date1 = new Date(timeString1 + "Z");
   const date2 = new Date(timeString2 + "Z");
   const differenceInMilliseconds = date1.getTime() - date2.getTime();

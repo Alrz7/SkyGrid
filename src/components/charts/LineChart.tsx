@@ -124,7 +124,7 @@ export default function ChartLineMultiple({
             tick={{ fill: "#ffffffff", fontSize: 12 }}
           />
           <Tooltip content={<CustomTooltip />} />
-          {configs.map((item) => {
+          {configs.map((item, id) => {
             return (
               <Line
                 dataKey={item.dataKey}

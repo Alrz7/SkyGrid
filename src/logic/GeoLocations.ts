@@ -5,13 +5,19 @@ import {
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
 import { readKey, doesExist, checkDir } from "./DataManagement.js";
+import { CitrusIcon } from "lucide-react";
 
-async function getLocation(addNotif: any, cityName: string, prtcl = "opn") {
+async function getLocation(
+  addNotif: any,
+  cityName: string,
+  searchCount: number,
+  prtcl = "opn"
+) {
   let dt;
   if (prtcl == "met") {
     dt = await fetch(
       // << IMP >>  to filter Countrys in this search we can build a static country code search like  Iran => "IR" and filter use it as ...&countryCode=${countryCode}
-      `https://geocoding-api.open-meteo.com/v1/search?name=${cityName}&count=5&language=en`,
+      `https://geocoding-api.open-meteo.com/v1/search?name=${cityName}&count=${searchCount}&language=en`,
       { method: "GET" }
     );
   } else {
@@ -22,7 +28,7 @@ async function getLocation(addNotif: any, cityName: string, prtcl = "opn") {
         { method: "GET" }
       );
     } else {
-      addNotif("error", "Apikey is Not set or Invalid")
+      addNotif("error", "Apikey is Not set or Invalid");
       return null;
     }
   }
@@ -42,14 +48,23 @@ async function getLocation(addNotif: any, cityName: string, prtcl = "opn") {
   }
 }
 
-export async function apiSearch(addNotif: any, cityName: string) {
+export async function apiSearch(
+  addNotif: any,
+  cityName: string,
+  searchCount: number
+) {
   console.log("api-req1");
   const lastFile = await readData();
 
   if (lastFile && cityName in lastFile) {
     return { ok: true, avalable: true, list: [] };
   } else {
-    const geoByMeteo = await getLocation(addNotif, cityName, "met");
+    const geoByMeteo = await getLocation(
+      addNotif,
+      cityName,
+      searchCount,
+      "met"
+    );
     //   const geoByOpenweather = getLocation(cityName, "opn");
     if (geoByMeteo) {
       console.log(geoByMeteo);
@@ -109,4 +124,20 @@ export async function readData(target = "locations") {
     checkDir();
     return null;
   }
+}
+
+export async function deleteLocation(cityName:string, target = "locations") {
+  const locations = await readData()
+  if(locations && cityName in locations){
+    delete locations[cityName]
+    await writeTextFile(
+        `SkyGrid/locationData/${target}.json`,
+        JSON.stringify(locations),
+        {
+          baseDir: BaseDirectory.Document,
+        }
+      );
+      return Object.keys(locations)
+  }
+  
 }

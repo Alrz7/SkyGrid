@@ -113,6 +113,7 @@ export default function Forecast({
               return (
                 <DataColm
                   data={item}
+                  key={id}
                   // index={hoverIndex}
                   // setIndex={setHoverIndex}
                   // id={id}

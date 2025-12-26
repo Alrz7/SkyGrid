@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import {
   setCurrentCity,
@@ -20,8 +20,9 @@ import Hud from "./components/Hud.js";
 import Forecast from "./components/pages/Forecast.js";
 import Clock from "./components/Clock.js";
 import Notif from "./components/Notifications.js";
-
-
+import { checkUpdate } from "./logic/updateDatas.js";
+import { saveConfig, readConfig } from "./logic/gridconfig.js";
+import { svg } from "framer-motion/client";
 export default function App() {
   const [loadOrder, updateOrder] = useState({
     cityA: [],
@@ -48,29 +49,83 @@ export default function App() {
   const [isSearching, Searching] = useState(false);
   const [page, setPage] = useState<"main" | "forecast" | "options">("main");
   const [notifs, setNotifs] = useState<[string, string][]>([]);
+  const [rememberCity, setRmbCity] = useState<boolean>(false);
+  const [searchCount, setSearchCount] = useState<number>(20);
+  const [autoUpdate, setAutoUpdate] = useState<boolean>(false);
+
+  function updAutoUpdate() {
+    const trgt = !autoUpdate;
+    setAutoUpdate(trgt);
+    saveConfig({ autoUpdate: trgt });
+  }
+  function updSearchCount(count: number) {
+    setSearchCount(count);
+    saveConfig({ searchCount: count });
+  }
+  function rmbCity(op: "set" | "save" = "save") {
+    if (op == "save") {
+      saveConfig({
+        city: city,
+        cityList: [loadOrder.cityA[0], loadOrder.cityB[0], loadOrder.cityC[0]],
+      });
+    } else {
+      const crnt = !rememberCity;
+      setRmbCity(crnt);
+      saveConfig({ rememberCity: crnt });
+    }
+  }
 
   function addNotif(newNotif: [string, string]) {
     console.log([newNotif, ...notifs]);
     setNotifs(() => [newNotif, ...notifs]);
   }
 
+  async function restoreConfigs() {
+    const config = await readConfig();
+    setRmbCity(config.rememberCity);
+    setSearchCount(config.searchCount);
+    setAutoUpdate(config.autoUpdate);
+  }
+
+  async function doAutoUpdate() {
+    if (city && autoUpdate) {
+      const upd = await checkUpdate(addNotif, city, true, true);
+      if (upd.ok && upd.val) {
+        PrimaryUpdateCity(true, city, upd.val.daily, upd.val.hourly);
+      }
+    }
+  }
+
   useEffect(() => {
-    setCurrentCity(updateOrder, updateCity, setPattern, addNotif, setsolarData);
+    doAutoUpdate();
+  }, [city]);
+
+  useEffect(() => {
+    setCurrentCity(
+      updateOrder,
+      updateCity,
+      rememberCity,
+      setPattern,
+      addNotif,
+      setsolarData
+    );
+    restoreConfigs();
   }, []);
 
   function PrimaryUpdateCity(
-    direct: boolean,
+    save: boolean,
     cityName: string,
     current: Record<string, any> | null,
     hourly: Record<string, any> | null
   ) {
+    console.log(rememberCity);
     updateMainCity(
       updateOrder,
       updateCity,
       setPattern,
       addNotif,
       setsolarData,
-      direct,
+      save || rememberCity,
       cityName,
       current,
       hourly
@@ -133,6 +188,7 @@ export default function App() {
         addNotif={addNotif}
         PrimaryUpdateCity={PrimaryUpdateCity}
         page={page}
+        searchCount={searchCount}
         color={Pattern}
         isSearching={isSearching}
         Searching={Searching}
@@ -143,6 +199,7 @@ export default function App() {
           changeOrders(
             updateOrder,
             updateCity,
+            rememberCity,
             loadOrder,
             setPattern,
             addNotif,
@@ -161,6 +218,11 @@ export default function App() {
       <GetOptions
         notifs={notifs}
         page={page}
+        city={city}
+        updateCity={PrimaryUpdateCity}
+        autupdt={{ stat: autoUpdate, set: updAutoUpdate }}
+        srcnt={{ count: searchCount, set: updSearchCount }}
+        rmb={{ stat: rememberCity, func: rmbCity, city: city }}
         setPage={setPage}
         setNotifs={setNotifs}
         //  color={Pattern}

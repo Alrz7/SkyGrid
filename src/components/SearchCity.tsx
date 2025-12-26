@@ -23,6 +23,7 @@ interface addcityProps {
     buttons: any;
     chart: any;
   };
+  searchCount: any;
   isSearching: boolean;
   Searching: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -32,6 +33,7 @@ export default function SearchCity({
   PrimaryUpdateCity,
   page,
   color,
+  searchCount,
   isSearching,
   Searching,
 }: addcityProps) {
@@ -43,7 +45,7 @@ export default function SearchCity({
 
   async function processNewLocation(cityName: string) {
     if (cityName !== "") {
-      const newLocation = await apiSearch(addNotif, cityName);
+      const newLocation = await apiSearch(addNotif, cityName, searchCount);
       if (newLocation.ok && newLocation.list.length > 0) {
         const resultCItyList = newLocation.list.map(
           (cit: Record<string, any>) => {

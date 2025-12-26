@@ -36,18 +36,18 @@ export async function checkCurrent(cityName: string, data: { time: string }) {
 export async function checkUpdate(
   addNotif: any,
   cityName: string,
-  engage: boolean
+  engage: boolean,
+  auto: boolean
 ) {
   const now = getLocalTime().fullStr;
   const locations = await readData("hourly");
+  console.log("engaging in weather update");
   if (cityName && cityName in locations) {
     const lastDate = locations[cityName].time;
     const time_difference = difrentHour(now, lastDate.at(-1));
     if (engage) {
-
-      // console.log("engaging in weather update");
       const astroUpdResponse = await updateAstro(cityName, findlocalTime, true);
-      const wethUpd =  true//time_difference >= 0;
+      const wethUpd = auto ? time_difference >= 0 : true;
       const astroUpd = !astroUpdResponse?.isUpdate;
 
       const ntfText = `Updating ${wethUpd ? "Weather" : ""} ${
@@ -57,18 +57,20 @@ export async function checkUpdate(
       } `;
       addNotif([
         "info",
-        `${wethUpd || astroUpd ? ntfText : "Datas are already Up To Date"}`,
+        `${wethUpd || astroUpd ? ntfText : "Datas are Up To Date"}`,
       ]);
 
       console.log(
         `need to update?  => ${
-          wethUpd || astroUpd ? ntfText : "Datas are already Up To Date"
+          wethUpd || astroUpd ? ntfText : "Datas are Up To Date"
         }`
       );
       if (wethUpd) {
+        addNotif(["info", "Updating Weather-Datas"])
         const newWeatherData = await getWeatherStat(addNotif, cityName);
         return { ok: true, val: newWeatherData };
       } else {
+        console.log("weather is up to date.")
         return { ok: false, val: null };
       }
     } else {

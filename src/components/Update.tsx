@@ -57,7 +57,7 @@ export default function GetUpdate({
           // }}
           onClick={() => {
             if (city) {
-              const result = checkUpdate(addNotif, city, true).then((res) => {
+              const result = checkUpdate(addNotif, city, true, false).then((res) => {
                 if (res.ok) {
                   if (res.val) {
                     PrimaryUpdateCity(

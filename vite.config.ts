@@ -1,7 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import svgr from "vite-plugin-svgr";
-
 const host = process.env.TAURI_DEV_HOST;
 
 export default defineConfig({
@@ -27,6 +26,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": "/src",
+      "@logic": "/src/logic",
       "@assets": "/src/assets",
       "@pages": "/src/components/pages",
       "@charts": "/src/components/charts",
