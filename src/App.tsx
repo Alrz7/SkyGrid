@@ -224,7 +224,7 @@ export default function App() {
         srcnt={{ count: searchCount, set: updSearchCount }}
         rmb={{ stat: rememberCity, func: rmbCity, city: city }}
         setPage={setPage}
-        setNotifs={setNotifs}
+        addNotif={addNotif}
         //  color={Pattern}
       />
       {/* <ReloadData /> */}

@@ -3,20 +3,23 @@ import {
   readData as readLocations,
   deleteLocation,
 } from "../../../logic/GeoLocations.js";
-import Delete from "../../../assets/delete.svg?react";
-import Select from "../../../assets/select.svg?react";
-import Selected from "../../../assets/selected.svg?react";
+//  from "@logic/GeoLocations.js";  this also works but linter says "the module is not found"  :/
+import Delete from "@assets/delete.svg?react";
+import Select from "@assets/select.svg?react";
+import Selected from "@assets/selected.svg?react";
 import "./general.css";
 export default function General({
   rmb,
   srcnt,
   city,
+  addNotif,
   updateCity,
   autupdt,
 }: {
   rmb: any;
   city: string;
   updateCity: any;
+  addNotif: any;
   srcnt: any;
   autupdt: any;
 }) {
@@ -34,9 +37,9 @@ export default function General({
     console.log(lst, lst.length > 0, lst.includes(cityName));
     if (lst && lst.length > 0 && lst.includes(cityName)) {
       const indx = lst.indexOf(cityName);
-      console.log("deleting",cityName);
+      console.log("deleting", cityName);
       const newlist = await deleteLocation(cityName);
-      console.log(newlist)
+      console.log(newlist);
       setCitylist(newlist);
       if (indx > 0) {
         updateCity(true, newlist?.at(indx - 1), null, null);
@@ -142,6 +145,10 @@ export default function General({
                     className="card-button select"
                     onClick={() => {
                       updateCity(true, item, null, null);
+                      addNotif([
+                        "info",
+                        `${item} has been Set as the Default Location`,
+                      ]);
                     }}
                   >
                     {item == city ? <Selected /> : <Select />}
@@ -150,6 +157,10 @@ export default function General({
                     className="card-button delete"
                     onClick={() => {
                       deleteCity(item);
+                      addNotif([
+                        "info",
+                        `${item} has been Deleted Successfully`,
+                      ]);
                     }}
                   >
                     <Delete />
@@ -170,6 +181,12 @@ export default function General({
               value={srcnt.count}
               onChange={(e) => {
                 srcnt.set(Number(e.target.value));
+                addNotif([
+                  "info",
+                  `Search-Result-Count has been set to ${Number(
+                    e.target.value
+                  )}`,
+                ]);
               }}
             >
               <option>2</option>
@@ -192,6 +209,9 @@ export default function General({
               checked={autupdt.stat}
               onChange={() => {
                 autupdt.set();
+                // addNotif(
+                //   ["info",`Auto update has been turned ${!autupdt.stat ? "ON" : "OFF"}`]
+                // );
               }}
             />
             <span className="slider"></span>

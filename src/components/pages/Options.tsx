@@ -4,7 +4,9 @@ import { motion, noop } from "framer-motion";
 import Options from "@assets/options.svg?react";
 import CloseSearch from "@assets/closeSearch.svg?react";
 import General from "./optionBars/general.js";
+import ApiKeyBar from "./optionBars/apikey.js";
 import "./styles/Options.css";
+import { a } from "framer-motion/client";
 
 export default function GetOptions({
   notifs,
@@ -15,7 +17,7 @@ export default function GetOptions({
   city,
   updateCity,
   setPage,
-  setNotifs,
+  addNotif,
 }: {
   notifs: [string, string][];
   autupdt: any;
@@ -25,7 +27,7 @@ export default function GetOptions({
   updateCity: any;
   rmb: any;
   setPage: any;
-  setNotifs: any;
+  addNotif: any;
 }) {
   const [nav, setNav] = useState<"general" | "appearance" | "apikey" | "about">(
     "general"
@@ -140,12 +142,14 @@ export default function GetOptions({
             <General
               rmb={rmb}
               srcnt={srcnt}
+              addNotif={addNotif}
               city={city}
               updateCity={updateCity}
               autupdt={autupdt}
             />
-          ) : nav == "apikey" ? null : nav == "appearance" ? null : nav ==
-            "about" ? null : null}
+          ) : nav == "apikey" ? (
+            <ApiKeyBar addNotif={addNotif}/>
+          ) : nav == "appearance" ? null : nav == "about" ? null : null}
         </div>
       </motion.div>
     </>

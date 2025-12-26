@@ -62,23 +62,60 @@ export async function checkApiKeys(
   target: "ipGeoKey" | "openwKey" | null = null,
   newVal: string | boolean | null = null
 ) {
+  const Res: {
+    openwKey: {
+      stat: boolean;
+      val: null | string;
+    };
+    ipGeoKey: {
+      stat: boolean;
+      val: null | string;
+    };
+  } = {
+    openwKey: { stat: false, val: null },
+    ipGeoKey: { stat: false, val: null },
+  };
   checkDir();
   for (let dir of ["ipGeoKey", "openwKey"]) {
     const exst = await doesExist(`SkyGrid/apiKey/${dir}.json`);
     if (exst) {
-      if (newVal && target == dir) {
-        const lastFile = await readKey(dir);
-        if (lastFile) {
+      const lastFile = await readKey(dir);
+      if (lastFile != null) {
+        if (newVal && target == dir) {
           lastFile.key = newVal;
           writeKey(dir, lastFile);
+          Res[dir as keyof typeof Res] = {
+            stat: true,
+            val: newVal != true ? newVal : null,
+          };
+        } else {
+          Res[dir as keyof typeof Res] = {
+            stat: lastFile.key ? true : false,
+            val: lastFile.key,
+          };
         }
-        console.log("apiKeys don't have valid values")
+      } else {
+        console.log(1244777);
+        console.log(lastFile);
+
+        Res[dir as keyof typeof Res] = {
+          stat: false,
+          val: null,
+        };
       }
     } else {
-      const container = { key: newVal && target == dir ? newVal : false };
+      const newKey = newVal && target == dir ? newVal : false;
+      const container = { key: newKey };
       writeKey(dir, container);
+      if (newKey) {
+        Res[dir as keyof typeof Res] = {
+          stat: true,
+          val: typeof newVal != "boolean" ? newVal : null,
+        };
+      }
     }
   }
+  return Res;
 }
 // await writeTextFile(
 //     `SkyGrid/apiKey/${target}.json`,

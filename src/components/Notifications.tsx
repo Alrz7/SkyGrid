@@ -18,7 +18,7 @@ export default function Notif({
 
     const timer = setTimeout(() => {
       setNotifs((prev: any) => prev.slice(1));
-    }, 1600 - notifs.length * 400);
+    }, 2600 - notifs.length * 400);
 
     return () => clearTimeout(timer);
   }, [notifs]);
@@ -26,40 +26,38 @@ export default function Notif({
   return (
     <motion.div
       className="notif-container"
+      initial={{ x: "100%", opacity: 0 }}
       animate={{
-        top: notifs.length >= 1 ? "50px" : "-55px",
+        x: notifs.length > 0 ? 0 : "100%",
+        opacity: notifs.length > 0 ? 1 : 0,
       }}
-      transition={{ duration: 0.1, ease: "easeInOut" }}
+      exit={{ x: "100%", opacity: 0 }}
+      transition={{
+        type: "spring",
+        stiffness: 300,
+        damping: 30,
+      }}
     >
-      {notifs[0] && notifs[0][0] == "success" ? (
-        <div className="alert success">
-          <div className="alert-icon">
-            <Check />
-          </div>
-          <div className="alert-text">{notifs[0][1]}</div>
-        </div>
-      ) : notifs[0] && notifs[0][0] == "info" ? (
-        <div className="alert info">
-          <div className="alert-icon">
-            <Info />
-          </div>
-          <div className="alert-text">{notifs[0][1]}</div>
-        </div>
-      ) : notifs[0] && notifs[0][0] == "warning" ? (
-        <div className="alert warning">
-          <div className="alert-icon">
-            <Warning />
-          </div>
-          <div className="alert-text">{notifs[0][1]}</div>
-        </div>
-      ) : notifs[0] && notifs[0][0] == "error" ? (
-        <div className="alert error">
-          <div className="alert-icon">
-            <Alert />
-          </div>
-          <div className="alert-text">{notifs[0][1]}</div>
-        </div>
-      ) : null}
+      <AnimatePresence mode="wait">
+        {notifs[0] && (
+          <motion.div
+            key={notifs[0][1]}
+            className={`alert ${notifs[0][0]}`}
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="alert-icon">
+              {notifs[0][0] === "success" && <Check />}
+              {notifs[0][0] === "info" && <Info />}
+              {notifs[0][0] === "warning" && <Warning />}
+              {notifs[0][0] === "error" && <Alert />}
+            </div>
+            <div className="alert-text">{notifs[0][1]}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
