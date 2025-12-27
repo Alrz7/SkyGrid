@@ -2,7 +2,6 @@
   padding: 1.75rem 0;
   gap: 20px;
 }
-
 .status-circle {
   position: relative;
   width: 24px;
@@ -35,9 +34,9 @@
   filter: blur(8px);
   animation: pulse 2s ease-in-out infinite;
 }
-.setting-button.copy{
-    min-width: 35px;
-    padding: 0;
-    width: 15px;
-    height: 35px;
+.setting-button.copy {
+  min-width: 35px;
+  padding: 0;
+  width: 15px;
+  height: 35px;
 }

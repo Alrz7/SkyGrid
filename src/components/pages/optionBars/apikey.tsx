@@ -35,113 +35,114 @@ export default function ApiKeyBar({ addNotif }: { addNotif: any }) {
   }, []);
   return (
     <>
-      <div className="setting-item">API KEYS</div>
+      <div className="settings-section">
+        <div className="section-title">API KEYS</div>
 
-      <div className="setting-item apikey">
-        <span className="setting-label">OpenWeather</span>
-        <div
-          className="status-circle"
-          data-status={KeyStat.openwKey.stat ? "active" : "inactive"}
-        >
-          <div className="glow"></div>
+        <div className="setting-item apikey">
+          <span className="setting-label">OpenWeather</span>
+          <div
+            className="status-circle"
+            data-status={KeyStat.openwKey.stat ? "active" : "inactive"}
+          >
+            <div className="glow"></div>
+          </div>
+          <button
+            className="setting-button copy"
+            onClick={() => {
+              if (KeyStat.openwKey.stat && KeyStat.openwKey.val) {
+                navigator.clipboard.writeText(KeyStat.openwKey.val);
+                addNotif(["info", "ApiKey has been copied in Clipboard!"]);
+              }
+            }}
+          >
+            <Copy />
+          </button>
+          <button
+            className="setting-button"
+            onClick={() => {
+              const lastKey = newKey?.openwKey;
+              if (lastKey && lastKey != "" && lastKey != " ") {
+                updAPIkeys("openwKey", lastKey);
+                addNotif([
+                  "info",
+                  `API Key ${
+                    KeyStat.openwKey.stat ? "updated" : "added"
+                  } successfully!`,
+                ]);
+              }
+            }}
+          >
+            {KeyStat.openwKey.stat ? "Update" : "Submit"}
+          </button>
+          <input
+            type="text"
+            className="select-input text"
+            placeholder="New ApiKey"
+            onChange={(e) => {
+              const newText = e.target.value;
+              setNewKey((last) => {
+                return {
+                  openwKey: newText,
+                  ipGeoKey: last ? last.ipGeoKey : null,
+                };
+              });
+            }}
+          />
         </div>
-        <button
-          className="setting-button copy"
-          onClick={() => {
-            if (KeyStat.openwKey.stat && KeyStat.openwKey.val) {
-              navigator.clipboard.writeText(KeyStat.openwKey.val);
-              addNotif(["info", "ApiKey has been copied in Clipboard!"]);
-            }
-          }}
-        >
-          <Copy />
-        </button>
-        <button
-          className="setting-button"
-          onClick={() => {
-            const lastKey = newKey?.openwKey;
-            if (lastKey && lastKey != "" && lastKey != " ") {
-              updAPIkeys("openwKey", lastKey);
-              addNotif([
-                "info",
-                `API Key ${
-                  KeyStat.openwKey.stat ? "updated" : "added"
-                } successfully!`,
-              ]);
-            }
-          }}
-        >
-          {KeyStat.openwKey.stat ? "Update" : "Submit"}
-        </button>
-        <input
-          type="text"
-          className="select-input text"
-          placeholder="New ApiKey"
-          onChange={(e) => {
-            const newText = e.target.value;
-            setNewKey((last) => {
-              return {
-                openwKey: newText,
-                ipGeoKey: last ? last.ipGeoKey : null,
-              };
-            });
-          }}
-        />
-      </div>
 
-      <div className="setting-item apikey">
-        <span className="setting-label">IpGeoLocation</span>
-        <div
-          className="status-circle"
-          data-status={KeyStat.ipGeoKey.stat ? "active" : "inactive"}
-        >
-          <div className="glow"></div>
+        <div className="setting-item apikey">
+          <span className="setting-label">IpGeoLocation</span>
+          <div
+            className="status-circle"
+            data-status={KeyStat.ipGeoKey.stat ? "active" : "inactive"}
+          >
+            <div className="glow"></div>
+          </div>
+          <button
+            className="setting-button copy"
+            onClick={() => {
+              if (KeyStat.ipGeoKey.stat && KeyStat.ipGeoKey.val) {
+                navigator.clipboard.writeText(KeyStat.ipGeoKey.val);
+                addNotif(["info", "ApiKey has been copied in Clipboard!"]);
+              }
+            }}
+          >
+            <Copy />
+          </button>
+          <button
+            className="setting-button"
+            onClick={() => {
+              const lastKey = newKey?.ipGeoKey;
+              if (lastKey && lastKey != "" && lastKey != " ") {
+                updAPIkeys("ipGeoKey", lastKey);
+                addNotif([
+                  "info",
+                  `API Key ${
+                    KeyStat.ipGeoKey.stat ? "updated" : "added"
+                  } successfully!`,
+                ]);
+              }
+            }}
+          >
+            {KeyStat.ipGeoKey.stat ? "Update" : "Submit"}
+          </button>
+          <input
+            type="text"
+            className="select-input text"
+            placeholder="New ApiKey"
+            onChange={(e) => {
+              const newText = e.target.value;
+              setNewKey((last) => {
+                return {
+                  openwKey: last ? last.openwKey : null,
+                  ipGeoKey: newText,
+                };
+              });
+            }}
+          />
         </div>
-        <button
-          className="setting-button copy"
-          onClick={() => {
-            if (KeyStat.ipGeoKey.stat && KeyStat.ipGeoKey.val) {
-              navigator.clipboard.writeText(KeyStat.ipGeoKey.val);
-              addNotif(["info", "ApiKey has been copied in Clipboard!"]);
-            }
-          }}
-        >
-          <Copy />
-        </button>
-        <button
-          className="setting-button"
-          onClick={() => {
-            const lastKey = newKey?.ipGeoKey;
-            if (lastKey && lastKey != "" && lastKey != " ") {
-              updAPIkeys("ipGeoKey", lastKey);
-              addNotif([
-                "info",
-                `API Key ${
-                  KeyStat.ipGeoKey.stat ? "updated" : "added"
-                } successfully!`,
-              ]);
-            }
-          }}
-        >
-          {KeyStat.ipGeoKey.stat ? "Update" : "Submit"}
-        </button>
-        <input
-          type="text"
-          className="select-input text"
-          placeholder="New ApiKey"
-          onChange={(e) => {
-            const newText = e.target.value;
-            setNewKey((last) => {
-              return {
-                openwKey: last ? last.openwKey : null,
-                ipGeoKey: newText,
-              };
-            });
-          }}
-        />
-      </div>
-      <div className="setting-item"></div>
-      {/* <div className="setting-item">
+        <div className="setting-item"></div>
+        {/* <div className="setting-item">
         <span className="setting-label">Severe weather</span>
         <label className="toggle-switch">
           <input type="checkbox" />
@@ -155,6 +156,7 @@ export default function ApiKeyBar({ addNotif }: { addNotif: any }) {
           <span className="slider"></span>
         </label>
       </div> */}
+      </div>
     </>
   );
 }

@@ -1,6 +1,6 @@
 .settings-section {
   margin-bottom: 2rem;
-  background: #3a3a3a47;
+  background: #17171f4f;
   border-radius: 12px;
   padding: 1.5rem;
   border: 2px solid rgba(121, 121, 121, 0.176);
@@ -20,10 +20,9 @@
   padding: 0.85rem 0;
   border-bottom: 1px dashed #7474747a;
 }
+
 .setting-item.grid {
   display: grid;
-  border-bottom: 1px dashed #7474747a;
-
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
 }

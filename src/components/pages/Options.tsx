@@ -5,8 +5,8 @@ import Options from "@assets/options.svg?react";
 import CloseSearch from "@assets/closeSearch.svg?react";
 import General from "./optionBars/general.js";
 import ApiKeyBar from "./optionBars/apikey.js";
+import AboutBar from "./optionBars/about.js";
 import "./styles/Options.css";
-import { a } from "framer-motion/client";
 
 export default function GetOptions({
   notifs,
@@ -149,7 +149,7 @@ export default function GetOptions({
             />
           ) : nav == "apikey" ? (
             <ApiKeyBar addNotif={addNotif}/>
-          ) : nav == "appearance" ? null : nav == "about" ? null : null}
+          ) : nav == "appearance" ? null : nav == "about" ? <AboutBar/> : null}
         </div>
       </motion.div>
     </>

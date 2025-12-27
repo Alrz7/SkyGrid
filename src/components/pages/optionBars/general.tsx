@@ -129,6 +129,10 @@ export default function General({
             className="setting-button"
             onClick={() => {
               rmb.func("save");
+              addNotif([
+                        "info",
+                        `${city} has been Set as the Default Location`,
+                      ]);
             }}
           >
             Set current city as Default Location
