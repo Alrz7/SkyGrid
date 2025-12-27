@@ -46,7 +46,7 @@ interface DataCardProps {
   setPage: any;
 }
 
-export default function ({
+export default function MyAreaChart ({
   weatherData = hourlyData,
   activeParameters = [
     "temperature",

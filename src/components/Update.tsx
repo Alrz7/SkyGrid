@@ -8,7 +8,7 @@ import { checkUpdate } from "../logic/updateDatas.js";
 
 interface GetUpdateProps {
   addNotif: any;
-  city: string;
+  city: string | null;
   PrimaryUpdateCity: any;
   page: any;
   color: {

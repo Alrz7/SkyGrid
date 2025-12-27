@@ -8,7 +8,7 @@ import { readData as readLocations } from "./GeoLocations.js";
 import { dateDiferenceToHour as difrentHour } from "../logic/sources/dry.js";
 import { readKey, doesExist, checkDir } from "./DataManagement.js";
 
-export async function getAstro(cityName: string) {
+export async function getAstro(cityName: string, AddNotif: any) {
   if (cityName) {
     const locations = await readLocations();
     let location = undefined;
@@ -25,14 +25,32 @@ export async function getAstro(cityName: string) {
         `https://api.ipgeolocation.io/v2/astronomy?apiKey=${apiKey.key}&location=${cityName}&elevation=10`,
         { method: "GET" }
       );
-      // console.log(dt)
-      const data = await dt.json();
-      saveData(cityName, data);
-      console.log(data);
-      return data;
+      const errorCodes = [400, 401, 429, 499, 500, 502, 503, 504, 505];
+      let auth = true;
+      if (dt.ok) {
+        for (let cd of errorCodes) {
+          if (dt.status == cd) {
+            auth = false;
+            if (cd == 401) {
+              AddNotif([
+                "warning",
+                "Authorization Failed!, check the API-KEY and try Again.",
+              ]);
+            }
+          }
+        }
+      } else {
+        auth = false;
+      }
+      if (auth) {
+        const data = await dt.json();
+        saveData(cityName, data);
+        console.log(data);
+        return data;
+      }
     } else {
-      // addNotif
-      console.log("there was not any location with that name in datas");
+      AddNotif(["warning", "API-KEY is not Set Properly."]);
+      return null;
     }
   }
 }
@@ -80,22 +98,42 @@ export async function readData(target = "locationData") {
       return null;
     }
   } else {
-    checkDir()
+    checkDir();
     return null;
   }
+}
+
+export async function deleteAstroData(
+  cityName: string,
+  target = "locationData"
+) {
+  const astroData = await readData();
+  if (astroData && cityName in astroData) {
+    delete astroData[cityName];
+    await writeTextFile(
+      `SkyGrid/astroData/${target}.json`,
+      JSON.stringify(astroData),
+      {
+        baseDir: BaseDirectory.Document,
+      }
+    );
+    return true;
+  }
+  return false;
 }
 
 export async function updateData(
   cityName: string,
   findlocalTime: any,
-  engage: boolean
+  engage: boolean,
+  addNotif: any
 ) {
   const DataList = await readData();
   if (DataList && DataList && cityName in DataList) {
     const lastData = DataList[cityName];
-    console.log(lastData)
+    console.log(lastData);
     const lastUpdateTime = `${lastData.astronomy.date}T${lastData.astronomy.current_time}`;
-    console.log(cityName)
+    console.log(cityName);
     const localTime = await findlocalTime(cityName);
     console.log(localTime?.time.fullStr);
     const timeDiff = difrentHour(localTime?.time.fullStr, lastUpdateTime);
@@ -103,7 +141,7 @@ export async function updateData(
     if (engage) {
       // console.log("engaging in astro update")
       if (timeDiff >= 24) {
-        const newData = await getAstro(cityName);
+        const newData = await getAstro(cityName, addNotif);
         return { ok: true, isUpdate: false, val: newData };
       } else {
         // console.log("no update in astro data is needed: IPGEO");
@@ -116,8 +154,10 @@ export async function updateData(
   } else {
     if (engage) {
       console.log("city didn't exist in astronomic files");
-      const newData = await getAstro(cityName);
-      return { ok: true, isUpdate: false, val: newData };
+      const newData = await getAstro(cityName, addNotif);
+      if (newData) {
+        return { ok: true, isUpdate: false, val: newData };
+      } else return { ok: false, isUpdate: false, val: newData };
     } else {
       console.log("city didn't exist in astData files, geting data... : IPGEO");
       return { ok: false, isUpdate: false, val: null };

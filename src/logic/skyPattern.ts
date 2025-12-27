@@ -70,9 +70,13 @@ function sortHours(lst: Array<any>): any {
   ];
 }
 
-function selectTitle(addNotif: any, item: any, time: string) {
+function selectTitle(addNotif: any, data: any, time: string) {
   // const time = timeNow().fullhr; for local time test
   // const time = '17:55';
+  if (!data) {
+    return null;
+    // addNotif(["warning", "Astro-Data was Empty"])
+  }
   const titlelist = [
     "mid_night",
     "night_end",
@@ -104,14 +108,14 @@ function selectTitle(addNotif: any, item: any, time: string) {
     // "moonset",
   ];
   const timelist = [
-    item.astronomy.mid_night,
-    item.astronomy.night_end,
-    ...Object.values(item.astronomy.morning),
-    item.astronomy.sunrise,
-    item.astronomy.sunset,
-    ...Object.values(item.astronomy.evening),
-    item.astronomy.night_begin,
-    item.astronomy.solar_noon,
+    data.astronomy.mid_night,
+    data.astronomy.night_end,
+    ...Object.values(data.astronomy.morning),
+    data.astronomy.sunrise,
+    data.astronomy.sunset,
+    ...Object.values(data.astronomy.evening),
+    data.astronomy.night_begin,
+    data.astronomy.solar_noon,
     // item.astronomy.moonrise,
     // item.astronomy.moonset,
   ];
@@ -161,13 +165,11 @@ export async function selectPattern(
   cityName: string
 ) {
   if (cityName) {
-    const astData = await updateAstro(cityName, findlocalTime, true);
-    // console.log(astData);
-    if (astData.ok) {
+    const astData = await updateAstro(cityName, findlocalTime, true, addNotif);
+    if (astData && astData.ok && astData.val) {
       const time: any = await findlocalTime(cityName);
       if (time) {
         const pallet = selectTitle(addNotif, astData.val, time.time.fullTime);
-        // console.log(pallet);
         setsolarData(astData.val.astronomy);
         const ttl = pallet.title;
         const indx = pallet.palletIndex;
@@ -179,12 +181,8 @@ export async function selectPattern(
           buttons: skyCycle[ttl][indx].solunaProp,
           chart: skyCycle[ttl][indx].chart,
         });
-        return;
+        return null;
       }
-      // console.log(`${selectedTitle.title} is not existing in source-List`);
-    } else {
-      addNotif(["error", `city "${cityName}" not found in astDataList `]);
-      console.log(`city "${cityName}" not found in astDataList `);
     }
   }
 }
@@ -226,7 +224,5 @@ export function selectWeatherIcon(code: number) {
       }
     });
   }
-  // console.log(`code: ${code} res : ${result}`);
-
   return result;
 }

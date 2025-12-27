@@ -26,7 +26,7 @@ function getLocalTime() {
 export async function checkCurrent(cityName: string, data: { time: string }) {
   const now = getLocalTime().fullStr;
   const locations = await readData("current");
-  if (cityName && cityName in locations) {
+  if (locations && cityName && cityName in locations) {
     const time_difference = difrentHour(now, data.time);
     if (time_difference >= 2) {
     }
@@ -42,29 +42,29 @@ export async function checkUpdate(
   const now = getLocalTime().fullStr;
   const locations = await readData("hourly");
   console.log("engaging in weather update");
-  if (cityName && cityName in locations) {
+  if (locations && cityName && cityName in locations) {
     const lastDate = locations[cityName].time;
     const time_difference = difrentHour(now, lastDate.at(-1));
     if (engage) {
-      const astroUpdResponse = await updateAstro(cityName, findlocalTime, true);
+      const astroUpdResponse = await updateAstro(cityName, findlocalTime, true, addNotif);
       const wethUpd = auto ? time_difference >= 0 : true;
       const astroUpd = !astroUpdResponse?.isUpdate;
 
-      const ntfText = `Updating ${wethUpd ? "Weather" : ""} ${
-        wethUpd && astroUpd ? "&" : ""
-      } ${astroUpd ? "Astronomic" : ""} ${
-        wethUpd && astroUpd ? "Datas" : "Data"
-      } `;
-      addNotif([
-        "info",
-        `${wethUpd || astroUpd ? ntfText : "Datas are Up To Date"}`,
-      ]);
+      // const ntfText = `Updating ${wethUpd ? "Weather" : ""} ${
+      //   wethUpd && astroUpd ? "&" : ""
+      // } ${astroUpd ? "Astronomic" : ""} ${
+      //   wethUpd && astroUpd ? "Datas" : "Data"
+      // } `;
+      // addNotif([
+      //   "info",
+      //   `${wethUpd || astroUpd ? ntfText : "Datas are Up To Date"}`,
+      // ]);
 
-      console.log(
-        `need to update?  => ${
-          wethUpd || astroUpd ? ntfText : "Datas are Up To Date"
-        }`
-      );
+      // console.log(
+      //   `need to update?  => ${
+      //     wethUpd || astroUpd ? ntfText : "Datas are Up To Date"
+      //   }`
+      // );
       if (wethUpd) {
         addNotif(["info", "Updating Weather-Datas"])
         const newWeatherData = await getWeatherStat(addNotif, cityName);
@@ -78,7 +78,8 @@ export async function checkUpdate(
       const astroUpdResponse = await updateAstro(
         cityName,
         findlocalTime,
-        false
+        false,
+        addNotif
       );
       const wethUpd = time_difference >= 0;
       const astroUpd = !astroUpdResponse?.isUpdate;

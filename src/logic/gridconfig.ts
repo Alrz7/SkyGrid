@@ -3,8 +3,7 @@ import {
   writeTextFile,
   BaseDirectory,
 } from "@tauri-apps/plugin-fs";
-import { checkDir, checkApiKeys, doesExist } from "./DataManagement.js";
-import { updateData } from "./ipGeoLocation.js";
+import { doesExist } from "./DataManagement.js";
 
 export async function saveConfig(
   data: Record<string, any>,

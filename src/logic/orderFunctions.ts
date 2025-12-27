@@ -39,23 +39,25 @@ export async function setCurrentCity(
     const hourlyWeather = await readOpmData("hourly");
     // console.log(dailyWeather[newCity]);
     // console.log(dailyWeather)
-    updateOrder({
-      cityA: [
-        cityA,
-        dailyWeather[cityA] ?? false,
-        ftHourlyData(hourlyWeather[cityA]) ?? false,
-      ],
-      cityB: [
-        newCity,
-        dailyWeather[newCity] ?? false,
-        ftHourlyData(hourlyWeather[newCity], addNotif) ?? false,
-      ],
-      cityC: [
-        cityC,
-        dailyWeather[cityC] ?? false,
-        ftHourlyData(hourlyWeather[cityC]) ?? false,
-      ],
-    });
+    if (dailyWeather && hourlyWeather) {
+      updateOrder({
+        cityA: [
+          cityA,
+          dailyWeather[cityA] ?? false,
+          ftHourlyData(hourlyWeather[cityA]) ?? false,
+        ],
+        cityB: [
+          newCity,
+          dailyWeather[newCity] ?? false,
+          ftHourlyData(hourlyWeather[newCity], addNotif) ?? false,
+        ],
+        cityC: [
+          cityC,
+          dailyWeather[cityC] ?? false,
+          ftHourlyData(hourlyWeather[cityC]) ?? false,
+        ],
+      });
+    }
   }
 }
 
@@ -86,44 +88,46 @@ export async function updateMainCity(
       });
     }
     const hourlyWeather = await readOpmData("hourly");
-    updateOrder({
-      cityA: [
-        cityA,
-        dailyWeather[cityA] ?? false,
-        ftHourlyData(hourlyWeather[cityA]) ?? false,
-      ],
-      cityB: [
-        cityName,
-        daily ?? dailyWeather[cityName] ?? false,
-        hourly
-          ? ftHourlyData(hourly, addNotif)
-          : ftHourlyData(hourlyWeather[cityName], addNotif) ?? false,
-      ],
-      cityC: [
-        cityC,
-        dailyWeather[cityC] ?? false,
-        ftHourlyData(hourlyWeather[cityC]) ?? false,
-      ],
-    });
-    console.log({
-      cityA: [
-        cityA,
-        dailyWeather[cityA] ?? false,
-        ftHourlyData(hourlyWeather[cityA]) ?? false,
-      ],
-      cityB: [
-        cityName,
-        daily ?? dailyWeather[cityName] ?? false,
-        hourly
-          ? ftHourlyData(hourly, addNotif)
-          : ftHourlyData(hourlyWeather[cityName], addNotif) ?? false,
-      ],
-      cityC: [
-        cityC,
-        dailyWeather[cityC] ?? false,
-        ftHourlyData(hourlyWeather[cityC]) ?? false,
-      ],
-    });
+    if ((dailyWeather || daily) && (hourlyWeather || hourly)) {
+      updateOrder({
+        cityA: [
+          cityA,
+          dailyWeather[cityA] ?? false,
+          ftHourlyData(hourlyWeather[cityA]) ?? false,
+        ],
+        cityB: [
+          cityName,
+          daily ?? dailyWeather[cityName] ?? false,
+          hourly
+            ? ftHourlyData(hourly, addNotif)
+            : ftHourlyData(hourlyWeather[cityName], addNotif) ?? false,
+        ],
+        cityC: [
+          cityC,
+          dailyWeather[cityC] ?? false,
+          ftHourlyData(hourlyWeather[cityC]) ?? false,
+        ],
+      });
+      console.log({
+        cityA: [
+          cityA,
+          dailyWeather[cityA] ?? false,
+          ftHourlyData(hourlyWeather[cityA]) ?? false,
+        ],
+        cityB: [
+          cityName,
+          daily ?? dailyWeather[cityName] ?? false,
+          hourly
+            ? ftHourlyData(hourly, addNotif)
+            : ftHourlyData(hourlyWeather[cityName], addNotif) ?? false,
+        ],
+        cityC: [
+          cityC,
+          dailyWeather[cityC] ?? false,
+          ftHourlyData(hourlyWeather[cityC]) ?? false,
+        ],
+      });
+    }
   }
 }
 
@@ -145,7 +149,7 @@ export async function changeOrders(
     const newCity = changeCity(cityList, cityIndex, forward);
     const newCityC = changeCity(cityList, cityIndex + 1, forward);
     if (rmb) {
-      console.log('ssss22')
+      console.log("ssss22");
       saveConfig({ city: newCity, cityList: [newCityA, newCity, newCityC] });
     }
     console.log(cityList);
@@ -156,56 +160,59 @@ export async function changeOrders(
     const cityB = loadOrder.cityB;
     updateCity(newCity);
     selectPattern(addNotif, setPattern, setsolarData, newCity);
-    if (newCity == cityC[0] && cityC[2] == false)
+    if (newCity == cityC[0] && cityC[2] == false) {
       addNotif(["error", "weather Data is not up to Date"]);
-    updateOrder({
-      cityA:
-        newCityA == cityB[0]
-          ? cityB
-          : [
-              newCityA,
-              dailyWeather[newCityA] ?? false,
-              ftHourlyData(hourlyWeather[newCityA]) ?? false,
-            ],
-      cityB:
-        newCity == cityC[0]
-          ? cityC
-          : [
-              newCity,
-              dailyWeather[newCity] ?? false,
-              ftHourlyData(hourlyWeather[newCity], addNotif) ?? false,
-            ],
-      cityC: [
-        newCityC,
-        dailyWeather[newCityC] ?? false,
-        ftHourlyData(hourlyWeather[newCityC]) ?? false,
-      ],
-    });
-    // console.log(newCity);
-    // console.log(ftHourlyData(addNotif, hourlyWeather[newCity]));
-    console.log({
-      cityA:
-        newCityA == cityB[0]
-          ? cityB
-          : [
-              newCityA,
-              dailyWeather[newCityA] ?? false,
-              ftHourlyData(hourlyWeather[newCityA]) ?? false,
-            ],
-      cityB:
-        newCity == cityC[0]
-          ? cityC
-          : [
-              newCity,
-              dailyWeather[newCity] ?? false,
-              ftHourlyData(hourlyWeather[newCity], addNotif) ?? false,
-            ],
-      cityC: [
-        newCityC,
-        dailyWeather[newCityC] ?? false,
-        ftHourlyData(hourlyWeather[newCityC]) ?? false,
-      ],
-    });
+    }
+    if (dailyWeather && hourlyWeather) {
+      updateOrder({
+        cityA:
+          newCityA == cityB[0]
+            ? cityB
+            : [
+                newCityA,
+                dailyWeather[newCityA] ?? false,
+                ftHourlyData(hourlyWeather[newCityA]) ?? false,
+              ],
+        cityB:
+          newCity == cityC[0]
+            ? cityC
+            : [
+                newCity,
+                dailyWeather[newCity] ?? false,
+                ftHourlyData(hourlyWeather[newCity], addNotif) ?? false,
+              ],
+        cityC: [
+          newCityC,
+          dailyWeather[newCityC] ?? false,
+          ftHourlyData(hourlyWeather[newCityC]) ?? false,
+        ],
+      });
+      // console.log(newCity);
+      // console.log(ftHourlyData(addNotif, hourlyWeather[newCity]));
+      console.log({
+        cityA:
+          newCityA == cityB[0]
+            ? cityB
+            : [
+                newCityA,
+                dailyWeather[newCityA] ?? false,
+                ftHourlyData(hourlyWeather[newCityA]) ?? false,
+              ],
+        cityB:
+          newCity == cityC[0]
+            ? cityC
+            : [
+                newCity,
+                dailyWeather[newCity] ?? false,
+                ftHourlyData(hourlyWeather[newCity], addNotif) ?? false,
+              ],
+        cityC: [
+          newCityC,
+          dailyWeather[newCityC] ?? false,
+          ftHourlyData(hourlyWeather[newCityC]) ?? false,
+        ],
+      });
+    }
   }
   // console.log(cityIndex + "" + city);
 }

@@ -139,5 +139,4 @@ export async function deleteLocation(cityName:string, target = "locations") {
       );
       return Object.keys(locations)
   }
-  
 }

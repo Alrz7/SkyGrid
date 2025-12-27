@@ -9,7 +9,7 @@ import { selectWeatherIcon } from "../logic/skyPattern.js";
 
 interface HudPops {
   hudData: Record<string, any>;
-  city: string;
+  city: string | null;
   color: {
     background: any;
     hud: any;

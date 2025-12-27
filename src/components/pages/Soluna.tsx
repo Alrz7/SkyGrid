@@ -14,8 +14,8 @@ export default function SunComp({
 }: {
   page: any;
   solarCondition: {
-    sun: { isVisible: boolean; ratio: number };
-    moon: { isVisible: boolean; ratio: number };
+    sun: { isVisible: boolean | null; ratio: number };
+    moon: { isVisible: boolean | null; ratio: number };
   };
   color: {
     background: any;
@@ -31,18 +31,18 @@ export default function SunComp({
     moonset: string;
     sunrise: string;
     sunset: string;
-  };
+  } | null;
 }) {
   const [showSun, setShowSun] = useState(false);
   const [showMoon, setShowMoon] = useState(false);
 
   useEffect(() => {
     const isSun = solarCondition.sun.isVisible;
-    setShowSun(isSun);
+    setShowSun(isSun ?? false);
     if (isSun) {
       setShowMoon(false);
     } else {
-      setShowMoon(solarCondition.moon.isVisible);
+      setShowMoon(solarCondition.moon.isVisible ?? false);
     }
   }, [solarCondition]);
   // console.log(solarCondition);
@@ -102,7 +102,8 @@ export default function SunComp({
               <IcSun />
             </button>
             <span className="tooltip">
-              sunrise: {solarData.sunrise}, sunset: {solarData.sunset}
+              sunrise: {solarData ? solarData.sunrise : "00:00"}, sunset:{" "}
+              {solarData ? solarData.sunset : "00:00"}
             </span>
           </div>
           <div className="tooltip-wrapper">
@@ -124,7 +125,8 @@ export default function SunComp({
               <IcMoon />
             </button>
             <span className="tooltip">
-              moonrise: {solarData.moonrise}, moonset: {solarData.moonset}
+              moonrise: {solarData ? solarData.moonrise : "00:00"}, moonset:{" "}
+              {solarData ? solarData.moonset : "00:00"}
             </span>
           </div>
         </div>

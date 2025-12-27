@@ -58,7 +58,7 @@ export function ftHourlyData(data: any, addNotif: any | null = null) {
   }
 }
 
-export async function selectWatherItem(data: any, city: string) {
+export async function selectWatherItem(data: any, city: string | null) {
   // console.log(data, city)
   if (data && city) {
     console.log(city);

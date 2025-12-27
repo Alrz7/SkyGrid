@@ -3,6 +3,7 @@ import {
   readData as readLocations,
   deleteLocation,
 } from "../../../logic/GeoLocations.js";
+import { deleteAstroData } from "../../../logic/ipGeoLocation.js";
 //  from "@logic/GeoLocations.js";  this also works but linter says "the module is not found"  :/
 import Delete from "@assets/delete.svg?react";
 import Select from "@assets/select.svg?react";
@@ -17,7 +18,7 @@ export default function General({
   autupdt,
 }: {
   rmb: any;
-  city: string;
+  city: string | null;
   updateCity: any;
   addNotif: any;
   srcnt: any;
@@ -27,22 +28,26 @@ export default function General({
 
   async function updCityList() {
     const lst = await readLocations();
-    const res = Object.keys(lst);
-    setCitylist(res);
-    return res;
+    if (lst) {
+      const res = Object.keys(lst);
+      setCitylist(res);
+      return res;
+    } else return null;
   }
 
   async function deleteCity(cityName: string) {
     const lst = await updCityList();
-    console.log(lst, lst.length > 0, lst.includes(cityName));
-    if (lst && lst.length > 0 && lst.includes(cityName)) {
-      const indx = lst.indexOf(cityName);
-      console.log("deleting", cityName);
-      const newlist = await deleteLocation(cityName);
-      console.log(newlist);
-      setCitylist(newlist);
-      if (indx > 0) {
-        updateCity(true, newlist?.at(indx - 1), null, null);
+    if (lst) {
+      console.log(lst, lst.length > 0, lst.includes(cityName));
+      if (lst && lst.length > 0 && lst.includes(cityName)) {
+        const indx = lst.indexOf(cityName);
+        console.log("deleting", cityName);
+        const newlist = await deleteLocation(cityName);
+        deleteAstroData(cityName);
+        setCitylist(newlist);
+        if (indx > 0) {
+          updateCity(true, newlist?.at(indx - 1), null, null);
+        }
       }
     }
   }
@@ -130,9 +135,9 @@ export default function General({
             onClick={() => {
               rmb.func("save");
               addNotif([
-                        "info",
-                        `${city} has been Set as the Default Location`,
-                      ]);
+                "info",
+                `${city} has been Set as the Default Location`,
+              ]);
             }}
           >
             Set current city as Default Location

@@ -29,7 +29,7 @@ export default function App() {
     cityB: [],
     cityC: [],
   });
-  const [city, updateCity] = useState("");
+  const [city, updateCity] = useState<string | null>(null);
   const [Pattern, setPattern] = useState({
     background: "",
     hud: "",
@@ -39,13 +39,13 @@ export default function App() {
     chart: {},
   });
   const [hudData, setHudData] = useState({});
-  const [solarData, setsolarData] = useState({
-    moonrise: "",
-    moonset: "",
-    sunrise: "",
-    sunset: "",
-    solar_noon: "",
-  });
+  const [solarData, setsolarData] = useState<{
+    moonrise: string;
+    moonset: string;
+    sunrise: string;
+    sunset: string;
+    solar_noon: string;
+  } | null>(null);
   const [isSearching, Searching] = useState(false);
   const [page, setPage] = useState<"main" | "forecast" | "options">("main");
   const [notifs, setNotifs] = useState<[string, string][]>([]);
@@ -76,7 +76,7 @@ export default function App() {
   }
 
   function addNotif(newNotif: [string, string]) {
-    console.log([newNotif, ...notifs]);
+    // console.log([newNotif, ...notifs]);
     setNotifs(() => [newNotif, ...notifs]);
   }
 

@@ -17,7 +17,7 @@ export default function Clock({
     buttons: any;
     chart: any;
   };
-  city: string;
+  city: string | null;
   isSearching: boolean;
 }) {
   const [time, setTime] = useState({ time: "", zone: "" });

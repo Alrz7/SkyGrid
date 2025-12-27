@@ -18,8 +18,8 @@ export default function CurvedLineComp({
     sunrise: string;
     sunset: string;
     solar_noon: string;
-  };
-  city: string;
+  } | null;
+  city: string | null;
   color: {
     background: any;
     hud: any;
@@ -35,14 +35,24 @@ export default function CurvedLineComp({
     sun: [540, 184],
     moon: [540, 184],
   });
-  const [solarCondition, setCondition] = useState({
-    sun: { isVisible: false, ratio: -1 },
-    moon: { isVisible: false, ratio: -1 },
+  const [solarCondition, setCondition] = useState<{
+    sun: {
+      isVisible: boolean | null;
+      ratio: number;
+    };
+    moon: {
+      isVisible: boolean | null;
+      ratio: number;
+    };
+  }>({
+    sun: { isVisible: null, ratio: -1 },
+    moon: { isVisible: null, ratio: -1 },
   });
 
   useEffect(() => {
-    if (!city || city == "") return;
-    setSphere(city, solarData, setCondition);
+    if (city && city != "" && solarData) {
+      setSphere(city, solarData, setCondition);
+    }
   }, [city, solarData]);
 
   const getSVGCorners = () => {
@@ -98,7 +108,7 @@ export default function CurvedLineComp({
         solarCondition={solarCondition}
         solarData={solarData}
       />
-      {solarCondition.sun.isVisible ? null : <BackGroundStars />}
+      {!solarCondition.sun.isVisible && solarData ? <BackGroundStars /> : null}
       {solarCondition.sun.isVisible || solarCondition.moon.isVisible ? (
         <Sky className="Sky-line" ref={svgRef} />
       ) : null}

@@ -23,7 +23,7 @@ export default function GetOptions({
   autupdt: any;
   page: any;
   srcnt: any;
-  city: string;
+  city: string| null;
   updateCity: any;
   rmb: any;
   setPage: any;
