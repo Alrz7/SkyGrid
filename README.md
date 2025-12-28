@@ -55,12 +55,11 @@
   </ol>
 </details>
 
-
 ## About The Project
 
 <div align="center">
   <video 
-    src="https://github.com/user-attachments/assets/42a81460-08b6-410c-9bde-d401fcada270"
+    src="https://github.com/user-attachments/assets/045ca1c2-e849-42de-9dae-41404175be7f"
     autoplay 
     loop 
     muted 
