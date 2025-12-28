@@ -8,10 +8,6 @@
 </div>
 <div align="center">
   <br/><br/>
-  <a href="https://github.com/Alrz7/SkyGrid/stargazers"><img src="https://img.shields.io/github/stars/Alrz7/SkyGrid?style=for-the-badge&logo=starship&color=7c4dff" alt="Stars"></a>
-  <a href="https://github.com/Alrz7/SkyGrid"><img src="https://img.shields.io/github/license/Alrz7/SkyGrid?style=for-the-badge&color=6b7280" alt="License"></a>
-  <a href="https://github.com/Alrz7/SkyGrid/releases"><img src="https://img.shields.io/github/downloads/Alrz7/SkyGrid/total?style=for-the-badge&color=10b981" alt="Downloads"></a>
-  <br/>
   <img src="https://img.shields.io/badge/React-19.1.0-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React" />
   <img src="https://img.shields.io/badge/TypeScript-5.9.3-blue?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Tauri-v2-24b1e0?style=for-the-badge&logo=tauri&logoColor=white" alt="Tauri" />
