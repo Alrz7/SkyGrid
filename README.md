@@ -75,15 +75,11 @@ Beyond displaying real-time weather data & a ususal weekly forecast, SkyGrid has
 - Automatically changes the entire app theme (background gradient, lighting, mood, positions, elements) to match the real sky of your city
 -Lightweight (~6 MB), cross-platform (Windows, macOS, Linux), fully portable, Ad-free, and open-source under the Apache 2.0 License.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 ### Built With
 
 * [![TypeScript][Ts-url]][Ts]
 * [![React][React.js]][React-url]
 * [![Tauri][Tauri]][Tauri-url]
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
