@@ -4,7 +4,7 @@ import {
   deleteLocation,
 } from "../../../logic/GeoLocations.js";
 import { deleteAstroData } from "../../../logic/ipGeoLocation.js";
-import { saveConfig } from "../../../logic/gridconfig.js";
+// import { saveConfig } from "../../../logic/gridconfig.js";
 
 //  from "@logic/GeoLocations.js";  this also works but linter says "the module is not found"  :/
 import Delete from "@assets/delete.svg?react";

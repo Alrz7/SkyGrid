@@ -97,12 +97,7 @@
   width: 350px;
   height: 192px;
   max-height: 200px;
-  background: linear-gradient(
-    to bottom,
-    rgba(240, 240, 245, 0.088) 0%,
-    rgba(248, 248, 252, 0.206) 50%,
-    rgba(255, 255, 255, 0.592) 100%
-  );
+  background: #8c8c9c59;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom-left-radius: 15px;
@@ -127,7 +122,7 @@
 .city-item {
   padding: 0 20px;
   height: 48px;
-background: linear-gradient(93deg,rgba(0, 156, 199, 0.37) 0%, rgba(255, 255, 255, 0.86) 100%);
+background: #343434;
   border: none;
   border-radius: 14px;
   color: rgb(255, 255, 255);
@@ -136,15 +131,16 @@ background: linear-gradient(93deg,rgba(0, 156, 199, 0.37) 0%, rgba(255, 255, 255
   font-weight: 550;
   text-align: left;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.3s ease;
   backdrop-filter: blur(10px);
   z-index: 120;
 }
 
 .city-item:hover {
-  background: #009CC7;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  background: #7d7d7d;
+  border-color: #767676;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
 }
 
 .city-item:active {
