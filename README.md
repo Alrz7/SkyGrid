@@ -1,6 +1,6 @@
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="[https://github.com/othneildrew/Best-README-Template](https://github.com/Alrz7/SkyGrid/blob/main/public/SkyGridlogo.svg)">
+    <img src="/public/SkyGridlogo.svg" alt="Logo" width="200" height="200">
   </a>
 
   <h3 align="center">SkyGrid</h3>
