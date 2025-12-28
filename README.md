@@ -1,8 +1,10 @@
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="[https://github.com/othneildrew/Best-README-Template](https://github.com/Alrz7/SkyGrid/blob/main/public/SkyGridlogo.svg)">
+    <img src="/public/SkyGridlogo.svg" alt="Logo" width="200" height="200">
   </a>
-<h3 align="center">SkyGrid</h3>
+
+  <h3 align="center">SkyGrid</h3>
+
   <p align="center">
     An open-source desktop weather app with real-time sky
               simulation.
@@ -14,6 +16,7 @@
     &middot;
     <a href="https://github.com/othneildrew/Best-README-Template/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
+</div>
 <div align="center">
   <br/><br/>
   <a href="https://github.com/Alrz7/SkyGrid/stargazers"><img src="https://img.shields.io/github/stars/Alrz7/SkyGrid?style=for-the-badge&logo=starship&color=7c4dff" alt="Stars"></a>
@@ -25,10 +28,6 @@
   <img src="https://img.shields.io/badge/Tauri-v2-24b1e0?style=for-the-badge&logo=tauri&logoColor=white" alt="Tauri" />
   <img src="https://img.shields.io/badge/Vite-7.0.4-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
 </div>
-</div>
-
-
-
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
@@ -57,10 +56,21 @@
 </details>
 
 
-
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<div align="center">
+  <video 
+    src="https://github.com/user-attachments/assets/42a81460-08b6-410c-9bde-d401fcada270"
+    autoplay 
+    loop 
+    muted 
+    playsinline 
+    width="100%" 
+    style="border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);"
+  >
+  </video>
+</div>
+
 
 **SkyGrid** is an open-source desktop weather application built with   **TypeScript** and powered by  **React** + **Tauri**.
 
@@ -75,15 +85,11 @@ Beyond displaying real-time weather data & a ususal weekly forecast, SkyGrid has
 - Automatically changes the entire app theme (background gradient, lighting, mood, positions, elements) to match the real sky of your city
 -Lightweight (~6 MB), cross-platform (Windows, macOS, Linux), fully portable, Ad-free, and open-source under the Apache 2.0 License.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 ### Built With
 
 * [![TypeScript][Ts-url]][Ts]
 * [![React][React.js]][React-url]
 * [![Tauri][Tauri]][Tauri-url]
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
