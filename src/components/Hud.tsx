@@ -6,21 +6,17 @@ import Pressure from "@assets/pressure.svg?react";
 import Visibility from "@assets/visibility.svg?react";
 import Wind from "@assets/wind.svg?react";
 import { selectWeatherIcon } from "../logic/skyPattern.js";
+type datas = string | number | boolean;
+type SetState<T> = React.Dispatch<React.SetStateAction<T>>;
+import * as tp from "./commonTypes.js";
 
 interface HudPops {
-  hudData: Record<string, any>;
+  hudData: Record<string, datas>;
   city: string | null;
-  color: {
-    background: any;
-    hud: any;
-    forecastButton: any;
-    solunaProp: any;
-    buttons: any;
-    chart: any;
-  };
+  color: tp.color;
   isSearching: boolean;
   page: string;
-  setPage: any;
+  setPage: SetState<"main" | "forecast" | "options">;
 }
 
 export default function Hud({
@@ -39,7 +35,9 @@ export default function Hud({
 
   async function getIcon() {
     if (hudData?.weather_code) {
-      const IconName = selectWeatherIcon(hudData.weather_code);
+      const IconName = selectWeatherIcon(
+        typeof hudData.weather_code == "number" ? hudData.weather_code : 0
+      );
       if (IconName) {
         const newIcon = await import(
           `../assets/weatherConditions/${IconName}.svg?react`
@@ -69,11 +67,11 @@ export default function Hud({
       ) : null}
       {page == "main" && hudData?.temperature ? (
         <div className="hud-container">
-          <div className="hud-card main-temp-card" style={{ color: color.hud }}>
-            <div className="hud-temp-value">
+          <div className="hud-card main-temp-card" style={{ color: `${color ? color.hud : "rgb(237, 254, 255);"}` }}>
+            <div className="hud-temp-value" style={{ color: `${color ? color.hud : "rgb(237, 254, 255);"}` }}>
               {hudData?.temperature ? `${hudData.temperature}°` : ""}
             </div>
-            <div className="hud-temp-feelslike" style={{ color: color.hud }}>
+            <div className="hud-temp-feelslike" style={{ color: `${color ? color.hud : "rgb(237, 254, 255);"}` }}>
               {hudData?.apparent_temperature
                 ? `Feels like ${hudData.apparent_temperature}°`
                 : ""}

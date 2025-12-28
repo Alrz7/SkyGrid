@@ -4,6 +4,7 @@ import Soluna from "./Soluna.js";
 import BackGroundStars from "./BackGroundStars.js";
 import { setSphere } from "../../logic/solarSystem.js";
 import "./styles/Sky.css";
+import * as tp from "../commonTypes.js";
 
 export default function CurvedLineComp({
   solarData,
@@ -11,23 +12,10 @@ export default function CurvedLineComp({
   page,
   color,
 }: {
-  page: any;
-  solarData: {
-    moonrise: string;
-    moonset: string;
-    sunrise: string;
-    sunset: string;
-    solar_noon: string;
-  } | null;
+  page: tp.page;
+  solarData: tp.solarData;
   city: string | null;
-  color: {
-    background: any;
-    hud: any;
-    forecastButton: any;
-    solunaProp: any;
-    buttons: any;
-    chart: any;
-  };
+  color: tp.color;
 }) {
   // console.log(solarData);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -53,7 +41,7 @@ export default function CurvedLineComp({
     if (city && city != "" && solarData) {
       setSphere(city, solarData, setCondition);
     }
-  }, [city, solarData]);
+  }, [city]);
 
   const getSVGCorners = () => {
     if (!svgRef.current) return null;

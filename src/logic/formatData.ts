@@ -1,10 +1,15 @@
-import { findlocalTime } from "./skyPattern.js";
+import { findLocalTime } from "./skyPattern.js";
 import { difrentHour } from "../logic/sources/dry.js";
-export function ftHourlyData(data: any, addNotif: any | null = null) {
-  if (data) {
+import * as tp from "../components/commonTypes.js";
+
+export function ftHourlyData(
+  data: tp.hourlyData,
+  addNotif: tp.addNotif | null = null
+) {
+  if (data && data.time) {
     const now = getLocalTime().fullStr;
-    const timeIndex: any = [];
-    data.time.forEach((item: any, index: number) => {
+    const timeIndex: number[] = [];
+    data.time.forEach((item: string, index: number) => {
       if (item.slice(0, 10) == now) {
         timeIndex.push(index);
       }
@@ -25,7 +30,7 @@ export function ftHourlyData(data: any, addNotif: any | null = null) {
     const newlist: any = [];
     timeIndex.forEach((indx: any) => {
       const newItem = {
-        hour: data.time[indx].slice(11),
+        hour: data.time[indx] ? data.time[indx].slice(11) : "0000-00-00",
         temperature: data.temperature_2m[indx],
         humidity: data.relative_humidity_2m[indx],
         apparent_temperature: data.apparent_temperature[indx],
@@ -62,7 +67,7 @@ export async function selectWatherItem(data: any, city: string | null) {
   // console.log(data, city)
   if (data && city) {
     console.log(city);
-    const localTime = await findlocalTime(city);
+    const localTime = await findLocalTime(city);
     // console.log(localTime, `${localTime.slice(0,2)}:00`)
     if (localTime) {
       for (let item of data) {

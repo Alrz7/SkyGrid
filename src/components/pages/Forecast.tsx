@@ -12,6 +12,7 @@ import Date from "@assets/date.svg?react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ftForecastData } from "../../logic/formatData.js";
+import * as tp from "../commonTypes.js";
 import {
   Sun,
   Cloud,
@@ -21,6 +22,7 @@ import {
   Zap,
 } from "lucide-react";
 import ClosePage from "@assets/closePage.svg?react";
+type SetState<T> = React.Dispatch<React.SetStateAction<T>>;
 export default function Forecast({
   color,
   dailyForecast,
@@ -28,15 +30,8 @@ export default function Forecast({
   page,
   setPage,
 }: {
-  color: {
-    background: any;
-    hud: any;
-    forecastButton: any;
-    solunaProp: any;
-    buttons: any;
-    chart: any;
-  };
-  dailyForecast: any;
+  color: tp.color;
+  dailyForecast: Record<string, any> | null;
   weatherData:
     | never[]
     | null
@@ -49,7 +44,7 @@ export default function Forecast({
         weather_code: number;
       }[];
   page: string;
-  setPage: any;
+  setPage: SetState<"main" | "forecast" | "options">;
 }) {
   const [iconList, setIconList] = useState<
     {

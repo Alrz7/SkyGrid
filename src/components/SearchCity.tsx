@@ -11,19 +11,13 @@ import {
 import { getWeatherStat } from "../logic/OpenMeteo.js";
 import { lookingFor, updateLocations } from "../logic/useCities.js";
 import { toNameCase } from "../logic/sources/dry.js";
+import * as tp from "./commonTypes.js";
 interface addcityProps {
-  addNotif: any;
-  page: any;
-  PrimaryUpdateCity: any;
-  color: {
-    background: any;
-    hud: any;
-    forecastButton: any;
-    solunaProp: any;
-    buttons: any;
-    chart: any;
-  };
-  searchCount: any;
+  addNotif: (newNotif: [string, string]) => void;
+  page: "main" | "forecast" | "options";
+  PrimaryUpdateCity: tp.PrimaryUpdateCity;
+  color: tp.color;
+  searchCount: number;
   isSearching: boolean;
   Searching: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -104,7 +98,9 @@ export default function SearchCity({
                             } else {
                               PrimaryUpdateCity(
                                 false,
-                                item.nameInFile ?? item.name
+                                item.nameInFile ?? item.name,
+                                null,
+                                null
                               );
                             }
                             // Searching(false);

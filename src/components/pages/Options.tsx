@@ -6,8 +6,9 @@ import CloseSearch from "@assets/closeSearch.svg?react";
 import General from "./optionBars/general.js";
 import ApiKeyBar from "./optionBars/apikey.js";
 import AboutBar from "./optionBars/about.js";
+import Apearance from "./optionBars/appearance.js";
 import "./styles/Options.css";
-
+import * as tp from "../commonTypes.js";
 export default function GetOptions({
   notifs,
   autupdt,
@@ -20,14 +21,14 @@ export default function GetOptions({
   addNotif,
 }: {
   notifs: [string, string][];
-  autupdt: any;
-  page: any;
-  srcnt: any;
-  city: string| null;
-  updateCity: any;
-  rmb: any;
-  setPage: any;
-  addNotif: any;
+  autupdt: tp.autupdt;
+  page: tp.page;
+  srcnt: tp.srcnt;
+  city: string | null;
+  updateCity: tp.PrimaryUpdateCity;
+  rmb: tp.rmb;
+  setPage: tp.setPage;
+  addNotif: tp.addNotif;
 }) {
   const [nav, setNav] = useState<"general" | "appearance" | "apikey" | "about">(
     "general"
@@ -38,11 +39,7 @@ export default function GetOptions({
         <button
           className="options-button"
           onClick={() => {
-            if (page != "options") {
-              setPage("options");
-            } else {
-              setPage("main");
-            }
+            setPage("options");
           }}
         >
           <Options />
@@ -148,8 +145,12 @@ export default function GetOptions({
               autupdt={autupdt}
             />
           ) : nav == "apikey" ? (
-            <ApiKeyBar addNotif={addNotif}/>
-          ) : nav == "appearance" ? null : nav == "about" ? <AboutBar/> : null}
+            <ApiKeyBar addNotif={addNotif} />
+          ) : nav == "appearance" ? (
+            <Apearance />
+          ) : nav == "about" ? (
+            <AboutBar />
+          ) : null}
         </div>
       </motion.div>
     </>

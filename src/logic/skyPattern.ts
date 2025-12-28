@@ -2,8 +2,8 @@ import { updateData as updateAstro } from "./ipGeoLocation.js";
 import { difrentHour } from "../logic/sources/dry.js";
 import { skyCycle } from "./sources/skyCycle.js";
 import { readData as readLocations } from "./GeoLocations.js";
-
-export async function findlocalTime(cityName: string) {
+import * as tp from "../components/commonTypes.js";
+export async function findLocalTime(cityName: string) {
   if (cityName == "") {
     console.log("bug");
   }
@@ -37,7 +37,6 @@ export function intlTimeFormat(ianaTimezoneName: string) {
     hour12: false,
   });
   const parts = formatter.formatToParts(now);
-
   const year = parts.find((p) => p.type === "year")?.value;
   const month = parts.find((p) => p.type === "month")?.value;
   const day = parts.find((p) => p.type === "day")?.value;
@@ -70,7 +69,7 @@ function sortHours(lst: Array<any>): any {
   ];
 }
 
-function selectTitle(addNotif: any, data: any, time: string) {
+function selectTitle(addNotif: tp.addNotif, data: any, time: string) {
   // const time = timeNow().fullhr; for local time test
   // const time = '17:55';
   if (!data) {
@@ -153,21 +152,21 @@ function selectTitle(addNotif: any, data: any, time: string) {
     }
   }
   // console.log(time, item);
-  addNotif("error", "skyPattern: Title not found");
+  addNotif(["error", "skyPattern: Title not found"]);
   console.log(sorted.at(-1)["time"], " <not found> ", sorted.at(-1)["title"]);
   return sorted.at(-1);
 }
 
 export async function selectPattern(
-  addNotif: any,
+  addNotif: tp.addNotif,
   setPattern: any,
   setsolarData: any,
   cityName: string
 ) {
   if (cityName) {
-    const astData = await updateAstro(cityName, findlocalTime, true, addNotif);
+    const astData = await updateAstro(cityName, findLocalTime, true, addNotif);
     if (astData && astData.ok && astData.val) {
-      const time: any = await findlocalTime(cityName);
+      const time: any = await findLocalTime(cityName);
       if (time) {
         const pallet = selectTitle(addNotif, astData.val, time.time.fullTime);
         setsolarData(astData.val.astronomy);

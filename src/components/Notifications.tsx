@@ -5,19 +5,20 @@ import Check from "@assets/check.svg?react";
 import Info from "@assets/info.svg?react";
 import { motion, AnimatePresence, delay } from "framer-motion";
 import { useEffect, useState } from "react";
+type SetState<T> = React.Dispatch<React.SetStateAction<T>>;
 
 export default function Notif({
   notifs,
   setNotifs,
 }: {
   notifs: [string, string][];
-  setNotifs: any;
+  setNotifs: SetState<[string, string][]>;
 }) {
   useEffect(() => {
     if (notifs.length === 0) return;
 
     const timer = setTimeout(() => {
-      setNotifs((prev: any) => prev.slice(1));
+      setNotifs((prev: [string, string][]) => prev.slice(1));
     }, 2600 - notifs.length * 400);
 
     return () => clearTimeout(timer);

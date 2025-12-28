@@ -8,9 +8,9 @@ import {
 } from "@tauri-apps/plugin-fs";
 import { checkDir, checkApiKeys, doesExist } from "./DataManagement.js";
 const url = "https://api.open-meteo.com/v1/forecast";
-
+import * as tp from "../components/commonTypes.js";
 export async function getWeatherStat(
-  addNotif: any,
+  addNotif: tp.addNotif,
   cityName: string,
   addingCity: boolean = false,
   addingData: Record<string, any> | null = null,
@@ -107,6 +107,28 @@ export async function readData(target = "daily") {
     return null;
   }
 }
+
+export async function deleteWeatherData(
+  cityName: string,
+  targets = ["daily", "hourly", "current"]
+) {
+  for (let tar of targets) {
+    const weatherData = await readData(tar);
+    if (weatherData && cityName in weatherData) {
+      delete weatherData[cityName];
+      await writeTextFile(
+        `SkyGrid/weatherData/openMeteo/${tar}Weather.json`,
+        JSON.stringify(weatherData),
+        {
+          baseDir: BaseDirectory.Document,
+        }
+      );
+      return true;
+    }
+    return false;
+  }
+}
+
 // const responses = await fetchWeatherApi(url, params);
 
 // Process first location. Add a for-loop for multiple locations or weather models

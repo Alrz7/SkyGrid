@@ -3,6 +3,7 @@ import { ftHourlyData } from "./formatData.js";
 import { readData as readLocations } from "./GeoLocations.js";
 import { saveConfig, readConfig } from "./gridconfig.js";
 import { selectPattern } from "./skyPattern.js";
+import * as tp from "../components/commonTypes.js";
 
 // this file needs to get dry soon... it's so messy
 
@@ -11,7 +12,7 @@ export async function setCurrentCity(
   updateCity: any,
   rmb: boolean,
   setPattern: any,
-  addNotif: any,
+  addNotif: tp.addNotif,
   setsolarData: any
 ) {
   const locations = await readLocations();
@@ -65,12 +66,12 @@ export async function updateMainCity(
   updateOrder: any,
   updateCity: any,
   setPattern: any,
-  addNotif: any,
+  addNotif: tp.addNotif,
   setsolarData: any,
   save: boolean = false,
   cityName: string,
   daily: Record<string, any> | null,
-  hourly: Record<string, any> | null
+  hourly: tp.hourlyData | null
 ) {
   const locations = await readLocations();
   if (locations) {
@@ -137,7 +138,7 @@ export async function changeOrders(
   rmb: boolean,
   loadOrder: any,
   setPattern: any,
-  addNotif: any,
+  addNotif: tp.addNotif,
   setsolarData: any,
   forward: boolean = true
 ) {

@@ -4,7 +4,7 @@ import LineIcon from "@assets/lineChart.svg?react";
 import AreaChart from "./charts/AreaChart.js";
 import LineChart from "./charts/LineChart.js";
 import "./styles/DataCard.css";
-
+type SetState<T> = React.Dispatch<React.SetStateAction<T>>;
 interface DataCardProps {
   weatherData:
     | never[]
@@ -17,15 +17,15 @@ interface DataCardProps {
         windSpeed: number;
       }[];
   color: {
-    background: any;
-    hud: any;
-    forecastButton: any;
-    solunaProp: any;
-    buttons: any;
-    chart: any;
+    background: string;
+    hud: string;
+    forecastButton: string;
+    solunaProp: string;
+    buttons: string;
+    chart: Record<string, Record<string, string>>;
   };
   page: string;
-  setPage: any;
+  setPage: SetState<"main" | "forecast" | "options">;
 }
 
 export default function DataCard({

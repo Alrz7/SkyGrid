@@ -21,6 +21,7 @@ const hourlyData = [
   { hour: "18:00", temperature: 0, humidity: 0, windSpeed: 0 },
   { hour: "21:00", temperature: 0, humidity: 0, windSpeed: 0 },
 ];
+type SetState<T> = React.Dispatch<React.SetStateAction<T>>;
 
 interface DataCardProps {
   weatherData:
@@ -35,18 +36,18 @@ interface DataCardProps {
       }[];
   activeParameters: string[];
   color: {
-    background: any;
-    hud: any;
-    forecastButton: any;
-    solunaProp: any;
-    buttons: any;
-    chart: any;
+    background: string;
+    hud: string;
+    forecastButton: string;
+    solunaProp: string;
+    buttons: string;
+    chart: Record<string, Record<string, string>>;
   };
   page: string;
-  setPage: any;
+  setPage: SetState<"main" | "forecast" | "options">;
 }
 
-export default function MyAreaChart ({
+export default function MyAreaChart({
   weatherData = hourlyData,
   activeParameters = [
     "temperature",

@@ -1,7 +1,8 @@
 import { readData, getWeatherStat } from "./OpenMeteo.js";
 import { updateData as updateAstro, updateData } from "./ipGeoLocation.js";
-import { findlocalTime } from "./skyPattern.js";
+import { findLocalTime } from "./skyPattern.js";
 import { dateDiferenceToHour as difrentHour } from "../logic/sources/dry.js";
+import * as tp from "../components/commonTypes.js";
 
 function getLocalTime() {
   const now = new Date();
@@ -34,7 +35,7 @@ export async function checkCurrent(cityName: string, data: { time: string }) {
 }
 
 export async function checkUpdate(
-  addNotif: any,
+  addNotif: tp.addNotif,
   cityName: string,
   engage: boolean,
   auto: boolean
@@ -46,7 +47,12 @@ export async function checkUpdate(
     const lastDate = locations[cityName].time;
     const time_difference = difrentHour(now, lastDate.at(-1));
     if (engage) {
-      const astroUpdResponse = await updateAstro(cityName, findlocalTime, true, addNotif);
+      const astroUpdResponse = await updateAstro(
+        cityName,
+        findLocalTime,
+        true,
+        addNotif
+      );
       const wethUpd = auto ? time_difference >= 0 : true;
       const astroUpd = !astroUpdResponse?.isUpdate;
 
@@ -66,18 +72,18 @@ export async function checkUpdate(
       //   }`
       // );
       if (wethUpd) {
-        addNotif(["info", "Updating Weather-Datas"])
+        addNotif(["info", "Updating Weather-Datas"]);
         const newWeatherData = await getWeatherStat(addNotif, cityName);
         return { ok: true, val: newWeatherData };
       } else {
-        console.log("weather is up to date.")
+        console.log("weather is up to date.");
         return { ok: false, val: null };
       }
     } else {
       // console.log("no engage in weather update");
       const astroUpdResponse = await updateAstro(
         cityName,
-        findlocalTime,
+        findLocalTime,
         false,
         addNotif
       );

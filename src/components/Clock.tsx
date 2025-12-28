@@ -1,22 +1,15 @@
-import { use, useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import "./styles/clock.css";
-import { findlocalTime } from "../logic/skyPattern.js";
-
+import { findLocalTime } from "../logic/skyPattern.js";
+import * as tp from "./commonTypes.js";
 export default function Clock({
   color,
   city,
   page,
   isSearching,
 }: {
-  page: any,
-  color: {
-    background: any;
-    hud: any;
-    forecastButton: any;
-    solunaProp: any;
-    buttons: any;
-    chart: any;
-  };
+  page: string;
+  color: tp.color;
   city: string | null;
   isSearching: boolean;
 }) {
@@ -27,7 +20,7 @@ export default function Clock({
 
     async function runClock() {
       while (mounted && city) {
-        const localtime = await findlocalTime(city);
+        const localtime = await findLocalTime(city);
         if (localtime) {
           const secondsLeft = 60 - Number(localtime.time.fullTime.slice(6));
           setTime({

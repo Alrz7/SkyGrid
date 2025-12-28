@@ -5,20 +5,14 @@ import Update from "@assets/update.svg?react";
 import { motion } from "framer-motion";
 import "./styles/Update.css";
 import { checkUpdate } from "../logic/updateDatas.js";
+import * as tp from "./commonTypes.js";
 
 interface GetUpdateProps {
-  addNotif: any;
+  addNotif: tp.addNotif;
   city: string | null;
-  PrimaryUpdateCity: any;
-  page: any;
-  color: {
-    background: any;
-    hud: any;
-    forecastButton: any;
-    solunaProp: any;
-    buttons: any;
-    chart: any;
-  };
+  PrimaryUpdateCity: tp.PrimaryUpdateCity;
+  page: tp.page;
+  color: tp.color;
   isSearching: boolean;
 }
 
@@ -57,18 +51,20 @@ export default function GetUpdate({
           // }}
           onClick={() => {
             if (city) {
-              const result = checkUpdate(addNotif, city, true, false).then((res) => {
-                if (res.ok) {
-                  if (res.val) {
-                    PrimaryUpdateCity(
-                      true,
-                      city,
-                      res.val.daily,
-                      res.val.hourly
-                    );
+              const result = checkUpdate(addNotif, city, true, false).then(
+                (res) => {
+                  if (res.ok) {
+                    if (res.val) {
+                      PrimaryUpdateCity(
+                        true,
+                        city,
+                        res.val.daily,
+                        res.val.hourly
+                      );
+                    }
                   }
                 }
-              });
+              );
             }
           }}
         >

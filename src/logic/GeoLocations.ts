@@ -6,9 +6,9 @@ import {
 } from "@tauri-apps/plugin-fs";
 import { readKey, doesExist, checkDir } from "./DataManagement.js";
 import { CitrusIcon } from "lucide-react";
-
+import * as tp from "../components/commonTypes.js";
 async function getLocation(
-  addNotif: any,
+  addNotif: tp.addNotif,
   cityName: string,
   searchCount: number,
   prtcl = "opn"
@@ -28,7 +28,7 @@ async function getLocation(
         { method: "GET" }
       );
     } else {
-      addNotif("error", "Apikey is Not set or Invalid");
+      addNotif(["error", "Apikey is Not set or Invalid"]);
       return null;
     }
   }
@@ -49,7 +49,7 @@ async function getLocation(
 }
 
 export async function apiSearch(
-  addNotif: any,
+  addNotif: tp.addNotif,
   cityName: string,
   searchCount: number
 ) {
@@ -126,17 +126,17 @@ export async function readData(target = "locations") {
   }
 }
 
-export async function deleteLocation(cityName:string, target = "locations") {
-  const locations = await readData()
-  if(locations && cityName in locations){
-    delete locations[cityName]
+export async function deleteLocation(cityName: string, target = "locations") {
+  const locations = await readData();
+  if (locations && cityName in locations) {
+    delete locations[cityName];
     await writeTextFile(
-        `SkyGrid/locationData/${target}.json`,
-        JSON.stringify(locations),
-        {
-          baseDir: BaseDirectory.Document,
-        }
-      );
-      return Object.keys(locations)
+      `SkyGrid/locationData/${target}.json`,
+      JSON.stringify(locations),
+      {
+        baseDir: BaseDirectory.Document,
+      }
+    );
+    return Object.keys(locations);
   }
 }

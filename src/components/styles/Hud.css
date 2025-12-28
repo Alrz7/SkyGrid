@@ -35,7 +35,7 @@
   font-size: 1.2rem;
   font-weight: 400;
   opacity: 100%;
-  color: #ffffff;
+  color: #000000;
   z-index: 60;
   gap: 0 rem;
 }
@@ -75,14 +75,14 @@
   font-size: 7rem;
   font-weight: 650;
   line-height: 1;
-  color: #ffffff;
+  color: #000000;
   opacity: 95%;
 }
 
 .hud-temp-feelslike {
   font-family: "Crf-bold", sans-serif;
   font-size: 1.5rem;
-  color: #ffffff;
+  color: #000000;
   margin-top: 0.4rem;
   font-weight: 550;
 }

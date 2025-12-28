@@ -6,6 +6,7 @@ import {
   changeOrders,
   updateMainCity,
 } from "./logic/orderFunctions.js";
+import * as tp from "./components/commonTypes.js";
 import CloseSvg from "@assets/close.svg?react";
 import MinimizeSvg from "@assets/minimize.svg?react";
 import MaximizeSvg from "@assets/maximize.svg?react";
@@ -21,6 +22,7 @@ import Forecast from "./components/pages/Forecast.js";
 import Clock from "./components/Clock.js";
 import Notif from "./components/Notifications.js";
 import { checkUpdate } from "./logic/updateDatas.js";
+import { checkApiKeys } from "./logic/DataManagement.js";
 import { saveConfig, readConfig } from "./logic/gridconfig.js";
 import { svg } from "framer-motion/client";
 export default function App() {
@@ -39,15 +41,9 @@ export default function App() {
     chart: {},
   });
   const [hudData, setHudData] = useState({});
-  const [solarData, setsolarData] = useState<{
-    moonrise: string;
-    moonset: string;
-    sunrise: string;
-    sunset: string;
-    solar_noon: string;
-  } | null>(null);
+  const [solarData, setsolarData] = useState<tp.solarData>(null);
   const [isSearching, Searching] = useState(false);
-  const [page, setPage] = useState<"main" | "forecast" | "options">("main");
+  const [page, setPage] = useState<tp.page>("main");
   const [notifs, setNotifs] = useState<[string, string][]>([]);
   const [rememberCity, setRmbCity] = useState<boolean>(false);
   const [searchCount, setSearchCount] = useState<number>(20);
@@ -76,11 +72,20 @@ export default function App() {
   }
 
   function addNotif(newNotif: [string, string]) {
-    // console.log([newNotif, ...notifs]);
-    setNotifs(() => [newNotif, ...notifs]);
+    setNotifs((notifs) => [newNotif, ...notifs]);
   }
 
   async function restoreConfigs() {
+    const apiStats = await checkApiKeys();
+    if (!apiStats.ipGeoKey.stat) {
+      addNotif([
+        "error",
+        "[ IpGeoLocation API ]: API-KEY is not Set Properly.",
+      ]);
+    }
+    // if (!apiStats.openwKey.stat) {
+    //   addNotif(["warning", "[ OpenWeather API ]: API-KEY is not Set Properly."]);
+    // }
     const config = await readConfig();
     setRmbCity(config.rememberCity);
     setSearchCount(config.searchCount);
@@ -111,12 +116,12 @@ export default function App() {
     );
     restoreConfigs();
   }, []);
-
+  type datas = string | number | boolean;
   function PrimaryUpdateCity(
     save: boolean,
     cityName: string,
-    current: Record<string, any> | null,
-    hourly: Record<string, any> | null
+    current: Record<string, datas> | null,
+    hourly: tp.hourlyData | null
   ) {
     console.log(rememberCity);
     updateMainCity(
@@ -244,7 +249,11 @@ export default function App() {
       />
       <Forecast
         page={page}
-        dailyForecast={loadOrder.cityB.length > 0 ? loadOrder.cityB[1] : null}
+        dailyForecast={
+          loadOrder.cityB.length > 0 && loadOrder.cityB[1]
+            ? loadOrder.cityB[1]
+            : null
+        }
         setPage={setPage}
         weatherData={loadOrder.cityB.length > 0 ? loadOrder.cityB[2] : null}
         color={Pattern}

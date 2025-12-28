@@ -4,11 +4,15 @@ import {
   deleteLocation,
 } from "../../../logic/GeoLocations.js";
 import { deleteAstroData } from "../../../logic/ipGeoLocation.js";
+import { saveConfig } from "../../../logic/gridconfig.js";
+
 //  from "@logic/GeoLocations.js";  this also works but linter says "the module is not found"  :/
 import Delete from "@assets/delete.svg?react";
 import Select from "@assets/select.svg?react";
 import Selected from "@assets/selected.svg?react";
+import * as tp from "../../commonTypes.js";
 import "./general.css";
+import { deleteWeatherData } from "../../../logic/OpenMeteo.js";
 export default function General({
   rmb,
   srcnt,
@@ -17,12 +21,12 @@ export default function General({
   updateCity,
   autupdt,
 }: {
-  rmb: any;
+  rmb: tp.rmb;
   city: string | null;
-  updateCity: any;
-  addNotif: any;
-  srcnt: any;
-  autupdt: any;
+  updateCity: tp.PrimaryUpdateCity;
+  addNotif: tp.addNotif;
+  srcnt: tp.srcnt;
+  autupdt: tp.autupdt;
 }) {
   const [cityList, setCitylist] = useState<string[]>();
 
@@ -44,9 +48,15 @@ export default function General({
         console.log("deleting", cityName);
         const newlist = await deleteLocation(cityName);
         deleteAstroData(cityName);
-        setCitylist(newlist);
-        if (indx > 0) {
-          updateCity(true, newlist?.at(indx - 1), null, null);
+        deleteWeatherData(cityName)
+        if (newlist) {
+          setCitylist(newlist);
+          if (indx > 0 && newlist.length > 0) {
+            const newCity = newlist.at(indx - 1);
+            if (newCity) {
+              updateCity(true, newCity, null, null);
+            }
+          }
         }
       }
     }

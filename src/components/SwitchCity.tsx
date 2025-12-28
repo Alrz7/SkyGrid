@@ -1,13 +1,13 @@
 import ArrowLeft from "@assets/arrow_left.svg?react";
 import ArrowRight from "@assets/arrow_right.svg?react";
 import "./styles/SwitchCity.css";
-
+import * as tp from "./commonTypes.js";
 export default function SwitchButtons({
   onSwitchClick,
   page,
 }: {
-  onSwitchClick: any;
-  page: any;
+  onSwitchClick: (forward: boolean) => void;
+  page: tp.page;
 }) {
   return (
     <>

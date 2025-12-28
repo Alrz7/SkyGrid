@@ -4,6 +4,7 @@ import Moon from "@assets/moon.svg?react";
 import IcSun from "@assets/IcSun.svg?react";
 import IcMoon from "@assets/IcMoon.svg?react";
 import "./styles/Soluna.css";
+import * as tp from "../commonTypes.js";
 
 export default function SunComp({
   solarCondition,
@@ -12,26 +13,14 @@ export default function SunComp({
   location,
   solarData,
 }: {
-  page: any;
+  page: tp.page;
   solarCondition: {
     sun: { isVisible: boolean | null; ratio: number };
     moon: { isVisible: boolean | null; ratio: number };
   };
-  color: {
-    background: any;
-    hud: any;
-    forecastButton: any;
-    solunaProp: any;
-    buttons: any;
-    chart: any;
-  };
+  color: tp.color;
   location: { sun: number[]; moon: number[] };
-  solarData: {
-    moonrise: string;
-    moonset: string;
-    sunrise: string;
-    sunset: string;
-  } | null;
+  solarData: tp.solarData;
 }) {
   const [showSun, setShowSun] = useState(false);
   const [showMoon, setShowMoon] = useState(false);

@@ -7,52 +7,54 @@ import {
 import { readData as readLocations } from "./GeoLocations.js";
 import { dateDiferenceToHour as difrentHour } from "../logic/sources/dry.js";
 import { readKey, doesExist, checkDir } from "./DataManagement.js";
+import * as tp from "../components/commonTypes.js";
+export async function getAstro(cityName: string, addNotif: tp.addNotif) {
+  const locations = await readLocations();
+  let location = undefined;
 
-export async function getAstro(cityName: string, AddNotif: any) {
-  if (cityName) {
-    const locations = await readLocations();
-    let location = undefined;
-
-    if (locations && cityName) {
-      location = cityName in locations ? locations[cityName] : null;
-    }
-    const apiKey = await readKey("ipGeoKey");
-    console.log(apiKey);
-    if (location && apiKey && apiKey.key) {
-      // console.log(apiKey)
-      // console.log(location)
-      const dt = await fetch(
-        `https://api.ipgeolocation.io/v2/astronomy?apiKey=${apiKey.key}&location=${cityName}&elevation=10`,
-        { method: "GET" }
-      );
-      const errorCodes = [400, 401, 429, 499, 500, 502, 503, 504, 505];
-      let auth = true;
-      if (dt.ok) {
-        for (let cd of errorCodes) {
-          if (dt.status == cd) {
-            auth = false;
-            if (cd == 401) {
-              AddNotif([
-                "warning",
-                "Authorization Failed!, check the API-KEY and try Again.",
-              ]);
-            }
-          }
-        }
-      } else {
-        auth = false;
-      }
-      if (auth) {
-        const data = await dt.json();
-        saveData(cityName, data);
-        console.log(data);
-        return data;
-      }
-    } else {
-      AddNotif(["warning", "API-KEY is not Set Properly."]);
-      return null;
-    }
+  if (locations && cityName) {
+    location = cityName in locations ? locations[cityName] : null;
   }
+  const apiKey = await readKey("ipGeoKey");
+  console.log(apiKey);
+  if (location && apiKey && apiKey.key) {
+    // console.log(apiKey)
+    // console.log(location)
+    const dt = await fetch(
+      `https://api.ipgeolocation.io/v2/astronomy?apiKey=${apiKey.key}&location=${cityName}&elevation=10`,
+      { method: "GET" }
+    );
+    const errorCodes = [400, 401, 429, 499, 500, 502, 503, 504, 505];
+    let auth = true;
+    console.log(dt);
+    for (let cd of errorCodes) {
+      if (dt.status == cd) {
+        auth = false;
+        if (cd == 401) {
+          addNotif([
+            "warning",
+            "Authorization Failed!, check the API-KEY and try Again.",
+          ]);
+        }
+      }
+    }
+    if (!dt.ok) {
+      auth = false;
+    }
+    console.log(auth);
+    if (auth) {
+      const data = await dt.json();
+      saveData(cityName, data);
+      console.log(data);
+      return data;
+    }
+  } else {
+    addNotif([
+      "warning",
+      "[ IpGeoLocation API ]: API-KEY is not Set Properly.",
+    ]);
+  }
+  return null;
 }
 
 export async function saveData(
@@ -126,10 +128,10 @@ export async function updateData(
   cityName: string,
   findlocalTime: any,
   engage: boolean,
-  addNotif: any
+  addNotif: tp.addNotif
 ) {
   const DataList = await readData();
-  if (DataList && DataList && cityName in DataList) {
+  if (DataList && cityName in DataList) {
     const lastData = DataList[cityName];
     console.log(lastData);
     const lastUpdateTime = `${lastData.astronomy.date}T${lastData.astronomy.current_time}`;
