@@ -12,9 +12,9 @@
   "app": {
     "windows": [
       {
-        "decorations": true,
+        "decorations": false,
         "fullscreen": false,
-        "transparent": true,
+        "transparent": false,
         "resizable": true,
         "title": "SkyGrid",
         "width": 800,
