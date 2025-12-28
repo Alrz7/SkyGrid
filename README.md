@@ -51,18 +51,20 @@
 
 ## About The Project
 
+
 <div align="center">
-<video 
-  src="https://github.com/Alrz7/SkyGrid/raw/main/public/skg.mp4" 
-  autoplay 
-  loop 
-  muted 
-  playsinline
-  width="100%" 
-  style="border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);"
->
-</video>
+  <video 
+    src="[https://github.com/user-attachments/assets/YOUR_GENERATED_UUID.mp4](https://github.com/user-attachments/assets/9c339048-eaf5-42fc-a165-4cc0c8202595)"
+    autoplay 
+    loop 
+    muted 
+    playsinline 
+    width="100%" 
+    style="border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);"
+  >
+  </video>
 </div>
+
 
 **SkyGrid** is an open-source desktop weather application built with   **TypeScript** and powered by  **React** + **Tauri**.
 
