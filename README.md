@@ -54,7 +54,7 @@
 
 <div align="center">
   <video 
-    src="[https://github.com/user-attachments/assets/YOUR_GENERATED_UUID.mp4](https://github.com/user-attachments/assets/9c339048-eaf5-42fc-a165-4cc0c8202595)"
+    src="https://github.com/user-attachments/assets/9c339048-eaf5-42fc-a165-4cc0c8202595"
     autoplay 
     loop 
     muted 
