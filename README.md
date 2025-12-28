@@ -3,19 +3,8 @@
     <img src="/public/SkyGridlogo.svg" alt="Logo" width="200" height="200">
   </a>
 
-  <h3 align="center">SkyGrid</h3>
+  <h1 align="center">SkyGrid</h1>
 
-  <p align="center">
-    An open-source desktop weather app with real-time sky
-              simulation.
-    <br />
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
-    &middot;
-    <a href="https://github.com/othneildrew/Best-README-Template/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
-    &middot;
-    <a href="https://github.com/othneildrew/Best-README-Template/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
-  </p>
 </div>
 <div align="center">
   <br/><br/>
