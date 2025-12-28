@@ -30,11 +30,13 @@
     "active": true,
     "targets": "all",
     "icon": [
-      "icons/SkyGridx32.png",
-      "icons/SkyGridx128.png",
-      "icons/SkyGridx128@2.png",
+      "icons/sk32.png",
+      "icons/sk64.png",
+      "icons/sk128.png",
+      "icons/sk180.png",
+      "icons/sk256.png",
       "icons/icon.icns",
-      "icons/SkyGrid.ico"
+      "icons/sk.ico"
     ]
   }
 }
