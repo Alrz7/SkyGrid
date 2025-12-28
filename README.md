@@ -18,8 +18,6 @@
   </p>
 </div>
 
-
-
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
@@ -48,13 +46,11 @@
 </details>
 
 
-
 ## About The Project
-
 
 <div align="center">
   <video 
-    src="https://github.com/user-attachments/assets/9c339048-eaf5-42fc-a165-4cc0c8202595"
+    src="https://github.com/user-attachments/assets/42a81460-08b6-410c-9bde-d401fcada270"
     autoplay 
     loop 
     muted 
