@@ -41,7 +41,7 @@ export default function CurvedLineComp({
     if (city && city != "" && solarData) {
       setSphere(city, solarData, setCondition);
     }
-  }, [city]);
+  }, [solarData]);
 
   const getSVGCorners = () => {
     if (!svgRef.current) return null;

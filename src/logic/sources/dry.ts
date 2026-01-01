@@ -8,10 +8,13 @@ export function toNameCase(str: string) {
 export function difrentHour(t1: string, t2: string) {
   const [h1 = 0, m1 = 0] = t1.split(":").map(Number);
   const [h2 = 0, m2 = 0] = t2.split(":").map(Number);
-  let diff = h1 * 60 + m1 - (h2 * 60 + m2);
-  // if (diff < -720) diff += 1440;
-  return diff * 60;
+  let diffMinutes = h1 * 60 + m1 - (h2 * 60 + m2);
+  if (diffMinutes < 0) {
+    diffMinutes += 1440;
+  }
+  return diffMinutes * 60;
 }
+
 
 export function dateDiferenceToHour(timeString1: string, timeString2: string) {
   // console.log(timeString1);
