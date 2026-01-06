@@ -131,15 +131,21 @@ function selectTitle(addNotif: tp.addNotif, data: any, now: string) {
       if (isIncluded) {
         console.log(val.title);
         const index = Math.trunc(
-          (elapsed(Mnow, val.min) /
-            duration(sorted.at(indx + 1).min, val.min)) *
-            10 *
-            skyCycle[val.title].length
+          Number(
+            (
+              elapsed(Mnow, val.min) /
+              duration(sorted.at(indx + 1).min, val.min)
+            ).toFixed(1)
+          ) * skyCycle[val.title].length
         );
         console.log(
-          (elapsed(Mnow, val.min) /
-            duration(sorted.at(indx + 1).min, val.min)) *
-            10,
+          Number(
+            (
+              elapsed(Mnow, val.min) /
+              duration(sorted.at(indx + 1).min, val.min)
+            ).toFixed(1)
+          ),
+          skyCycle[val.title].length,
           index
         );
         // addNotif(["info", `pattern: ${val.title}`]);
@@ -147,7 +153,26 @@ function selectTitle(addNotif: tp.addNotif, data: any, now: string) {
       }
     }
   }
-  return { title: sorted.at(-1).title, index: 0 };
+  const index = Math.trunc(
+    Number(
+      (
+        elapsed(Mnow, sorted.at(-1).min) /
+        duration(sorted.at(0).min, sorted.at(-1).min)
+      ).toFixed(1)
+    ) * skyCycle[sorted.at(-1).title].length
+  );
+  console.log(
+    sorted.at(-1).title,
+    Number(
+      (
+        elapsed(Mnow, sorted.at(-1).min) /
+        duration(sorted.at(0).min, sorted.at(-1).min)
+      ).toFixed(1)
+    ),
+    skyCycle[sorted.at(-1).title].length,
+    index
+  );
+  return { title: sorted.at(-1).title, index: index };
 }
 
 export async function selectPattern(
