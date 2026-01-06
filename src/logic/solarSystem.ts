@@ -1,5 +1,5 @@
 import { findLocalTime } from "./skyPattern.js";
-
+import { isInRange, toMinutes, duration, elapsed } from "./sources/dry.js";
 export async function setSphere(
   cityName: string,
   data: {
@@ -33,30 +33,9 @@ export async function setSphere(
   if (isSunTime) {
     sunRatio = elapsed(nowMin, sunRise) / duration(sunRise, sunSet);
   }
-
+  console.log(sunRatio, moonRatio);
   setCondition({
     sun: { isVisible: isSunTime, ratio: sunRatio },
     moon: { isVisible: isMoonTime, ratio: moonRatio },
   });
-}
-
-function toMinutes(t: string) {
-  const [h = 0, m = 0] = t.split(":").map(Number);
-  return h * 60 + m;
-}
-
-function isInRange(now: number, rise: number, set: number) {
-  if (rise <= set) {
-    return now >= rise && now < set;
-  } else {
-    return now >= rise || now < set;
-  }
-}
-
-function duration(rise: number, set: number) {
-  return rise <= set ? set - rise : 1440 - rise + set;
-}
-
-function elapsed(now: number, rise: number) {
-  return now >= rise ? now - rise : 1440 - rise + now;
 }

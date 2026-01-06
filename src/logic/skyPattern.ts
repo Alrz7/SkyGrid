@@ -1,8 +1,9 @@
 import { updateData as updateAstro } from "./ipGeoLocation.js";
-import { difrentHour } from "../logic/sources/dry.js";
+import { isInRange, toMinutes, duration, elapsed } from "./sources/dry.js";
 import { skyCycle } from "./sources/skyCycle.js";
 import { readData as readLocations } from "./GeoLocations.js";
 import * as tp from "../components/commonTypes.js";
+
 export async function findLocalTime(cityName: string) {
   if (cityName == "") {
     console.log("bug");
@@ -52,11 +53,12 @@ export function intlTimeFormat(ianaTimezoneName: string) {
   };
 }
 function sortHours(lst: Array<any>): any {
-  const pivot = lst[0];
+  const pivot = lst.at(0);
   const beef = [];
   const aft = [];
+  console.log(pivot);
   for (let i = 1; i < lst.length; i++) {
-    if (difrentHour(lst[i].time, pivot.time) > 0) {
+    if (lst[i].min - pivot.min > 0) {
       aft.push(lst[i]);
     } else {
       beef.push(lst[i]);
@@ -69,13 +71,9 @@ function sortHours(lst: Array<any>): any {
   ];
 }
 
-function selectTitle(addNotif: tp.addNotif, data: any, time: string) {
+function selectTitle(addNotif: tp.addNotif, data: any, now: string) {
   // const time = timeNow().fullhr; for local time test
   // const time = '17:55';
-  if (!data) {
-    return null;
-    // addNotif(["warning", "Astro-Data was Empty"])
-  }
   const titlelist = [
     "mid_night",
     "night_end",
@@ -120,41 +118,36 @@ function selectTitle(addNotif: tp.addNotif, data: any, time: string) {
   ];
   const mergedList = timelist.map((val, indx) => ({
     time: val,
+    min: toMinutes(val),
     title: titlelist[indx],
   }));
   const sorted = sortHours(mergedList);
+  const Mnow = toMinutes(now);
+  console.log(sorted);
   for (let [indx, val] of sorted.entries()) {
-    const completion = difrentHour(time, val.time);
-    let left =
-      indx < sorted.length - 1
-        ? difrentHour(sorted[indx + 1].time, time)
-        : null;
-    const fullTimeDiff = difrentHour(
-      indx < sorted.length - 1 ? sorted[indx + 1].time : sorted[0].time,
-      val.time
-    );
-    const completionPersent = completion / fullTimeDiff;
-    let palletIndex: number = Math.trunc(
-      completionPersent * skyCycle[val.title].length
-    );
-    palletIndex =
-      palletIndex < 0
-        ? 0
-        : palletIndex >= skyCycle[val.title].length
-        ? skyCycle[val.title].length - 1
-        : palletIndex;
-
-    if (completion > 0 && (left ? left > 0 : true)) {
-      // console.log(val.title, palletIndex);
-      return { title: val.title, palletIndex: palletIndex };
-    } else if (completion < 0 && (left ? left < 0 : true)) {
-      return { title: sorted.at(-1).title, palletIndex: palletIndex };
+    if (indx != sorted.length - 1) {
+      console.log(Mnow, val.min, sorted.at(indx + 1).min);
+      const isIncluded = isInRange(Mnow, val.min, sorted.at(indx + 1).min);
+      if (isIncluded) {
+        console.log(val.title);
+        const index = Math.trunc(
+          (elapsed(Mnow, val.min) /
+            duration(sorted.at(indx + 1).min, val.min)) *
+            10 *
+            skyCycle[val.title].length
+        );
+        console.log(
+          (elapsed(Mnow, val.min) /
+            duration(sorted.at(indx + 1).min, val.min)) *
+            10,
+          index
+        );
+        // addNotif(["info", `pattern: ${val.title}`]);
+        return { title: val.title, index: index };
+      }
     }
   }
-  // console.log(time, item);
-  addNotif(["error", "skyPattern: Title not found"]);
-  console.log(sorted.at(-1)["time"], " <not found> ", sorted.at(-1)["title"]);
-  return sorted.at(-1);
+  return { title: sorted.at(-1).title, index: 0 };
 }
 
 export async function selectPattern(
@@ -171,7 +164,9 @@ export async function selectPattern(
         const pallet = selectTitle(addNotif, astData.val, time.time.fullTime);
         setsolarData(astData.val.astronomy);
         const ttl = pallet.title;
-        const indx = pallet.palletIndex;
+        const indx = pallet.index;
+        console.log(pallet);
+        // addNotif(["info", `++ ${cityName}`]);
         setPattern({
           background: skyCycle[ttl][indx].gradient,
           hud: skyCycle[ttl][indx].hudMainColor,
